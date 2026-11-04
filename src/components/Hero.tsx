@@ -1,6 +1,7 @@
 import { site } from "@/content/site";
 import { Button, WhatsAppButton } from "./Button";
 import { Timecode } from "./Timecode";
+import { HeroVideo } from "./HeroVideo";
 
 const d = (ms: number) => ({ "--delay": `${ms}ms` }) as React.CSSProperties;
 
@@ -10,17 +11,14 @@ const d = (ms: number) => ({ "--delay": `${ms}ms` }) as React.CSSProperties;
  * animada provisional hecha solo con CSS.
  */
 export function Hero() {
-  const { src, srcMobile, poster } = site.heroVideo;
+  const { src, srcMobile, introSrc, poster } = site.heroVideo;
 
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden" aria-label="Presentación">
       {/* Fondo */}
       <div className="absolute inset-0 -z-10">
         {src ? (
-          <video className="h-full w-full object-cover" autoPlay muted loop playsInline poster={poster || undefined} preload="auto">
-            {srcMobile && <source src={srcMobile} media="(max-width: 767px)" type="video/mp4" />}
-            <source src={src} type="video/mp4" />
-          </video>
+          <HeroVideo src={src} srcMobile={srcMobile || undefined} introSrc={introSrc || undefined} poster={poster || undefined} />
         ) : (
           <SceneFallback />
         )}

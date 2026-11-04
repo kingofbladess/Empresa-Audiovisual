@@ -38,7 +38,10 @@ export const site = {
    * Cuando tengas la animación de Google Flow, ponla en /public/media/ y escribe aquí la ruta.
    */
   heroVideo: {
+    /** Loop de fondo, p. ej. "/media/hero/hero.mp4" */
     src: "",
+    /** Intro que se ve una vez por visita antes del loop, p. ej. "/media/hero/hero-intro.mp4" */
+    introSrc: "",
     srcMobile: "",
     poster: "",
   },
