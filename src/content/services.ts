@@ -16,7 +16,7 @@ export const services: Service[] = [
       "Desarrollo de campañas",
       "Identidad y coherencia visual",
     ],
-    media: { alt: "Mesa de dirección de arte con referencias visuales", palette: ["#0d0b09", "#3a2a1c", "#c9a66b"] },
+    media: { alt: "Mesa de dirección de arte con referencias visuales", palette: ["#0d0b09", "#3a2a1c", "#FED340"] },
   },
   {
     slug: "direccion-cinematografica",

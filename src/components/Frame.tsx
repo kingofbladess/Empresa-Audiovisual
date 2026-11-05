@@ -50,7 +50,7 @@ export function Frame({ media, className = "", drift, priority, sizes = "100vw",
     );
   }
 
-  const [dark, mid, light] = media.palette ?? ["#0b0b0b", "#2a2a2a", "#c9a66b"];
+  const [dark, mid, light] = media.palette ?? ["#0b0b0b", "#2a2a2a", "#FED340"];
   const h = hash(media.alt);
   const x = 20 + (h % 60);
   const y = 18 + ((h >> 3) % 50);

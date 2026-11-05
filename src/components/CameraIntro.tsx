@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { site } from "@/content/site";
+import { Isotipo, Logotipo } from "./brand/Brand";
 
 /*
  * INTRO DE LA CÁMARA (controlada por el scroll)
@@ -79,9 +80,13 @@ export function CameraIntro({ children }: { children: ReactNode }) {
         setPhase(ph);
       }
       if (refs.bar.current) refs.bar.current.style.transform = `scaleY(${p})`;
-      if (refs.hint.current) refs.hint.current.style.opacity = String(1 - seg(p, 0, 0.04));
+      if (refs.hint.current) {
+        const h = seg(p, 0, 0.07);
+        refs.hint.current.style.opacity = String(1 - h);
+        refs.hint.current.style.transform = `scale(${1 + h * 0.25})`;
+      }
       const copyOpacity = 1 - seg(p, 0.84, 0.92);
-      if (refs.copy.current) refs.copy.current.style.opacity = String(copyOpacity);
+      if (refs.copy.current) refs.copy.current.style.opacity = String(copyOpacity * seg(p, 0.04, 0.1));
       if (refs.skipBtn.current) {
         refs.skipBtn.current.style.opacity = String(copyOpacity);
         refs.skipBtn.current.style.visibility = copyOpacity < 0.05 ? "hidden" : "visible";
@@ -229,7 +234,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
                       width: `${2 * next}vmin`,
                       height: `${2 * next}vmin`,
                       border: `${next - r + 0.3}vmin solid ${i % 2 ? "#0c0c0c" : "#121110"}`,
-                      boxShadow: `inset 0 0 ${2 + i}vmin rgba(0,0,0,.95)${i === 1 ? ", inset 0 0 0 0.25vmin rgba(201,166,107,.35)" : ""}`,
+                      boxShadow: `inset 0 0 ${2 + i}vmin rgba(0,0,0,.95)${i === 1 ? ", inset 0 0 0 0.25vmin rgba(254,211,64,.35)" : ""}`,
                       transform: "translate(-50%,-50%)",
                     }}
                   />
@@ -240,13 +245,13 @@ export function CameraIntro({ children }: { children: ReactNode }) {
                 <div
                   key={a}
                   className="absolute top-1/2 left-1/2 h-[2.4vmin] w-[7vmin] rounded-sm bg-[#1b1a18]"
-                  style={{ transform: `translate(-50%,-50%) rotate(${a}deg) translateY(-${GLASS + 1.4}vmin)`, boxShadow: "0 0 0 1px rgba(201,166,107,.25)" }}
+                  style={{ transform: `translate(-50%,-50%) rotate(${a}deg) translateY(-${GLASS + 1.4}vmin)`, boxShadow: "0 0 0 1px rgba(254,211,64,.25)" }}
                 />
               ))}
               {/* Brillo del metal */}
               <div
                 className="absolute inset-0"
-                style={{ background: "conic-gradient(from 210deg at 50% 50%, transparent 0deg, rgba(201,166,107,.08) 30deg, transparent 70deg, transparent 200deg, rgba(236,232,225,.05) 230deg, transparent 260deg)" }}
+                style={{ background: "conic-gradient(from 210deg at 50% 50%, transparent 0deg, rgba(254,211,64,.08) 30deg, transparent 70deg, transparent 200deg, rgba(236,232,225,.05) 230deg, transparent 260deg)" }}
               />
               {/* FASE 2 · Elemento de vidrio */}
               <div
@@ -256,8 +261,8 @@ export function CameraIntro({ children }: { children: ReactNode }) {
                   width: `${2 * GLASS}vmin`,
                   height: `${2 * GLASS}vmin`,
                   border: "0.5vmin solid rgba(236,232,225,.18)",
-                  background: "radial-gradient(circle at 34% 28%, rgba(255,255,255,.22), transparent 32%), radial-gradient(circle at 70% 76%, rgba(201,166,107,.2), transparent 30%)",
-                  boxShadow: "0 0 5vmin rgba(201,166,107,.25), inset 0 0 3vmin rgba(236,232,225,.12)",
+                  background: "radial-gradient(circle at 34% 28%, rgba(255,255,255,.22), transparent 32%), radial-gradient(circle at 70% 76%, rgba(254,211,64,.2), transparent 30%)",
+                  boxShadow: "0 0 5vmin rgba(254,211,64,.25), inset 0 0 3vmin rgba(236,232,225,.12)",
                   transform: "translate(-50%,-50%) scale(5)",
                 }}
               />
@@ -274,7 +279,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
             </div>
 
             {/* Obturador */}
-            <div ref={refs.shutterTop} className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-[#030303]" style={{ boxShadow: "0 1px 0 rgba(201,166,107,.3)" }} />
+            <div ref={refs.shutterTop} className="pointer-events-none absolute inset-x-0 top-0 h-1/2 bg-[#030303]" style={{ boxShadow: "0 1px 0 rgba(254,211,64,.3)" }} />
             <div ref={refs.shutterBottom} className="pointer-events-none absolute inset-x-0 bottom-0 h-1/2 bg-[#030303]" />
           </>
         )}
@@ -294,9 +299,14 @@ export function CameraIntro({ children }: { children: ReactNode }) {
           </div>
         </div>
 
-        <div ref={refs.hint} className="label pointer-events-none absolute top-1/2 left-1/2 z-10 -translate-x-1/2 translate-y-[18vmin] text-center text-fg/60">
-          <span className="block">Desliza para enfocar</span>
-          <span className="mx-auto mt-3 block h-8 w-px animate-pulse bg-fg/40" />
+        {/* Marca: el logo se anima al cargar y se desvanece al empezar el scroll */}
+        <div ref={refs.hint} className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,.72),rgba(0,0,0,.35)_60%,transparent)] text-fg">
+          <Isotipo animate variant="outlined" className="h-[34vmin] w-[34vmin]" />
+          <Logotipo animate className="mt-[4vmin] h-[5vmin] min-h-6 w-auto" />
+          <span className="label intro mt-[6vmin] block text-fg/70" style={{ "--delay": "2200ms" } as React.CSSProperties}>
+            Desliza para enfocar
+          </span>
+          <span className="mx-auto mt-3 block h-8 w-px animate-pulse bg-fg/50" />
         </div>
 
         <button ref={refs.skipBtn} type="button" onClick={skipIntro} className="label absolute top-22 right-4 z-20 border border-line-strong bg-bg/50 px-3 py-2 text-muted backdrop-blur hover:text-fg md:top-24 md:right-8">
@@ -345,13 +355,13 @@ function CameraSvg({ lensRef, flashRef }: { lensRef: React.Ref<SVGGElement>; fla
           <line key={i} x1="128" x2="262" y1={200 + i * 17} y2={200 + i * 17} stroke="#0a0a0a" strokeWidth="5" />
         ))}
         <ellipse cx="190" cy="160" rx="34" ry="10" fill="#2a2825" />
-        <rect x="170" y="140" width="40" height="18" rx="6" fill="#c9a66b" opacity=".9" />
+        <rect x="170" y="140" width="40" height="18" rx="6" fill="#FED340" opacity=".9" />
         <rect x="700" y="140" width="90" height="26" rx="8" fill="#1f1e1c" stroke="#33312d" />
-        <circle cx="330" cy="215" r="9" fill="#3a2f22" stroke="#c9a66b" strokeOpacity=".4" />
-        <line x1="440" y1="110" x2="560" y2="110" stroke="#c9a66b" strokeOpacity=".25" strokeWidth="2" />
+        <circle cx="330" cy="215" r="9" fill="#3a2f22" stroke="#FED340" strokeOpacity=".4" />
+        <line x1="440" y1="110" x2="560" y2="110" stroke="#FED340" strokeOpacity=".25" strokeWidth="2" />
         {/* Montura */}
         <circle cx="500" cy="330" r="168" fill="#0b0b0b" stroke="#3a3833" strokeWidth="10" />
-        <circle cx="500" cy="330" r="150" fill="#050505" stroke="#c9a66b" strokeOpacity=".35" strokeWidth="2" />
+        <circle cx="500" cy="330" r="150" fill="#050505" stroke="#FED340" strokeOpacity=".35" strokeWidth="2" />
         <rect x="430" y="300" width="140" height="60" fill="#0e0d0c" opacity=".8" />
 
         {/* Objetivo (se acopla en la fase 3) */}
@@ -359,9 +369,9 @@ function CameraSvg({ lensRef, flashRef }: { lensRef: React.Ref<SVGGElement>; fla
           <circle cx="500" cy="330" r="182" fill="url(#barrel)" stroke="#33312d" strokeWidth="3" />
           <circle cx="500" cy="330" r="168" fill="none" stroke="url(#knurl)" strokeWidth="22" />
           <circle cx="500" cy="330" r="148" fill="#0c0c0c" stroke="#2c2a27" strokeWidth="3" />
-          <circle cx="500" cy="330" r="132" fill="#080808" stroke="#c9a66b" strokeOpacity=".5" strokeWidth="2" />
+          <circle cx="500" cy="330" r="132" fill="#080808" stroke="#FED340" strokeOpacity=".5" strokeWidth="2" />
           <circle cx="500" cy="330" r="120" fill="#050505" />
-          <rect x="497" y="140" width="6" height="22" fill="#c9a66b" />
+          <rect x="497" y="140" width="6" height="22" fill="#FED340" />
           <text x="500" y="200" textAnchor="middle" fill="#8f8a82" fontSize="11" letterSpacing="4" fontFamily="monospace">
             1:1.4 · 50mm
           </text>
@@ -371,8 +381,8 @@ function CameraSvg({ lensRef, flashRef }: { lensRef: React.Ref<SVGGElement>; fla
       {/* Reflejos sobre el cristal */}
       <g pointerEvents="none">
         <path d="M430 270 A 95 95 0 0 1 520 238" fill="none" stroke="#fff" strokeOpacity=".22" strokeWidth="6" strokeLinecap="round" />
-        <path d="M575 380 A 95 95 0 0 1 545 410" fill="none" stroke="#c9a66b" strokeOpacity=".3" strokeWidth="4" strokeLinecap="round" />
-        <circle ref={flashRef} cx="500" cy="330" r="125" fill="none" stroke="#c9a66b" strokeWidth="8" opacity="0" style={{ filter: "drop-shadow(0 0 18px #c9a66b)" }} />
+        <path d="M575 380 A 95 95 0 0 1 545 410" fill="none" stroke="#FED340" strokeOpacity=".3" strokeWidth="4" strokeLinecap="round" />
+        <circle ref={flashRef} cx="500" cy="330" r="125" fill="none" stroke="#FED340" strokeWidth="8" opacity="0" style={{ filter: "drop-shadow(0 0 18px #FED340)" }} />
       </g>
     </svg>
   );

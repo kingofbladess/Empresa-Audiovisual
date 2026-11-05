@@ -20,7 +20,7 @@ export default function NosotrosPage() {
       <PageHeader scene="Nosotros" title={<>Una forma de <span className="serif text-accent">mirar</span></>} intro={site.manifesto} />
 
       <section className="container-x">
-        <Frame media={{ alt: "Plano panorámico del estudio", palette: ["#070605", "#2a2016", "#c9a66b"] }} drift className="aspect-[2.39/1] w-full" />
+        <Frame media={{ alt: "Plano panorámico del estudio", palette: ["#070605", "#2a2016", "#FED340"] }} drift className="aspect-[2.39/1] w-full" />
       </section>
 
       <section className="container-x grid gap-px py-24 md:grid-cols-2 md:py-36">

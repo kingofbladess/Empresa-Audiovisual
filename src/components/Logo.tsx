@@ -1,21 +1,14 @@
-import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
+import { Isotipo, Logotipo } from "./brand/Brand";
 
-/** Logotipo provisional: usa `site.logo` si existe; si no, compone el nombre. */
-export function Logo({ className = "" }: { className?: string }) {
+/** Logo del menú y del pie: isotipo animable + logotipo. */
+export function Logo({ className = "", size = "sm" }: { className?: string; size?: "sm" | "lg" }) {
+  const big = size === "lg";
   return (
-    <Link href="/" className={`flex items-center gap-3 ${className}`} aria-label={`${site.name}, ir al inicio`}>
-      {site.logo ? (
-        <Image src={site.logo} alt={site.name} width={140} height={32} className="h-7 w-auto" />
-      ) : (
-        <>
-          <span className="relative grid h-7 w-7 place-items-center border border-fg/80">
-            <span className="h-3 w-3 rounded-full bg-accent" />
-          </span>
-          <span className="display text-xl tracking-[0.02em]">{site.name}</span>
-        </>
-      )}
+    <Link href="/" className={`group flex items-center gap-3 text-fg ${className}`} aria-label={`${site.name}, ir al inicio`}>
+      <Isotipo variant={big ? "outlined" : "white"} animate replayOnHover className={big ? "h-16 w-16" : "h-10 w-10"} />
+      <Logotipo className={big ? "h-7 w-auto" : "h-[0.95rem] w-auto"} animate />
     </Link>
   );
 }

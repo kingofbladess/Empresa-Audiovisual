@@ -6,7 +6,7 @@ import { waLink } from "@/lib/whatsapp";
 type Variant = "solid" | "outline" | "ghost";
 
 const styles: Record<Variant, string> = {
-  solid: "bg-fg text-bg hover:bg-accent",
+  solid: "bg-rec text-white hover:bg-fg hover:text-bg",
   outline: "border border-line-strong text-fg hover:border-accent hover:text-accent",
   ghost: "text-fg hover:text-accent px-0!",
 };

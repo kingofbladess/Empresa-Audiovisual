@@ -5,7 +5,7 @@ import { Reveal } from "./Reveal";
 export function CtaBand({ title = "¿Tienes una idea?", subtitle = "Convirtámosla en una marca.", message }: { title?: string; subtitle?: string; message?: string }) {
   return (
     <section className="relative overflow-hidden border-t border-line">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_80%_at_80%_100%,rgba(201,166,107,.18),transparent_70%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_80%_at_80%_100%,rgba(254,211,64,.18),transparent_70%)]" />
       <div className="container-x relative py-28 md:py-40">
         <Reveal>
           <p className="label mb-6 text-accent">Fin de escena · Siguiente toma</p>

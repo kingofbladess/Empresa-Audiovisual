@@ -90,7 +90,7 @@ function SceneFallback() {
         className="frame-drift absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 40% 55% at 68% 38%, rgba(201,166,107,.55) 0%, rgba(90,62,32,.35) 35%, transparent 70%), radial-gradient(ellipse 60% 40% at 20% 90%, rgba(60,70,80,.45), transparent 70%), linear-gradient(180deg,#0b0a09,#060606)",
+            "radial-gradient(ellipse 40% 55% at 68% 38%, rgba(254,211,64,.55) 0%, rgba(90,62,32,.35) 35%, transparent 70%), radial-gradient(ellipse 60% 40% at 20% 90%, rgba(60,70,80,.45), transparent 70%), linear-gradient(180deg,#0b0a09,#060606)",
         }}
       />
       {/* Silueta de cámara de cine sugerida */}
@@ -98,7 +98,7 @@ function SceneFallback() {
         className="frame-drift absolute right-[8%] bottom-[18%] h-[38%] w-[34%] opacity-80"
         style={{
           background:
-            "radial-gradient(circle at 30% 45%, #000 0 14%, transparent 15%), radial-gradient(circle at 30% 45%, rgba(201,166,107,.35) 0 18%, transparent 19%), linear-gradient(#050505,#050505) 45% 40%/55% 38% no-repeat, radial-gradient(circle at 62% 15%, #050505 0 12%, transparent 13%), radial-gradient(circle at 82% 15%, #050505 0 12%, transparent 13%), linear-gradient(#050505,#050505) 50% 100%/4% 40% no-repeat",
+            "radial-gradient(circle at 30% 45%, #000 0 14%, transparent 15%), radial-gradient(circle at 30% 45%, rgba(254,211,64,.35) 0 18%, transparent 19%), linear-gradient(#050505,#050505) 45% 40%/55% 38% no-repeat, radial-gradient(circle at 62% 15%, #050505 0 12%, transparent 13%), radial-gradient(circle at 82% 15%, #050505 0 12%, transparent 13%), linear-gradient(#050505,#050505) 50% 100%/4% 40% no-repeat",
           filter: "blur(1.5px)",
         }}
       />

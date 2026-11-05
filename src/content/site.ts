@@ -1,15 +1,15 @@
 /**
- * Datos generales del estudio. El nombre y el logotipo son PROVISIONALES:
- * cámbialos aquí y se actualizan en todo el sitio (menú, pie, SEO, WhatsApp).
+ * Datos generales del estudio XploreMet. Cambia aquí y se actualiza en todo el
+ * sitio (menú, pie, SEO, WhatsApp). El logo animable está en src/components/brand.
  */
 export const site = {
-  /** Nombre provisional del estudio. */
-  name: "UMBRAL",
+  /** Nombre de la marca. */
+  name: "XploreMet",
   /** Descriptor que acompaña al nombre. */
   descriptor: "Estudio creativo · Productora audiovisual",
   /** Logotipo opcional en /public (SVG recomendado). Si está vacío se usa el nombre como logotipo. */
   logo: "",
-  domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || "umbral.studio",
+  domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || "xploremet.com" /* provisional: confirmar dominio */,
   /** Frase principal (filosofía). */
   tagline: "No producimos imágenes. Construimos identidades.",
   manifesto:
@@ -19,7 +19,8 @@ export const site = {
   description:
     "Estudio creativo y productora audiovisual. Desarrollamos marcas desde cero y producimos fotografía, video y contenido con dirección cinematográfica para artistas, empresas, productos y producciones.",
   location: "Venezuela",
-  email: "hola@umbral.studio",
+  /** Provisional: confirmar el correo real. */
+  email: "hola@xploremet.com",
   whatsapp: {
     /** Número en formato internacional, sin "+" ni espacios. */
     number: "584122927546",

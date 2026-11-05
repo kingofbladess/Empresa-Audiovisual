@@ -10,7 +10,7 @@ export function Footer() {
       <div className="container-x py-20">
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
-            <Logo />
+            <Logo size="lg" />
             <p className="mt-6 max-w-sm text-muted">{site.description}</p>
             <a
               href={waLink()}
