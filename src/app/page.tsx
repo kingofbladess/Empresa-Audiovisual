@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Hero } from "@/components/Hero";
+import { CameraIntro } from "@/components/CameraIntro";
 import { Reveal } from "@/components/Reveal";
 import { SectionHeading } from "@/components/SectionHeading";
 import { ClientTypeSelector } from "@/components/ClientTypeSelector";
@@ -33,7 +34,9 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <Hero />
+      <CameraIntro>
+        <Hero />
+      </CameraIntro>
 
       {/* Manifiesto */}
       <section className="container-x py-28 md:py-44">

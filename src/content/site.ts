@@ -45,6 +45,26 @@ export const site = {
     srcMobile: "",
     poster: "",
   },
+  /**
+   * Intro de la cámara controlada por el scroll (3 fases).
+   * - `enabled`: false la desactiva y la portada aparece directamente.
+   * - `video`: cuando tengas la animación de Google Flow, ponla aquí y el scroll
+   *   avanzará el video fotograma a fotograma (expórtala con fotogramas clave en
+   *   cada cuadro, ver README). Vacío = prototipo animado por código.
+   */
+  cameraIntro: {
+    enabled: true,
+    video: "",
+    videoMobile: "",
+    poster: "",
+    /** Largo del recorrido de scroll, en pantallas. */
+    length: 4,
+    phases: [
+      { label: "Fase 01 · Interior", title: "Todo empieza dentro.", text: "Una idea que todavía no se ve." },
+      { label: "Fase 02 · Primer lente", title: "El concepto toma forma.", text: "Cada pieza suma enfoque." },
+      { label: "Fase 03 · Lente final", title: "Y la marca se ve con claridad.", text: "Del concepto a la imagen final." },
+    ],
+  },
 };
 
 export const nav = [
