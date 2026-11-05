@@ -67,15 +67,15 @@ avanza un solo video con las 3 escenas unidas, y al final la portada aparece con
 
 Se configura en `site.cameraIntro` (textos de cada fase, largo del recorrido, `enabled: false` para quitarla).
 
-**Para cambiar las escenas:** las originales están en `public/media/intro/` (`Fase 1.mp4`, `fase 2.mp4`,
+**Para cambiar las escenas:** las originales están en `media-fuentes/intro/`, fuera de `public/` para que no se publiquen (`Fase 1.mp4`, `fase 2.mp4`,
 `fase 3.mp4`). El orden de unión es `Fase 1`, `fase 3`, `fase 2`. Se unen con un fundido de 0,5 s y un fotograma clave en cada cuadro (`-g 1`), necesario para
 que el scroll avance fluido:
 
 ```bash
-cd public/media/intro
+cd media-fuentes/intro
 X="[0:v]settb=1/24,fps=24[a];[1:v]settb=1/24,fps=24[b];[2:v]settb=1/24,fps=24[c];[a][b]xfade=transition=fade:duration=0.5:offset=7.42[ab];[ab][c]xfade=transition=fade:duration=0.5:offset=14.84"
-ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,scale=1600:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 27 -preset medium -movflags +faststart escenas-v3.mp4
-ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,crop=ih*9/16:ih,scale=540:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 28 -preset medium -movflags +faststart escenas-movil-v3.mp4
+ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,scale=1600:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 27 -preset medium -movflags +faststart ../../public/media/intro/escenas-v3.mp4
+ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,crop=ih*9/16:ih,scale=540:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 28 -preset medium -movflags +faststart ../../public/media/intro/escenas-movil-v3.mp4
 ```
 
 `offset` es el segundo en que empieza cada fundido. Si cambia la duración, actualízalo junto con
