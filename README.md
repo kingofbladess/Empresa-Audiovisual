@@ -92,6 +92,17 @@ caché del navegador, así que con el mismo nombre los visitantes seguirían vie
   (nombre, tipo de cliente, servicio, descripción y correo). Alternativa: enviar por correo.
 - Número en `site.ts` → `whatsapp.number` (formato internacional, sin "+").
 
+## Publicar en Netlify
+
+La configuración ya está en `netlify.toml` (adaptador oficial `@netlify/plugin-nextjs`, Node 22).
+
+1. En [app.netlify.com](https://app.netlify.com): **Add new project → Import an existing project → GitHub**.
+2. Autoriza Netlify y elige el repositorio `empresa-audiovisual`.
+3. Rama de producción: `main`. No cambies nada más: Netlify lee el comando y la carpeta de `netlify.toml`.
+4. **Deploy**. Cada push a `main` publica la web, y cada pull request recibe su propia vista previa.
+
+Para el dominio propio: *Domain management → Add a domain*.
+
 ## Siguientes etapas sugeridas
 
 1. Fotos, videos y logo reales; nombre definitivo y dominio.

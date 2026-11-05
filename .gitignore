@@ -43,3 +43,6 @@ next-env.d.ts
 
 # compilación de verificación
 /.next-check/
+
+# netlify
+.netlify
