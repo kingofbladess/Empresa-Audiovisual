@@ -44,6 +44,9 @@ export const site = {
     introSrc: "",
     srcMobile: "",
     poster: "",
+    /** Imagen fija de fondo cuando no hay video (último fotograma de la intro de la cámara). */
+    image: "/media/hero/estudio.jpg",
+    imageMobile: "/media/hero/estudio-movil.jpg",
   },
   /**
    * Intro de la cámara controlada por el scroll (3 fases).
@@ -54,11 +57,13 @@ export const site = {
    */
   cameraIntro: {
     enabled: true,
-    video: "",
-    videoMobile: "",
-    poster: "",
+    video: "/media/intro/camara.mp4",
+    videoMobile: "/media/intro/camara-movil.mp4",
+    poster: "/media/intro/camara-poster.jpg",
+    /** Segundo del video en que empieza la fase 2 y la fase 3 (para cambiar los textos). */
+    videoPhases: [1.0, 2.5],
     /** Largo del recorrido de scroll, en pantallas. */
-    length: 4,
+    length: 3,
     phases: [
       { label: "Fase 01 · Interior", title: "Todo empieza dentro.", text: "Una idea que todavía no se ve." },
       { label: "Fase 02 · Primer lente", title: "El concepto toma forma.", text: "Cada pieza suma enfoque." },

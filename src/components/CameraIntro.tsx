@@ -69,8 +69,11 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       const rect = el.getBoundingClientRect();
       const p = clamp(-rect.top / (rect.height - vh));
 
-      // Fases para el texto
-      const ph = p < 0.28 ? 0 : p < 0.56 ? 1 : 2;
+      // Fases para el texto (en modo video, según los segundos de `videoPhases`)
+      const v = refs.video.current;
+      const videoT = cfg.video && v && v.duration ? seg(p, 0, 0.9) * (v.duration - 0.05) : null;
+      const ph =
+        videoT !== null ? (videoT < cfg.videoPhases[0] ? 0 : videoT < cfg.videoPhases[1] ? 1 : 2) : p < 0.28 ? 0 : p < 0.56 ? 1 : 2;
       if (ph !== lastPhase) {
         lastPhase = ph;
         setPhase(ph);
@@ -88,11 +91,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
 
       // ── Modo video (animación de Google Flow) ──
       if (cfg.video) {
-        const v = refs.video.current;
-        if (v && v.duration) {
-          const t = seg(p, 0, 0.9) * (v.duration - 0.05);
-          if (Math.abs(v.currentTime - t) > 1 / 60) v.currentTime = t;
-        }
+        if (v && videoT !== null && Math.abs(v.currentTime - videoT) > 1 / 60) v.currentTime = videoT;
         if (img) {
           const o = seg(p, 0.88, 0.98);
           img.style.opacity = String(o);
@@ -160,10 +159,21 @@ export function CameraIntro({ children }: { children: ReactNode }) {
     const onScroll = () => {
       if (!raf) raf = requestAnimationFrame(render);
     };
+    // Safari en iPhone no muestra fotogramas al buscar hasta que el video se reprodujo una vez.
+    const vid = refs.video.current;
+    const prime = () => {
+      if (!vid) return;
+      vid.play().then(() => vid.pause()).catch(() => {});
+      onScroll();
+    };
+    vid?.addEventListener("loadedmetadata", prime, { once: true });
+    if (vid && vid.readyState >= 1) prime();
+
     render();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      vid?.removeEventListener("loadedmetadata", prime);
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(raf);

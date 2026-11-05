@@ -77,6 +77,9 @@ ffmpeg -i intro_flow.mp4 -an -c:v libx264 -g 1 -crf 26 -preset slow -pix_fmt yuv
 ```
 
 El último fotograma del video debe parecerse a la portada: al final del recorrido la portada aparece encima con un fundido.
+En `cameraIntro.videoPhases` se indican los segundos del video en que empiezan la fase 2 y la fase 3,
+para que los textos cambien en el momento justo. El último fotograma se usa también como fondo de
+la portada (`heroVideo.image`).
 
 ## WhatsApp
 

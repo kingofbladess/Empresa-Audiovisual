@@ -11,7 +11,7 @@ const d = (ms: number) => ({ "--delay": `${ms}ms` }) as React.CSSProperties;
  * animada provisional hecha solo con CSS.
  */
 export function Hero() {
-  const { src, srcMobile, introSrc, poster } = site.heroVideo;
+  const { src, srcMobile, introSrc, poster, image, imageMobile } = site.heroVideo;
 
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden" aria-label="Presentación">
@@ -19,6 +19,11 @@ export function Hero() {
       <div className="absolute inset-0 -z-10">
         {src ? (
           <HeroVideo src={src} srcMobile={srcMobile || undefined} introSrc={introSrc || undefined} poster={poster || undefined} />
+        ) : image ? (
+          <picture>
+            {imageMobile && <source srcSet={imageMobile} media="(max-width: 767px)" />}
+            <img src={image} alt="" className="h-full w-full object-cover" fetchPriority="high" />
+          </picture>
         ) : (
           <SceneFallback />
         )}
