@@ -31,7 +31,7 @@ const RINGS = [11.5, 14, 17, 21, 26, 32, 40, 50, 63, 80, 100];
 
 export function CameraIntro({ children }: { children: ReactNode }) {
   const cfg = site.cameraIntro;
-  const [skip, setSkip] = useState(!cfg.enabled);
+  const skip = !cfg.enabled;
   const outer = useRef<HTMLDivElement>(null);
   const refs = {
     image: useRef<HTMLDivElement>(null),
@@ -51,9 +51,9 @@ export function CameraIntro({ children }: { children: ReactNode }) {
   const ringRefs = useRef<(HTMLDivElement | null)[]>([]);
   const [phase, setPhase] = useState(0);
 
-  useEffect(() => {
-    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) setSkip(true);
-  }, []);
+  // La intro avanza solo cuando el visitante hace scroll, así que también se muestra
+  // con "reducir movimiento" activado (en Windows suele venir así por defecto).
+  // Siempre está el botón "Saltar intro".
 
   useEffect(() => {
     if (skip) return;
