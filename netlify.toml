@@ -1,0 +1,13 @@
+# Despliegue en Netlify.
+# Netlify detecta Next.js y aplica su adaptador oficial (@netlify/plugin-nextjs),
+# que convierte rutas, imágenes y cabeceras en funciones y CDN de Netlify.
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_VERSION = "22"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
