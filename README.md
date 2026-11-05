@@ -3,7 +3,7 @@
 > "UMBRAL" es un nombre provisional. Se cambia en un solo lugar: `src/content/site.ts`.
 
 **Tecnología:** Next.js 15 (App Router) · React 19 · Tailwind CSS 4 · TypeScript.
-Mismo stack que `omnia-landing`, así que se despliega igual (Vercel o Docker/Dokploy).
+Se puede desplegar en Vercel o con Docker/Dokploy.
 
 ## Arrancar
 
@@ -58,28 +58,31 @@ Todas las páginas se generan estáticas al compilar: carga rápida y buen SEO.
 
 ## Intro de la cámara (scroll)
 
-La portada empieza con una intro de 3 fases controlada por el scroll (`src/components/CameraIntro.tsx`):
+La portada empieza con una intro controlada por el scroll (`src/components/CameraIntro.tsx`): el scroll
+avanza un solo video con las 3 escenas unidas, y al final la portada aparece con un fundido.
 
-1. **Interior:** vista desde dentro de la cámara hacia la montura; al fondo, la portada desenfocada.
-2. **Primer lente:** entra un elemento de vidrio y la imagen se enfoca un poco más.
-3. **Lente final:** vista exterior, el objetivo se acopla, entramos por el cristal y la portada queda nítida.
+1. **Fase 1:** el objetivo se acopla a la cámara y gira hacia nosotros.
+2. **Fase 2:** otra cámara de frente; entramos por el diafragma (archivo `fase 3.mp4`).
+3. **Fase 3:** viaje por dentro del lente (archivo `fase 2.mp4`).
 
 Se configura en `site.cameraIntro` (textos de cada fase, largo del recorrido, `enabled: false` para quitarla).
-Los usuarios con "reducir movimiento" activado ven la portada directamente.
 
-**Con el video de Google Flow:** une las 3 fases en un solo video y ponlo en `cameraIntro.video`.
-El scroll lo avanza fotograma a fotograma. Para que el avance sea fluido, expórtalo con un fotograma
-clave en cada cuadro:
+**Para cambiar las escenas:** las originales están en `public/media/intro/` (`Fase 1.mp4`, `fase 2.mp4`,
+`fase 3.mp4`). El orden de unión es `Fase 1`, `fase 3`, `fase 2`. Se unen con un fundido de 0,5 s y un fotograma clave en cada cuadro (`-g 1`), necesario para
+que el scroll avance fluido:
 
 ```bash
-ffmpeg -i intro_flow.mp4 -an -c:v libx264 -g 1 -crf 24 -preset slow -pix_fmt yuv420p -movflags +faststart -vf scale=1920:-2 public/media/intro/camara.mp4
-ffmpeg -i intro_flow.mp4 -an -c:v libx264 -g 1 -crf 26 -preset slow -pix_fmt yuv420p -movflags +faststart -vf "crop=ih*9/16:ih,scale=720:-2" public/media/intro/camara-movil.mp4
+cd public/media/intro
+X="[0:v]settb=1/24,fps=24[a];[1:v]settb=1/24,fps=24[b];[2:v]settb=1/24,fps=24[c];[a][b]xfade=transition=fade:duration=0.5:offset=7.42[ab];[ab][c]xfade=transition=fade:duration=0.5:offset=14.84"
+ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,scale=1600:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 27 -preset medium -movflags +faststart escenas-v3.mp4
+ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,crop=ih*9/16:ih,scale=540:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 28 -preset medium -movflags +faststart escenas-movil-v3.mp4
 ```
 
-El último fotograma del video debe parecerse a la portada: al final del recorrido la portada aparece encima con un fundido.
-En `cameraIntro.videoPhases` se indican los segundos del video en que empiezan la fase 2 y la fase 3,
-para que los textos cambien en el momento justo. El último fotograma se usa también como fondo de
-la portada (`heroVideo.image`).
+`offset` es el segundo en que empieza cada fundido. Si cambia la duración, actualízalo junto con
+`videoDuration` y `videoPhases` en `site.ts`.
+
+**Usa siempre un nombre de archivo nuevo** y actualiza la ruta en `site.ts`: `/media` se guarda un año en la
+caché del navegador, así que con el mismo nombre los visitantes seguirían viendo el video anterior.
 
 ## WhatsApp
 

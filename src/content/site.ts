@@ -50,25 +50,24 @@ export const site = {
     imageMobile: "/media/hero/estudio-movil.jpg",
   },
   /**
-   * Intro de la cámara controlada por el scroll (3 fases).
-   * - `enabled`: false la desactiva y la portada aparece directamente.
-   * - `video`: cuando tengas la animación de Google Flow, ponla aquí y el scroll
-   *   avanzará el video fotograma a fotograma (expórtala con fotogramas clave en
-   *   cada cuadro, ver README). Vacío = prototipo animado por código.
+   * Intro de la cámara controlada por el scroll: un video con las 3 escenas unidas. `enabled: false` la desactiva y la portada aparece
+   * directamente. Para cambiar las escenas, ver el README.
    */
   cameraIntro: {
     enabled: true,
-    video: "/media/intro/camara.mp4",
-    videoMobile: "/media/intro/camara-movil.mp4",
-    poster: "/media/intro/camara-poster.jpg",
+    video: "/media/intro/escenas-v2.mp4",
+    videoMobile: "/media/intro/escenas-movil-v2.mp4",
+    poster: "/media/intro/escenas-poster.jpg",
+    /** Duración del video en segundos. */
+    videoDuration: 22.75,
     /** Segundo del video en que empieza la fase 2 y la fase 3 (para cambiar los textos). */
-    videoPhases: [1.0, 2.5],
+    videoPhases: [7.67, 15.09],
     /** Largo del recorrido de scroll, en pantallas. */
-    length: 3,
+    length: 6,
     phases: [
-      { label: "Fase 01 · Interior", title: "Todo empieza dentro.", text: "Una idea que todavía no se ve." },
-      { label: "Fase 02 · Primer lente", title: "El concepto toma forma.", text: "Cada pieza suma enfoque." },
-      { label: "Fase 03 · Lente final", title: "Y la marca se ve con claridad.", text: "Del concepto a la imagen final." },
+      { label: "Fase 01 · El montaje", title: "Todo empieza con una idea.", text: "Cada pieza encuentra su lugar." },
+      { label: "Fase 02 · El diafragma", title: "El concepto toma forma.", text: "Cada capa suma enfoque." },
+      { label: "Fase 03 · Dentro del lente", title: "Y la marca se ve con claridad.", text: "Del concepto a la imagen final." },
     ],
   },
 };
