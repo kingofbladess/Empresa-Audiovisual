@@ -59,27 +59,33 @@ Todas las páginas se generan estáticas al compilar: carga rápida y buen SEO.
 ## Intro de la cámara (scroll)
 
 La portada empieza con una intro controlada por el scroll (`src/components/CameraIntro.tsx`): el scroll
-avanza un solo video con las 3 escenas unidas, y al final la portada aparece con un fundido.
+avanza un solo video con las 4 escenas unidas, y al final la portada aparece con un fundido.
 
-1. **Fase 1:** el objetivo se acopla a la cámara y gira hacia nosotros.
-2. **Fase 2:** otra cámara de frente; entramos por el diafragma (archivo `fase 3.mp4`).
-3. **Fase 3:** viaje por dentro del lente (archivo `fase 2.mp4`).
+1. **Fase 1:** el objetivo se acopla a la cámara y gira hacia nosotros (`Fase 1.mp4`).
+2. **Fase 2:** otra cámara de frente; entramos por el diafragma (`fase 3.mp4`).
+3. **Fase 3:** viaje por dentro del lente (`fase 2.mp4`).
+4. **Fase 4:** salimos del lente y se abre el set de rodaje (`fase 4.mp4`).
+
+El último fotograma de la fase 4 es también el fondo de la portada (`heroVideo.image`), para que el paso sea continuo.
 
 Se configura en `site.cameraIntro` (textos de cada fase, largo del recorrido, `enabled: false` para quitarla).
 
-**Para cambiar las escenas:** las originales están en `media-fuentes/intro/`, fuera de `public/` para que no se publiquen (`Fase 1.mp4`, `fase 2.mp4`,
-`fase 3.mp4`). El orden de unión es `Fase 1`, `fase 3`, `fase 2`. Se unen con un fundido de 0,5 s y un fotograma clave en cada cuadro (`-g 1`), necesario para
-que el scroll avance fluido:
+**Para cambiar las escenas:** las originales están en `media-fuentes/intro/`, fuera de `public/` para que no se
+publiquen. Se unen con un fundido de 0,5 s y un fotograma clave en cada cuadro (`-g 1`), necesario para que el
+scroll avance fluido. En móvil la fase 4 se recorta más a la derecha, donde queda la cámara:
 
 ```bash
 cd media-fuentes/intro
-X="[0:v]settb=1/24,fps=24[a];[1:v]settb=1/24,fps=24[b];[2:v]settb=1/24,fps=24[c];[a][b]xfade=transition=fade:duration=0.5:offset=7.42[ab];[ab][c]xfade=transition=fade:duration=0.5:offset=14.84"
-ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,scale=1600:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 27 -preset medium -movflags +faststart ../../public/media/intro/escenas-v3.mp4
-ffmpeg -i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -filter_complex "$X,crop=ih*9/16:ih,scale=540:-2,format=yuv420p[v]" -map "[v]" -an -c:v libx264 -g 1 -crf 28 -preset medium -movflags +faststart ../../public/media/intro/escenas-movil-v3.mp4
+J="[a][b]xfade=transition=fade:duration=0.5:offset=7.42[ab];[ab][c]xfade=transition=fade:duration=0.5:offset=14.84[abc];[abc][d]xfade=transition=fade:duration=0.5:offset=22.26"
+IN='-i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -i "fase 4.mp4"'
+P="settb=1/24,fps=24"
+eval ffmpeg $IN -filter_complex "\"[0:v]$P[a];[1:v]$P[b];[2:v]$P[c];[3:v]$P[d];$J,scale=1600:-2,format=yuv420p[v]\"" -map "[v]" -an -c:v libx264 -g 1 -crf 27 -preset medium -movflags +faststart ../../public/media/intro/escenas-v4.mp4
+C="crop=ih*9/16:ih"
+eval ffmpeg $IN -filter_complex "\"[0:v]$P,$C[a];[1:v]$P,$C[b];[2:v]$P,$C[c];[3:v]$P,$C:iw*0.6:0[d];$J,scale=540:-2,format=yuv420p[v]\"" -map "[v]" -an -c:v libx264 -g 1 -crf 28 -preset medium -movflags +faststart ../../public/media/intro/escenas-movil-v4.mp4
 ```
 
 `offset` es el segundo en que empieza cada fundido. Si cambia la duración, actualízalo junto con
-`videoDuration` y `videoPhases` en `site.ts`.
+`videoDuration` y `videoPhases` en `site.ts`, y vuelve a extraer el último fotograma para `heroVideo.image`.
 
 **Usa siempre un nombre de archivo nuevo** y actualiza la ruta en `site.ts`: `/media` se guarda un año en la
 caché del navegador, así que con el mismo nombre los visitantes seguirían viendo el video anterior.

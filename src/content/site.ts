@@ -48,28 +48,29 @@ export const site = {
     srcMobile: "",
     poster: "",
     /** Imagen fija de fondo cuando no hay video (último fotograma de la intro de la cámara). */
-    image: "/media/hero/estudio.jpg",
-    imageMobile: "/media/hero/estudio-movil.jpg",
+    image: "/media/hero/set-final.jpg",
+    imageMobile: "/media/hero/set-final-movil.jpg",
   },
   /**
-   * Intro de la cámara controlada por el scroll: un video con las 3 escenas unidas. `enabled: false` la desactiva y la portada aparece
+   * Intro de la cámara controlada por el scroll: un video con las 4 escenas unidas. `enabled: false` la desactiva y la portada aparece
    * directamente. Para cambiar las escenas, ver el README.
    */
   cameraIntro: {
     enabled: true,
-    video: "/media/intro/escenas-v2.mp4",
-    videoMobile: "/media/intro/escenas-movil-v2.mp4",
+    video: "/media/intro/escenas-v3.mp4",
+    videoMobile: "/media/intro/escenas-movil-v3.mp4",
     poster: "/media/intro/escenas-poster.jpg",
     /** Duración del video en segundos. */
-    videoDuration: 22.75,
-    /** Segundo del video en que empieza la fase 2 y la fase 3 (para cambiar los textos). */
-    videoPhases: [7.67, 15.09],
+    videoDuration: 30.17,
+    /** Segundo del video en que empieza cada fase a partir de la 2 (para cambiar los textos). */
+    videoPhases: [7.67, 15.09, 22.51],
     /** Largo del recorrido de scroll, en pantallas. */
-    length: 6,
+    length: 8,
     phases: [
       { label: "Fase 01 · El montaje", title: "Todo empieza con una idea.", text: "Cada pieza encuentra su lugar." },
       { label: "Fase 02 · El diafragma", title: "El concepto toma forma.", text: "Cada capa suma enfoque." },
       { label: "Fase 03 · Dentro del lente", title: "Y la marca se ve con claridad.", text: "Del concepto a la imagen final." },
+      { label: "Fase 04 · En el set", title: "Todo listo para salir a escena.", text: "Tu marca, frente a cámara." },
     ],
   },
 };

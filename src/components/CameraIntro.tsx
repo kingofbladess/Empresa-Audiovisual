@@ -2,17 +2,18 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { site } from "@/content/site";
-import { Isotipo, Logotipo } from "./brand/Brand";
 
 /*
  * INTRO DE LA CÁMARA (controlada por el scroll)
  *
- * El scroll avanza un video con las 3 escenas unidas, en orden:
+ * El scroll avanza un video con las 4 escenas unidas, en orden:
  * Fase 1 · El objetivo se acopla a la cámara y gira hacia nosotros.
  * Fase 2 · Otra cámara de frente: entramos por el diafragma.
  * Fase 3 · Viajamos por dentro del lente, entre sus elementos de vidrio.
+ * Fase 4 · Salimos del lente y se abre el set de rodaje.
  *
- * Al terminar el recorrido, la portada (children) aparece con un fundido.
+ * Al terminar el recorrido, la portada (children) aparece con un fundido sobre
+ * ese mismo set: su fondo es el último fotograma del video.
  * Cómo volver a generar el video: ver README.
  */
 
@@ -82,7 +83,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       target = time;
       kickSeek();
 
-      const ph = time < cfg.videoPhases[0] ? 0 : time < cfg.videoPhases[1] ? 1 : 2;
+      const ph = cfg.videoPhases.filter((start) => time >= start).length;
       if (ph !== lastPhase) {
         lastPhase = ph;
         setPhase(ph);
@@ -219,14 +220,12 @@ export function CameraIntro({ children }: { children: ReactNode }) {
           </div>
         </div>
 
-        {/* Marca: el logo se anima al cargar y se desvanece al empezar el scroll */}
-        <div ref={hint} className="pointer-events-none absolute inset-0 z-10 flex flex-col items-center justify-center bg-[radial-gradient(ellipse_at_center,rgba(0,0,0,.72),rgba(0,0,0,.35)_60%,transparent)] text-fg">
-          <Isotipo animate variant="outlined" className="h-[34vmin] w-[34vmin]" />
-          <Logotipo animate className="mt-[4vmin] h-[5vmin] min-h-6 w-auto" />
-          <span className="label intro mt-[6vmin] block text-fg/70" style={{ "--delay": "2200ms" } as React.CSSProperties}>
+        {/* Indicación para empezar: se desvanece con el scroll */}
+        <div ref={hint} className="pointer-events-none absolute inset-x-0 bottom-10 z-10 flex flex-col items-center text-fg">
+          <span className="label intro block" style={{ "--delay": "800ms" } as React.CSSProperties}>
             Desliza para enfocar
           </span>
-          <span className="mx-auto mt-3 block h-8 w-px animate-pulse bg-fg/50" />
+          <span className="mt-3 block h-8 w-px animate-pulse bg-fg/60" />
         </div>
 
         <button ref={skipBtn} type="button" onClick={skipIntro} className="label absolute top-22 right-4 z-20 border border-line-strong bg-bg/50 px-3 py-2 text-muted backdrop-blur hover:text-fg md:top-24 md:right-8">
