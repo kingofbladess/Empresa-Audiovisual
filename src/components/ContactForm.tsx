@@ -30,14 +30,27 @@ export function ContactForm() {
     setErrors((er) => ({ ...er, [k]: undefined }));
   };
 
+  const check = (k: keyof ContactPayload) => {
+    if (k === "name" && data.name.trim().length < 2) return "Escribe tu nombre o el de tu marca.";
+    if (k === "email" && !/^\S+@\S+\.\S+$/.test(data.email)) return "Escribe un correo con este formato: nombre@correo.com.";
+    if (k === "clientType" && !data.clientType) return "Elige la opción que más se parezca a ti.";
+    if (k === "description" && data.description.trim().length < 10) return "Cuéntanos un poco más: escribe al menos 10 caracteres.";
+    return undefined;
+  };
+
+  /** Al salir de un campo se revisa solo ese campo. */
+  const onBlur = (k: keyof ContactPayload) => () => setErrors((er) => ({ ...er, [k]: check(k) }));
+
   const validate = () => {
+    const keys: (keyof ContactPayload)[] = ["name", "email", "clientType", "description"];
     const er: typeof errors = {};
-    if (data.name.trim().length < 2) er.name = "Escribe tu nombre.";
-    if (!/^\S+@\S+\.\S+$/.test(data.email)) er.email = "Escribe un correo válido.";
-    if (!data.clientType) er.clientType = "Elige una opción.";
-    if (data.description.trim().length < 10) er.description = "Cuéntanos un poco más (mínimo 10 caracteres).";
+    keys.forEach((k) => {
+      er[k] = check(k);
+    });
     setErrors(er);
-    return Object.keys(er).length === 0;
+    const first = keys.find((k) => er[k]);
+    if (first) document.getElementById(first)?.focus();
+    return !first;
   };
 
   const onSubmit = (e: FormEvent) => {
@@ -74,26 +87,27 @@ export function ContactForm() {
 
   const err = (k: keyof ContactPayload) =>
     errors[k] && (
-      <p id={`${k}-error`} className="mt-2 text-sm text-rec">
+      <p id={`${k}-error`} className="mt-2 text-base text-danger">
         {errors[k]}
       </p>
     );
 
   return (
-    <form onSubmit={onSubmit} noValidate className="grid gap-8 md:grid-cols-2">
+    <form onSubmit={onSubmit} noValidate className="grid gap-6 md:grid-cols-2">
+      <p className="text-muted md:col-span-2">Los campos con * son obligatorios.</p>
       <div>
-        <label htmlFor="name" className="label text-muted">Nombre</label>
-        <input id="name" name="name" autoComplete="name" className="field" placeholder="Tu nombre o el de tu marca" value={data.name} onChange={set("name")} aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
+        <label htmlFor="name" className="label text-muted">Nombre *</label>
+        <input id="name" name="name" required onBlur={onBlur("name")} autoComplete="name" className="field" placeholder="Tu nombre o el de tu marca" value={data.name} onChange={set("name")} aria-invalid={!!errors.name} aria-describedby={errors.name ? "name-error" : undefined} />
         {err("name")}
       </div>
       <div>
-        <label htmlFor="email" className="label text-muted">Correo electrónico</label>
-        <input id="email" name="email" type="email" autoComplete="email" className="field" placeholder="tu@correo.com" value={data.email} onChange={set("email")} aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
+        <label htmlFor="email" className="label text-muted">Correo electrónico *</label>
+        <input id="email" name="email" required onBlur={onBlur("email")} type="email" autoComplete="email" className="field" placeholder="tu@correo.com" value={data.email} onChange={set("email")} aria-invalid={!!errors.email} aria-describedby={errors.email ? "email-error" : undefined} />
         {err("email")}
       </div>
       <div>
-        <label htmlFor="clientType" className="label text-muted">Tipo de cliente</label>
-        <select id="clientType" name="clientType" className="field" value={data.clientType} onChange={set("clientType")} aria-invalid={!!errors.clientType} aria-describedby={errors.clientType ? "clientType-error" : undefined}>
+        <label htmlFor="clientType" className="label text-muted">Tipo de cliente *</label>
+        <select id="clientType" name="clientType" required onBlur={onBlur("clientType")} className="field" value={data.clientType} onChange={set("clientType")} aria-invalid={!!errors.clientType} aria-describedby={errors.clientType ? "clientType-error" : undefined}>
           <option value="">Selecciona…</option>
           {clientTypes.map((c) => (
             <option key={c.slug} value={c.name}>{c.name}</option>
@@ -117,12 +131,12 @@ export function ContactForm() {
         )}
       </div>
       <div className="md:col-span-2">
-        <label htmlFor="description" className="label text-muted">Descripción del proyecto</label>
-        <textarea id="description" name="description" rows={5} className="field resize-y" placeholder="¿Qué quieres crear? Objetivo, plazos, referencias…" value={data.description} onChange={set("description")} aria-invalid={!!errors.description} aria-describedby={errors.description ? "description-error" : undefined} />
+        <label htmlFor="description" className="label text-muted">Descripción del proyecto *</label>
+        <textarea id="description" name="description" required onBlur={onBlur("description")} rows={5} className="field resize-y" placeholder="¿Qué quieres crear? Objetivo, plazos, referencias…" value={data.description} onChange={set("description")} aria-invalid={!!errors.description} aria-describedby={errors.description ? "description-error" : undefined} />
         {err("description")}
       </div>
       <div className="flex flex-wrap items-center gap-4 md:col-span-2">
-        <button type="submit" className="press inline-flex min-h-12 items-center gap-3 rounded-full bg-[#25D366] px-7 py-3 font-display text-[1.02rem] font-bold uppercase tracking-[0.08em] text-[#0a0a0a] shadow-[inset_0_1px_0_rgba(255,255,255,.4)] hover:bg-[#3be07f]">
+        <button type="submit" className="press inline-flex min-h-12 items-center gap-3 rounded-full bg-whatsapp px-7 py-3 font-display text-[1.02rem] font-bold uppercase tracking-[0.08em] text-on-whatsapp shadow-[inset_0_1px_0_rgba(255,255,255,.4)] hover:bg-whatsapp-hover">
           <WhatsAppIcon className="h-4 w-4" /> Enviar por WhatsApp
         </button>
         {site.email && (

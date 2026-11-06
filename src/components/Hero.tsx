@@ -41,14 +41,14 @@ export function Hero() {
         <p className="hero-text label intro mb-4 text-accent" style={d(500)}>
           {site.descriptor}
         </p>
-        <h1 className="display hero-title">
+        <p className="display hero-title">
           <span className="intro block" style={d(650)}>
             La <span className="text-rec">X</span> marca
           </span>
           <span className="intro block" style={d(800)}>
             la meta<span className="text-accent">.</span>
           </span>
-        </h1>
+        </p>
 
         <div className="hero-panel glass glass-blur intro grid gap-6 md:grid-cols-12 md:items-center" style={d(1000)}>
           <p className="hero-text text-base text-fg/90 md:col-span-5 md:text-lg">{site.intro}</p>

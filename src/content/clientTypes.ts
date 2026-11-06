@@ -22,7 +22,7 @@ export const clientTypes: ClientType[] = [
     ],
     services: ["artistas", "identidad-audiovisual", "contenido", "expansion-redes"],
     workCategories: ["videoclips", "marcas-personales", "direccion-creativa"],
-    media: { alt: "Artista iluminada con luz roja en escenario", palette: ["#0a0606", "#3d0f12", "#e0533f"] },
+    media: { alt: "Artista iluminada con luz roja en escenario", palette: ["#100b08", "#5a3a22", "#e3b98f"] },
   },
   {
     slug: "empresas",
@@ -41,7 +41,7 @@ export const clientTypes: ClientType[] = [
     ],
     services: ["branding", "productos-ventas", "contenido", "expansion-redes"],
     workCategories: ["identidad-corporativa", "marcas-comerciales", "campanas"],
-    media: { alt: "Oficina moderna con luz fría", palette: ["#06080b", "#16232f", "#7aa6c9"] },
+    media: { alt: "Oficina moderna con luz fría", palette: ["#120708", "#5a1a1e", "#ef5a64"] },
   },
   {
     slug: "productos",
@@ -60,7 +60,7 @@ export const clientTypes: ClientType[] = [
     ],
     services: ["productos-ventas", "contenido", "direccion-creativa", "branding"],
     workCategories: ["fotografia-productos", "campanas", "marcas-comerciales"],
-    media: { alt: "Frasco de perfume sobre superficie oscura", palette: ["#0b0906", "#3a2b14", "#e2b867"] },
+    media: { alt: "Frasco de perfume sobre superficie oscura", palette: ["#110d05", "#5c4813", "#fed340"] },
   },
   {
     slug: "cine",
@@ -79,7 +79,7 @@ export const clientTypes: ClientType[] = [
     ],
     services: ["identidad-audiovisual", "contenido", "direccion-creativa"],
     workCategories: ["cortometrajes", "cine"],
-    media: { alt: "Plano general de rodaje nocturno", palette: ["#05070a", "#122028", "#5f8fa6"] },
+    media: { alt: "Plano general de rodaje nocturno", palette: ["#0d0d0d", "#3c3b3a", "#c9c6c1"] },
   },
   {
     slug: "emprendedores",
@@ -98,7 +98,7 @@ export const clientTypes: ClientType[] = [
     ],
     services: ["branding", "expansion-redes", "productos-ventas", "direccion-creativa"],
     workCategories: ["marcas-personales", "redes", "identidad-corporativa"],
-    media: { alt: "Retrato de emprendedora en su taller", palette: ["#0a0908", "#2c2520", "#cdb7a0"] },
+    media: { alt: "Retrato de emprendedora en su taller", palette: ["#100b08", "#5a3a22", "#e3b98f"] },
   },
 ];
 

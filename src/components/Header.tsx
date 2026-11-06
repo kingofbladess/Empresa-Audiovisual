@@ -32,6 +32,14 @@ export function Header() {
 
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
+    if (!open) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    window.addEventListener("keydown", onKey);
+    return () => window.removeEventListener("keydown", onKey);
+  }, [open]);
+  useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
   }, [open]);
 
@@ -52,6 +60,7 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
+                  aria-current={isActive(item.href) ? "page" : undefined}
                   className={`press label relative inline-block py-3 hover:text-fg ${isActive(item.href) ? "text-fg" : "text-muted"}`}
                 >
                   {item.label}
@@ -75,6 +84,7 @@ export function Header() {
             className="press relative h-11 w-11 lg:hidden"
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={open}
+            aria-controls="menu-movil"
             onClick={() => setOpen((v) => !v)}
           >
             <span className={`absolute left-2 right-2 h-px bg-fg transition-transform duration-300 ${open ? "top-1/2 rotate-45" : "top-[40%]"}`} />
@@ -85,6 +95,7 @@ export function Header() {
 
       {/* Menú móvil */}
       <div
+        id="menu-movil"
         className={`fixed inset-x-0 top-18 bottom-0 bg-[#140f0b] transition-[opacity,visibility] duration-500 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
@@ -94,7 +105,7 @@ export function Header() {
           <ul className="space-y-2">
             {nav.map((item, i) => (
               <li key={item.href} className={open ? "intro" : ""} style={{ "--delay": `${i * 60}ms` } as React.CSSProperties}>
-                <Link href={item.href} className={`press display block py-2 text-5xl ${isActive(item.href) ? "text-accent" : ""}`}>
+                <Link href={item.href} aria-current={isActive(item.href) ? "page" : undefined} className={`press display block py-2 text-5xl ${isActive(item.href) ? "text-accent" : ""}`}>
                   {item.label}
                 </Link>
               </li>

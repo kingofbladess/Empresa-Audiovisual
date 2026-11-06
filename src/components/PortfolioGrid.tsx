@@ -32,7 +32,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
       <div className="-mx-4 mb-14 overflow-x-auto px-4 [scrollbar-width:none] md:mx-0 md:px-0" role="toolbar" aria-label="Filtrar proyectos por categoría">
         <div className="flex gap-2 md:flex-wrap">
           <button type="button" className={chip(!active)} aria-pressed={!active} onClick={() => select(null)}>
-            Todos <span className="opacity-60">({projects.length})</span>
+            Todos ({projects.length})
           </button>
           {available.map((c) => (
             <button key={c} type="button" className={chip(active === c)} aria-pressed={active === c} onClick={() => select(c)}>
@@ -48,7 +48,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
 
       <ul className="grid gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3" role="list">
         {list.map((p, i) => (
-          <li key={p.slug} className={`intro ${i % 3 === 1 ? "lg:mt-24" : ""}`} style={{ "--delay": `${i * 70}ms` } as React.CSSProperties}>
+          <li key={p.slug} className="intro" style={{ "--delay": `${i * 70}ms` } as React.CSSProperties}>
             <ProjectCard project={p} priority={i < 3} />
           </li>
         ))}

@@ -67,14 +67,14 @@ export default async function ClientTypePage({ params }: Props) {
 
       <section className="border-t border-line bg-bg-2 py-24 md:py-32">
         <div className="container-x">
-          <p className="label mb-8 text-accent">Servicios relacionados</p>
+          <h2 className="label mb-8 text-accent">Servicios relacionados</h2>
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list">
             {related.map((s) => (
               <li key={s.slug}>
                 <Link href={`/servicios#${s.slug}`} className="group glass glass-hover flex h-full flex-col justify-between p-6">
                   <span className="label text-muted">{s.index}</span>
                   <span className="display mt-10 text-2xl">{s.name}</span>
-                  <span className="mt-3 text-sm text-muted">{s.short}</span>
+                  <span className="mt-3 text-base text-muted">{s.short}</span>
                   <ArrowIcon className="mt-6 h-5 w-5 text-accent transition-transform group-hover:translate-x-2" />
                 </Link>
               </li>
@@ -85,8 +85,8 @@ export default async function ClientTypePage({ params }: Props) {
 
       {work.length > 0 && (
         <section className="container-x py-24 md:py-36">
-          <SectionHeading scene="Trabajo relacionado" title={<>Así lo <span className="serif text-fg/60">pensamos</span></>} />
-          <div className="mt-16 grid gap-x-6 gap-y-14 sm:grid-cols-2 lg:grid-cols-3">
+          <SectionHeading scene="Trabajo relacionado" title={<>Así lo <span className="serif text-accent">pensamos</span></>} />
+          <div className="mt-14 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
             {work.map((p) => (
               <ProjectCard key={p.slug} project={p} />
             ))}
@@ -97,10 +97,10 @@ export default async function ClientTypePage({ params }: Props) {
       <section className="border-t border-line">
         <div className="container-x py-16">
           <p className="label mb-6 text-muted">Otros caminos</p>
-          <ul className="flex flex-wrap gap-x-10 gap-y-4">
+          <ul className="flex flex-wrap gap-3">
             {others.map((c) => (
               <li key={c.slug}>
-                <Link href={`/para/${c.slug}`} className="press display inline-block py-1 text-2xl text-fg/70 hover:text-accent md:text-3xl">{c.name}</Link>
+                <Link href={`/para/${c.slug}`} className="glass-control label inline-flex min-h-11 items-center px-5 py-2.5 text-fg">{c.name}</Link>
               </li>
             ))}
           </ul>

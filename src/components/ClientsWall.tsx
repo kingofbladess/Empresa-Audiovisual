@@ -14,7 +14,7 @@ export function ClientsWall({ clients }: { clients: ClientLogo[] }) {
             ) : (
               <span
                 className={`text-fg/70 transition-colors group-hover:text-fg ${
-                  i % 3 === 0 ? "display text-2xl md:text-3xl" : i % 3 === 1 ? "serif text-3xl md:text-4xl" : "label text-sm tracking-[0.35em]"
+                  i % 3 === 0 ? "display text-2xl md:text-3xl" : i % 3 === 1 ? "serif text-3xl md:text-4xl" : "label text-base tracking-[0.35em]"
                 }`}
               >
                 {c.name}

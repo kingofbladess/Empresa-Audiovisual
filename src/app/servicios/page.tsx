@@ -47,14 +47,14 @@ export default function ServiciosPage() {
                 <span id={s.slug} className="block scroll-mt-28" />
                 <div className="flex items-start justify-between gap-4">
                   <span className="label pt-1 text-accent">{s.index}</span>
-                  {s.price && <span className="label rounded-full border border-line-strong bg-white/5 px-4 py-1.5 text-right text-fg">{s.price}</span>}
+                  {s.price && <span className="label rounded-2xl border border-line-strong bg-white/5 px-4 py-1.5 text-right text-fg">{s.price}</span>}
                 </div>
                 <h2 className="display mt-5 text-[clamp(2.3rem,3.6vw,3.2rem)]">{s.name}</h2>
-                <p className="serif mt-3 text-[1.6rem] leading-snug text-[#e3b98f]">{s.short}</p>
+                <p className="serif mt-3 text-[1.6rem] leading-snug text-sand">{s.short}</p>
                 <p className="mt-4 text-fg/85">{s.description}</p>
                 <ul className="mt-5 grid gap-x-6 gap-y-2 sm:grid-cols-2" role="list">
                   {s.items.map((item) => (
-                    <li key={item} className="flex gap-3 text-[0.98rem] text-muted">
+                    <li key={item} className="flex gap-3 text-base text-muted">
                       <span className="mt-[0.7em] h-0.5 w-3 shrink-0 bg-accent" />
                       <span>{item}</span>
                     </li>
@@ -65,7 +65,7 @@ export default function ServiciosPage() {
                   <p className="font-semibold text-fg">{s.goal}</p>
                 </div>
                 {forTypes.length > 0 && (
-                  <p className="mt-5 text-[0.95rem] text-muted">
+                  <p className="mt-5 text-base text-muted">
                     Ideal para:{" "}
                     {forTypes.map((c, j) => (
                       <span key={c.slug}>

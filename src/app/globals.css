@@ -15,6 +15,12 @@
   --accent: #fed340;
   --rec: #dc2f3d;
   --gris: #a8a5a1;
+  --sand: #e3b98f;
+  --on-accent: #17110c;
+  --danger: #ff9aa2;
+  --whatsapp: #25d366;
+  --whatsapp-hover: #3be07f;
+  --on-whatsapp: #0a0a0a;
   --cafe: #b5835a;
   --glass-blur: 16px;
 }
@@ -30,6 +36,12 @@
   --color-accent: var(--accent);
   --color-rec: var(--rec);
   --color-cafe: var(--cafe);
+  --color-sand: var(--sand);
+  --color-on-accent: var(--on-accent);
+  --color-danger: var(--danger);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-hover: var(--whatsapp-hover);
+  --color-on-whatsapp: var(--on-whatsapp);
   --font-sans: var(--font-body);
   --font-display: var(--font-display);
   --font-serif: var(--font-serif);
@@ -39,6 +51,7 @@ html {
   background: var(--bg);
   color: var(--fg);
   scroll-behavior: smooth;
+  scroll-padding-top: 6rem;
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
 }
@@ -191,12 +204,13 @@ p {
 .glass-control[aria-pressed="true"] {
   background: var(--accent);
   border-color: var(--accent);
-  color: #17110c;
+  color: var(--on-accent);
 }
 /* Todo lo que se pulsa responde al dedo, también en móvil. */
 a,
 button {
   -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
 }
 .press {
   transition: transform 0.15s, background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
@@ -354,7 +368,7 @@ button {
   box-shadow: 0 0 0 3px rgba(254, 211, 64, 0.2);
 }
 .field[aria-invalid="true"] {
-  border-color: #ff7b85;
+  border-color: var(--danger);
 }
 .field::placeholder {
   color: #bdb4aa;

@@ -42,6 +42,7 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <h1 className="sr-only">{site.name}: {site.tagline} {site.descriptor}.</h1>
       <CameraIntro>
         <Hero />
       </CameraIntro>
@@ -52,9 +53,9 @@ export default function Home() {
           <p className="label mb-6 text-accent">Esc. 01 · Nuestra propuesta</p>
         </Reveal>
         <Reveal delay={100}>
-          <p className="max-w-5xl font-sans text-[clamp(1.6rem,3.4vw,3rem)] leading-[1.2] font-semibold tracking-tight">
-            Construimos tu identidad <span className="text-accent">desde cero</span>, con una ruta hecha para ti y metas a corto, medio y largo plazo. <span className="serif text-[#e3b98f]">Cada etapa tiene su X.</span>
-          </p>
+          <h2 className="max-w-5xl font-sans text-[clamp(1.6rem,3.4vw,3rem)] leading-[1.2] font-semibold tracking-tight">
+            Construimos tu identidad <span className="text-accent">desde cero</span>, con una ruta hecha para ti y metas a corto, medio y largo plazo. <span className="serif text-sand">Cada etapa tiene su X.</span>
+          </h2>
         </Reveal>
         <div className="mt-16">
           <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -112,11 +113,11 @@ export default function Home() {
         <ul className="mt-14 grid border-t border-line md:mt-20 md:grid-cols-2 md:gap-x-12" role="list">
           {services.map((s) => (
             <li key={s.slug} className="border-b border-line">
-              <Link href={`/servicios#${s.slug}`} className="group flex min-h-24 items-center gap-5 py-5">
+              <Link href={`/servicios#${s.slug}`} className="press group flex min-h-24 items-center gap-5 py-5">
                 <span className="label w-8 shrink-0 text-accent">{s.index}</span>
                 <span className="min-w-0 flex-1">
                   <span className="display block text-[1.85rem] transition-colors group-hover:text-accent">{s.name}</span>
-                  <span className="mt-1 block text-[0.95rem] text-muted">{s.short}</span>
+                  <span className="mt-1 block text-base text-muted">{s.short}</span>
                 </span>
                 <ArrowIcon className="h-5 w-5 shrink-0 text-muted transition-all group-hover:translate-x-1 group-hover:text-accent" />
               </Link>
@@ -134,10 +135,10 @@ export default function Home() {
           <SectionHeading scene="Esc. 05 · Nuestro trabajo" title={<>Proyectos <span className="serif text-accent">en pantalla</span></>}>
             Una muestra de cómo pensamos. Los proyectos actuales son conceptuales: ejercicios del estudio para mostrar nuestro proceso.
           </SectionHeading>
-          <div className="mt-14 grid gap-x-6 gap-y-14 md:mt-20 md:grid-cols-2">
+          <div className="mt-14 grid gap-5 md:mt-20 md:grid-cols-2">
             {featured.map((p, i) => (
-              <Reveal key={p.slug} delay={(i % 2) * 120} className={i % 2 === 1 ? "md:mt-32" : ""}>
-                <ProjectCard project={p} aspect={i % 2 === 0 ? "aspect-[4/5]" : "aspect-[4/3]"} />
+              <Reveal key={p.slug} delay={(i % 2) * 120}>
+                <ProjectCard project={p} aspect="aspect-[4/3]" />
               </Reveal>
             ))}
           </div>

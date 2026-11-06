@@ -42,11 +42,11 @@ export function Footer() {
               ))}
             </ul>
           </div>
-          <div className="md:col-span-3">
+          <div className={socials.length > 0 ? "min-w-0 md:col-span-3" : "min-w-0 md:col-span-5"}>
             <p className="label mb-5 text-accent">Servicios</p>
-            <ul>
+            <ul className={socials.length > 0 ? "" : "lg:columns-2 lg:gap-8"}>
               {services.map((s) => (
-                <li key={s.slug}>
+                <li key={s.slug} className="break-inside-avoid">
                   <Link href={`/servicios#${s.slug}`} className="press inline-block py-1.5 text-muted hover:text-fg">
                     {s.name}
                   </Link>
@@ -69,7 +69,7 @@ export function Footer() {
             </div>
           )}
         </div>
-        <div className="label mt-20 flex flex-col justify-between gap-3 border-t border-line pt-6 text-muted md:flex-row">
+        <div className="label mt-20 flex flex-col justify-between gap-3 border-t border-line pt-6 pb-16 text-muted md:flex-row md:pb-0">
           <p>
             © {new Date().getFullYear()} {site.name} · {site.descriptor}
           </p>

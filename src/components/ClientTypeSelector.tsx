@@ -80,7 +80,7 @@ export function ClientTypeSelector({ types }: { types: ClientType[] }) {
                   0{i + 1} · {t.kicker}
                 </p>
                 <p className="display text-3xl">{t.name}</p>
-                <p className="mt-2 line-clamp-2 text-sm text-fg/70">{t.summary}</p>
+                <p className="mt-2 line-clamp-2 text-base text-fg/70">{t.summary}</p>
               </div>
             </Link>
           </li>

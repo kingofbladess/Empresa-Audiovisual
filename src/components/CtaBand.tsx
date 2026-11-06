@@ -1,4 +1,4 @@
-import { Button, ExternalButton, WhatsAppButton } from "./Button";
+import { Button, WhatsAppButton } from "./Button";
 import { Reveal } from "./Reveal";
 import { site } from "@/content/site";
 
@@ -17,8 +17,10 @@ export function CtaBand({ title = "¿Cuál es tu X?", subtitle = "La primera reu
           <div className="mt-10 flex flex-wrap gap-3">
             <Button href="/contacto">Cuéntanos tu proyecto</Button>
             <WhatsAppButton message={message} />
-            <ExternalButton href={site.typeform}>Queremos conocerte</ExternalButton>
           </div>
+          <a href={site.typeform} target="_blank" rel="noopener noreferrer" className="press mt-5 inline-block py-2 text-fg/85 underline decoration-line-strong underline-offset-4 hover:text-accent hover:decoration-accent">
+            ¿Prefieres contarnos con calma? Responde el formulario
+          </a>
         </div>
       </Reveal>
     </section>

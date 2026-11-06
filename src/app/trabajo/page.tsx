@@ -22,12 +22,13 @@ export default function TrabajoPage() {
       />
       <section className="container-x pb-32">
         {demoCount > 0 && (
-          <p className="mb-10 max-w-3xl border-l-2 border-accent pl-4 text-sm text-muted">
+          <p className="glass mb-10 max-w-3xl px-5 py-4 text-base text-fg/85">
             Los proyectos marcados como <span className="text-accent">“Proyecto conceptual”</span> son ejercicios demostrativos del estudio, creados para
             mostrar nuestro proceso. No corresponden a clientes reales.
           </p>
         )}
         <Suspense>
+          <h2 className="sr-only">Proyectos</h2>
           <PortfolioGrid projects={projects} />
         </Suspense>
       </section>

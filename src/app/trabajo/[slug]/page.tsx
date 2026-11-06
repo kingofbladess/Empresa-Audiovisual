@@ -59,26 +59,26 @@ export default async function ProjectPage({ params }: Props) {
       </header>
 
       {p.demo && (
-        <div className="border-y border-accent/30 bg-accent/5">
-          <p className="container-x py-4 text-sm text-fg/80">
+        <div className="container-x pt-6">
+          <p className="glass px-5 py-4 text-base text-fg/85">
             <span className="label mr-3 text-accent">Aviso</span>
             Este es un proyecto conceptual creado por el estudio para mostrar su proceso. La marca y el cliente son ficticios.
           </p>
         </div>
       )}
 
-      <section className="container-x grid gap-14 py-24 md:grid-cols-12 md:py-32">
-        <Reveal className="md:col-span-4">
-          <dl className="border-t border-line">
+      <section className="container-x grid gap-10 py-20 md:grid-cols-12 md:py-28">
+        <Reveal className="glass px-6 py-2 md:col-span-5">
+          <dl>
             {meta.map((m) => (
-              <div key={m.k} className="grid grid-cols-3 gap-4 border-b border-line py-4">
+              <div key={m.k} className="grid grid-cols-3 gap-4 border-b border-line py-4 last:border-b-0">
                 <dt className="label pt-1 text-muted">{m.k}</dt>
                 <dd className="col-span-2">{m.v}</dd>
               </div>
             ))}
           </dl>
         </Reveal>
-        <Reveal delay={120} className="md:col-span-7 md:col-start-6">
+        <Reveal delay={120} className="md:col-span-6 md:col-start-7">
           <p className="label mb-6 text-accent">El concepto</p>
           <p className="text-[clamp(1.4rem,2.4vw,2.1rem)] leading-snug">{p.concept}</p>
         </Reveal>
@@ -86,7 +86,7 @@ export default async function ProjectPage({ params }: Props) {
 
       {p.video && (
         <section className="container-x pb-24">
-          <div className="relative aspect-video overflow-hidden bg-panel">
+          <div className="relative aspect-video overflow-hidden rounded-[1.25rem] bg-panel">
             {p.video.kind === "embed" ? (
               <iframe src={p.video.src} title={`Video de ${p.title}`} className="absolute inset-0 h-full w-full" allow="autoplay; fullscreen; picture-in-picture" allowFullScreen loading="lazy" />
             ) : (
@@ -100,7 +100,7 @@ export default async function ProjectPage({ params }: Props) {
       <section className="container-x grid gap-4 pb-24 md:grid-cols-12 md:gap-6">
         {p.gallery.map((g, i) => (
           <Reveal key={g.alt} delay={i * 80} className={i === 0 ? "md:col-span-12" : "md:col-span-6"}>
-            <Frame media={g} className={`${i === 0 ? "aspect-[2.39/1]" : "aspect-[4/3]"} w-full`} showCaption sizes={i === 0 ? "100vw" : "50vw"} />
+            <Frame media={g} className={`${i === 0 ? "aspect-[2.39/1]" : "aspect-[4/3]"} w-full rounded-[1.25rem]`} showCaption sizes={i === 0 ? "100vw" : "50vw"} />
           </Reveal>
         ))}
       </section>
@@ -108,7 +108,7 @@ export default async function ProjectPage({ params }: Props) {
       {/* Proceso */}
       <section className="border-t border-line bg-bg-2 py-24 md:py-32">
         <div className="container-x">
-          <p className="label mb-12 text-accent">Proceso creativo</p>
+          <h2 className="label mb-12 text-accent">Proceso creativo</h2>
           <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {p.process.map((s, i) => (
               <Reveal as="li" key={s.step} delay={i * 90} className="glass p-8">

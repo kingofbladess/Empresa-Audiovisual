@@ -25,6 +25,7 @@ export const metadata: Metadata = {
     siteName: site.name,
     locale: "es_VE",
     type: "website",
+    images: [{ url: "/media/hero/set-final.jpg", width: 1600, height: 900, alt: `${site.name}: ${site.tagline}` }],
   },
   twitter: { card: "summary_large_image" },
   alternates: { canonical: "/" },
@@ -36,13 +37,19 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
   return (
     <html lang="es" className={`${body.variable} ${display.variable} ${serif.variable}`}>
       <body>
+        {/* Sin JavaScript todo el contenido debe seguir a la vista */}
+        <noscript>
+          <style>{`.reveal{opacity:1;transform:none}.hero-stage{visibility:visible!important;opacity:1!important}`}</style>
+        </noscript>
         <a href="#contenido" className="sr-only focus:not-sr-only focus:fixed focus:top-2 focus:left-2 focus:z-[70] focus:bg-fg focus:px-4 focus:py-2 focus:text-bg">
           Saltar al contenido
         </a>
         <Header />
         <main id="contenido">{children}</main>
         <Footer />
-        <WhatsAppFloat />
+        <aside aria-label="Contacto rápido">
+          <WhatsAppFloat />
+        </aside>
       </body>
     </html>
   );

@@ -67,13 +67,13 @@ export function Frame({ media, className = "", drift, priority, sizes = "100vw",
       <div
         className={`absolute inset-0 ${motion}`}
         style={{
-          background: `radial-gradient(ellipse 55% 65% at ${x}% ${y}%, ${light}cc 0%, ${mid} 38%, ${dark} 78%),
+          background: `radial-gradient(ellipse 75% 85% at ${x}% ${y}%, ${light}e6 0%, ${mid} 46%, ${dark} 92%),
             conic-gradient(from ${angle}deg at ${100 - x}% ${100 - y}%, ${dark}, ${mid}88, ${dark}, ${mid}55, ${dark})`,
         }}
       />
       {/* Siluetas difusas que sugieren una escena */}
       <div
-        className={`absolute inset-0 opacity-70 ${motion}`}
+        className={`absolute inset-0 opacity-45 ${motion}`}
         style={{
           background: `radial-gradient(ellipse 18% 42% at ${(x + 22) % 90}% 78%, ${dark} 0%, transparent 70%),
             linear-gradient(180deg, transparent 55%, ${dark} 100%)`,
@@ -85,9 +85,9 @@ export function Frame({ media, className = "", drift, priority, sizes = "100vw",
         style={{ top: `${flareY}%`, background: `linear-gradient(90deg, transparent, ${light}, transparent)`, boxShadow: `0 0 24px 2px ${light}55` }}
       />
       {/* Viñeta */}
-      <div className="absolute inset-0" style={{ boxShadow: "inset 0 0 160px 40px rgba(0,0,0,.75)" }} />
+      <div className="absolute inset-0" style={{ boxShadow: "inset 0 0 90px 10px rgba(0,0,0,.45)" }} />
       {showCaption && (
-        <span className="label absolute bottom-3 left-3 max-w-[80%] truncate text-white/45">
+        <span className="label absolute bottom-3 left-3 max-w-[80%] truncate text-white/70">
           Imagen provisional · {media.alt}
         </span>
       )}
