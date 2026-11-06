@@ -105,6 +105,8 @@ export function CameraIntro({ children }: { children: ReactNode }) {
         image.current.style.opacity = String(o);
         image.current.style.pointerEvents = o > 0.95 ? "auto" : "none";
         image.current.inert = o <= 0.95; // sin esto, el teclado enfoca botones invisibles
+        // La entrada de la portada (barras y textos) se dispara al aparecer, no al cargar.
+        image.current.toggleAttribute("data-revealed", o > 0);
       }
     };
 
@@ -152,7 +154,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
     <div ref={outer} className="relative" style={{ height: `${cfg.length * 100 + 100}svh` }}>
       <div ref={stage} className="sticky top-0 h-[100svh] overflow-hidden bg-[#030303]">
         {/* La portada real: aparece con un fundido al final */}
-        <div ref={image} className="absolute inset-0" style={{ opacity: 0, zIndex: 1, pointerEvents: "none" }} inert>
+        <div ref={image} className="hero-stage absolute inset-0" style={{ opacity: 0, zIndex: 1, pointerEvents: "none" }} inert>
           {children}
         </div>
 

@@ -153,7 +153,7 @@ body::after {
   border-color: rgba(254, 211, 64, 0.5);
 }
 @media (max-width: 767px) {
-  :root { --glass-blur: 10px; }
+  :root { --glass-blur: 10px; --bar: 0px; }
 }
 /* Sin soporte de blur, o si la persona pide menos transparencia: panel sólido y legible. */
 @supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
@@ -220,6 +220,11 @@ body::after {
   animation: fade-up 1.3s cubic-bezier(0.2, 0.7, 0.2, 1) both;
   animation-delay: var(--delay, 0ms);
 }
+/* Detrás de la intro la portada está oculta: su entrada espera a que aparezca. */
+.hero-stage:not([data-revealed]) .intro,
+.hero-stage:not([data-revealed]) .letterbox {
+  animation: none;
+}
 @keyframes blink {
   50% { opacity: 0.2; }
 }
@@ -236,8 +241,10 @@ body::after {
   animation-play-state: paused;
 }
 
+/* Se respetan los bucles y transiciones, pero no las animaciones breves de entrada:
+   en Windows esta opción suele venir activada y el logo aparecería de golpe. */
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
+  *:not(.xm-anim, .xm-anim *, .intro, .letterbox), *::before, *::after {
     animation-duration: 0.001ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
