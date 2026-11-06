@@ -2,7 +2,8 @@
 
 Coloca aquí fotos y videos. Estructura sugerida:
 
-- `hero/` — video de portada (`hero.mp4`, `hero-movil.mp4`, `hero-poster.jpg`)
+- `hero/` — fondo de la portada
+- `intro/` — video de la intro por fases (ver README)
 - `proyectos/<slug>/` — portada y galería de cada proyecto
 - `equipo/` — retratos (proporción 3:4)
 - `clientes/` — logotipos en SVG o PNG transparente

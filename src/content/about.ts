@@ -8,7 +8,6 @@ export const about = {
     "Ayudar a negocios emergentes a dar el primer paso o reconectar con su esencia, creando su identidad, definiendo sus objetivos y diseñando su camino hacia el crecimiento.",
   vision:
     "Consolidarnos en Maracay, estado Aragua, como una productora de estrategia y marca reconocida por su acompañamiento personalizado, ofreciendo más servicios a futuro, con proyección nacional e internacional.",
-  audience: "Artistas, emprendedores, negocios y marcas que buscan iniciar, redefinir o expandir su presencia.",
   team: "Somos un grupo multidisciplinario de creadores de contenido, cineastas, productores, estrategas, diseñadores y expertos en branding.",
   availability: "Estamos activos en varios proyectos, acompañando procesos semana a semana por vía online.",
   /** Valores y su color de marca. */

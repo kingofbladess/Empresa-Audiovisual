@@ -3,7 +3,7 @@
 > Nombre, eslogan y datos de contacto se cambian en un solo lugar: `src/content/site.ts`.
 
 **Tecnología:** Next.js 15 (App Router) · React 19 · Tailwind CSS 4 · TypeScript.
-Se puede desplegar en Vercel o con Docker/Dokploy.
+Publicado en Vercel. También se puede desplegar con Docker.
 
 ## Arrancar
 
@@ -54,7 +54,7 @@ Todas las páginas se generan estáticas al compilar: carga rápida y buen SEO.
 - **Cliente real:** en `clients.ts`, logo en `/public/media/clientes/` y `demo: false`.
 - **Imágenes:** mientras un elemento no tenga `src`, el componente `Frame` dibuja un fotograma
   provisional con su paleta. Al poner la foto o el video, se sustituye solo.
-- **Video de portada:** pon el archivo en `/public/media/hero/` y su ruta en `site.heroVideo`.
+- **Fondo de la portada:** su ruta está en `site.heroImage`.
 
 ## Intro de la cámara (scroll)
 
@@ -66,7 +66,7 @@ avanza un solo video con las 4 escenas unidas, y al final la portada aparece con
 3. **Fase 3:** viaje por dentro del lente (`fase 2.mp4`).
 4. **Fase 4:** salimos del lente y se abre el set de rodaje (`fase 4.mp4`).
 
-El último fotograma de la fase 4 es también el fondo de la portada (`heroVideo.image`), para que el paso sea continuo.
+El último fotograma de la fase 4 es también el fondo de la portada (`heroImage.image`), para que el paso sea continuo.
 
 Se configura en `site.cameraIntro` (textos de cada fase, largo del recorrido, `enabled: false` para quitarla).
 
@@ -92,7 +92,7 @@ ffmpeg -i master.mp4 -vf "trim=start_frame=0:end_frame=184,setpts=PTS-STARTPTS,s
 ```
 
 Si cambian las duraciones, actualiza `videoParts` en `site.ts` y vuelve a extraer el último fotograma para
-`heroVideo.image`.
+`heroImage.image`.
 
 **Usa siempre una carpeta nueva** (`v5`, `v6`…) y actualiza `videoBase`: `/media` se guarda un año en la caché
 del navegador, así que con el mismo nombre los visitantes seguirían viendo el video anterior.
@@ -105,20 +105,13 @@ del navegador, así que con el mismo nombre los visitantes seguirían viendo el 
   (nombre, tipo de cliente, servicio, descripción y correo). Alternativa: enviar por correo.
 - Número en `site.ts` → `whatsapp.number` (formato internacional, sin "+").
 
-## Publicar en Netlify
+## Publicar
 
-La configuración ya está en `netlify.toml` (adaptador oficial `@netlify/plugin-nextjs`, Node 22).
-
-1. En [app.netlify.com](https://app.netlify.com): **Add new project → Import an existing project → GitHub**.
-2. Autoriza Netlify y elige el repositorio `empresa-audiovisual`.
-3. Rama de producción: `main`. No cambies nada más: Netlify lee el comando y la carpeta de `netlify.toml`.
-4. **Deploy**. Cada push a `main` publica la web, y cada pull request recibe su propia vista previa.
-
-Para el dominio propio: *Domain management → Add a domain*.
+El sitio está en Vercel y se publica solo con cada push a `main`. Dominio configurable con la variable
+`NEXT_PUBLIC_SITE_DOMAIN` (sin `https://`).
 
 ## Siguientes etapas sugeridas
 
 1. Fotos, videos y logo reales; nombre definitivo y dominio.
-2. Animación de portada (Google Flow) en `site.heroVideo`.
-3. Envío del formulario también a correo (Resend) o a una base de datos.
-4. Panel o CMS (Sanity, Decap o Supabase) si se quiere editar sin tocar código.
+2. Envío del formulario también a correo (Resend) o a una base de datos.
+3. Panel o CMS (Sanity, Decap o Supabase) si se quiere editar sin tocar código.

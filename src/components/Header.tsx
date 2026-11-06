@@ -11,6 +11,7 @@ export function Header() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [overVideo, setOverVideo] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -18,6 +19,16 @@ export function Header() {
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
+
+  // Sobre la intro el menú no difumina el video (ver .glass-bar en globals.css).
+  useEffect(() => {
+    const intro = document.querySelector("[data-intro]");
+    setOverVideo(!!intro);
+    if (!intro) return;
+    const io = new IntersectionObserver(([entry]) => setOverVideo(entry.isIntersecting));
+    io.observe(intro);
+    return () => io.disconnect();
+  }, [pathname]);
 
   useEffect(() => setOpen(false), [pathname]);
   useEffect(() => {
@@ -28,6 +39,7 @@ export function Header() {
 
   return (
     <header
+      data-over-video={overVideo || undefined}
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
         scrolled || open ? "glass-bar" : "border-b border-transparent"
       }`}

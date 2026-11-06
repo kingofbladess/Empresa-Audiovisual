@@ -75,12 +75,16 @@ export function CameraIntro({ children }: { children: ReactNode }) {
     let scrollRaf = 0;
     let seekRaf = 0;
     let lastPhase = -1;
+    let shown = 0;
+    let wasInteractive = false;
     let target = 0;
     let current = 0;
 
     const show = (index: number) => {
+      if (index === shown) return;
+      shown = index;
       vids.forEach((v, i) => {
-        if (v) v.style.opacity = i === index ? "1" : "0";
+        if (v) v.style.visibility = i === index ? "visible" : "hidden";
       });
     };
 
@@ -126,6 +130,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
         const h = seg(p, 0, 0.04);
         hint.current.style.opacity = String(1 - h);
         hint.current.style.transform = `scale(${1 + h * 0.25})`;
+        hint.current.style.visibility = h < 1 ? "visible" : "hidden";
       }
       const copyOpacity = 1 - seg(p, 0.84, 0.9);
       if (copyBox.current) copyBox.current.style.opacity = String(copyOpacity * seg(p, 0.02, 0.05));
@@ -137,8 +142,14 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       if (image.current) {
         const o = seg(p, 0.88, 0.98);
         image.current.style.opacity = String(o);
-        image.current.style.pointerEvents = o > 0.95 ? "auto" : "none";
-        image.current.inert = o <= 0.95; // sin esto, el teclado enfoca botones invisibles
+        // Oculta del todo: detrás del video no debe gastar en pintar su vidrio ni sus animaciones.
+        image.current.style.visibility = o > 0 ? "visible" : "hidden";
+        const interactive = o > 0.95;
+        if (interactive !== wasInteractive) {
+          wasInteractive = interactive;
+          image.current.style.pointerEvents = interactive ? "auto" : "none";
+          image.current.inert = !interactive; // sin esto, el teclado enfoca botones invisibles
+        }
         // La entrada de la portada (barras y textos) se dispara al aparecer, no al cargar.
         image.current.toggleAttribute("data-revealed", o > 0);
       }
@@ -156,11 +167,13 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       onScroll();
     };
 
-    // Un fotograma visible al cambiar de parte evita parpadeos. Además, Safari en iPhone
-    // no muestra fotogramas al buscar hasta que el video se reprodujo una vez.
+    // Safari no muestra fotogramas al buscar hasta que el video se reprodujo una vez.
+    // En los demás navegadores ese arranque solo gastaría.
+    const needsPrime = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
     const prime = (index: number) => {
       const v = vids[index];
       if (!v) return;
+      if (!needsPrime) return markReady(index);
       v.play()
         .then(() => v.pause())
         .catch(() => {})
@@ -250,10 +263,10 @@ export function CameraIntro({ children }: { children: ReactNode }) {
   const copy = cfg.phases[phase];
 
   return (
-    <div ref={outer} className="relative" style={{ height: `${cfg.length * 100 + 100}svh` }}>
+    <div ref={outer} data-intro className="relative" style={{ height: `${cfg.length * 100 + 100}svh` }}>
       <div ref={stage} className="sticky top-0 h-[100svh] overflow-hidden bg-[#030303]">
         {/* La portada real: aparece con un fundido al final */}
-        <div ref={image} className="hero-stage absolute inset-0" style={{ opacity: 0, zIndex: 1, pointerEvents: "none" }} inert>
+        <div ref={image} className="hero-stage absolute inset-0" style={{ opacity: 0, visibility: "hidden", zIndex: 1, pointerEvents: "none" }} inert>
           {children}
         </div>
 
@@ -264,7 +277,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
               videos.current[i] = node;
             }}
             className="pointer-events-none absolute inset-0 h-full w-full object-cover"
-            style={{ opacity: i === 0 ? 1 : 0 }}
+            style={{ visibility: i === 0 ? "visible" : "hidden" }}
             muted
             playsInline
             preload="auto"

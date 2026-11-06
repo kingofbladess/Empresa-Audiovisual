@@ -7,8 +7,6 @@ export const site = {
   name: "XploreMet Prod",
   /** Descriptor que acompaña al nombre. */
   descriptor: "Productora de estrategia y marca",
-  /** Logotipo opcional en /public (SVG recomendado). Si está vacío se usa el nombre como logotipo. */
-  logo: "",
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || "xploremet.com" /* provisional: confirmar dominio */,
   /** Frase principal (filosofía). */
   tagline: "La X marca la meta.",
@@ -36,18 +34,8 @@ export const site = {
     { label: "YouTube", href: "https://youtube.com/" },
     { label: "Behance", href: "https://behance.net/" },
   ],
-  /**
-   * Video de la portada. Deja `src` vacío para usar el fondo animado provisional.
-   * Cuando tengas la animación de Google Flow, ponla en /public/media/ y escribe aquí la ruta.
-   */
-  heroVideo: {
-    /** Loop de fondo, p. ej. "/media/hero/hero.mp4" */
-    src: "",
-    /** Intro que se ve una vez por visita antes del loop, p. ej. "/media/hero/hero-intro.mp4" */
-    introSrc: "",
-    srcMobile: "",
-    poster: "",
-    /** Imagen fija de fondo cuando no hay video (último fotograma de la intro de la cámara). */
+  /** Fondo de la portada: el último fotograma de la intro. */
+  heroImage: {
     image: "/media/hero/set-final.jpg",
     imageMobile: "/media/hero/set-final-movil.jpg",
   },

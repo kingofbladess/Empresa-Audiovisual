@@ -56,11 +56,10 @@ export default function Home() {
             Construimos tu identidad <span className="text-accent">desde cero</span>, con una ruta hecha para ti y metas a corto, medio y largo plazo. <span className="serif text-[#e3b98f]">Cada etapa tiene su X.</span>
           </p>
         </Reveal>
-        <div className="relative mt-16">
-          <div className="absolute top-10 right-4 left-4 hidden border-t-2 border-dashed border-line-strong lg:block" aria-hidden />
-          <ol className="relative grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-16">
+          <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
             {about.method.map((m, i) => (
-              <Reveal as="li" key={m.step} delay={i * 100} className="glass flex flex-col p-7">
+              <Reveal as="li" key={m.step} delay={i * 100} className="route-step glass flex flex-col p-7">
                 <div className="flex items-center justify-between">
                   <span className="display text-5xl text-accent">{m.step}</span>
                   {i === about.method.length - 1 && <XMark className="h-8 w-8 text-rec" />}

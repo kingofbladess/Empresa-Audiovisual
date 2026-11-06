@@ -1,27 +1,22 @@
 import { site } from "@/content/site";
 import { Button, WhatsAppButton } from "./Button";
 import { Timecode } from "./Timecode";
-import { HeroVideo } from "./HeroVideo";
 
 const d = (ms: number) => ({ "--delay": `${ms}ms` }) as React.CSSProperties;
 
-/** Portada. Fondo: video si `site.heroVideo.src` tiene archivo; si no, la imagen fija. */
+/** Portada. Su fondo es el último fotograma de la intro, para que el paso sea continuo. */
 export function Hero() {
-  const { src, srcMobile, introSrc, poster, image, imageMobile } = site.heroVideo;
+  const { image, imageMobile } = site.heroImage;
 
   return (
     <section className="relative isolate flex min-h-[100svh] flex-col overflow-hidden" aria-label="Presentación">
       {/* Fondo */}
       <div className="absolute inset-0 -z-10">
-        {src ? (
-          <HeroVideo src={src} srcMobile={srcMobile || undefined} introSrc={introSrc || undefined} poster={poster || undefined} />
-        ) : (
-          <picture>
-            {imageMobile && <source srcSet={imageMobile} media="(orientation: portrait)" />}
-            {/* La portada empieza oculta detrás de la intro: su imagen no debe competir con ella. */}
-            <img src={image} alt="" className="h-full w-full object-cover" fetchPriority="low" decoding="async" />
-          </picture>
-        )}
+        <picture>
+          {imageMobile && <source srcSet={imageMobile} media="(orientation: portrait)" />}
+          {/* La portada empieza oculta detrás de la intro: su imagen no debe competir con ella. */}
+          <img src={image} alt="" className="h-full w-full object-cover" fetchPriority="low" decoding="async" />
+        </picture>
         <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(13,10,8,.6)_0%,rgba(13,10,8,.12)_38%,rgba(13,10,8,.9)_100%)]" />
       </div>
 
@@ -55,7 +50,7 @@ export function Hero() {
           </span>
         </h1>
 
-        <div className="hero-panel glass intro grid gap-6 md:grid-cols-12 md:items-center" style={d(1000)}>
+        <div className="hero-panel glass glass-blur intro grid gap-6 md:grid-cols-12 md:items-center" style={d(1000)}>
           <p className="hero-text text-base text-fg/90 md:col-span-6 md:text-lg">{site.intro}</p>
           <div className="flex flex-wrap gap-3 md:col-span-6 md:justify-end">
             <Button href="/contacto">Reunión sin costo</Button>
