@@ -41,7 +41,7 @@ export default async function ClientTypePage({ params }: Props) {
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-bg via-bg/50 to-bg/30" />
         <div className="container-x pt-40 pb-20">
           <p className="label intro mb-6 text-accent">
-            <Link href="/#para-quien" className="hover:text-fg">Para quién</Link> / {t.name}
+            <Link href="/#para-quien" className="press inline-block py-2 hover:text-fg">Para quién</Link> / {t.name}
           </p>
           <h1 className="display intro max-w-5xl text-[clamp(2.8rem,8vw,7.5rem)]" style={d(120)}>{t.headline}</h1>
           <p className="intro mt-8 max-w-2xl text-lg text-fg/80 md:text-xl" style={d(240)}>{t.intro}</p>
@@ -100,7 +100,7 @@ export default async function ClientTypePage({ params }: Props) {
           <ul className="flex flex-wrap gap-x-10 gap-y-4">
             {others.map((c) => (
               <li key={c.slug}>
-                <Link href={`/para/${c.slug}`} className="display text-2xl text-fg/40 transition-colors hover:text-fg md:text-3xl">{c.name}</Link>
+                <Link href={`/para/${c.slug}`} className="press display inline-block py-1 text-2xl text-fg/70 hover:text-accent md:text-3xl">{c.name}</Link>
               </li>
             ))}
           </ul>

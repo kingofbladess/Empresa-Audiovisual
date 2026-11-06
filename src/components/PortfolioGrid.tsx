@@ -25,9 +25,7 @@ export function PortfolioGrid({ projects }: { projects: Project[] }) {
   };
 
   const chip = (selected: boolean) =>
-    `label shrink-0 border px-4 py-2.5 transition-colors ${
-      selected ? "border-accent bg-accent text-bg" : "border-line-strong text-muted hover:border-fg hover:text-fg"
-    }`;
+    `glass-control label min-h-11 shrink-0 px-4 py-2.5 ${selected ? "" : "text-fg/85"}`;
 
   return (
     <div>

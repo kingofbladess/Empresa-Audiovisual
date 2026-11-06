@@ -5,9 +5,9 @@ import { formatDate } from "@/lib/frame";
 export function JournalCard({ entry }: { entry: JournalEntry }) {
   return (
     <article className="group">
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden rounded-[1.25rem]">
         <Frame media={entry.media} className="aspect-[16/10] w-full" sizes="(min-width:768px) 50vw, 100vw" />
-        <span className="label absolute top-3 left-3 bg-bg/70 px-2 py-1 text-accent backdrop-blur">{entry.tag}</span>
+        <span className="label absolute top-3 left-3 rounded-full border border-line-strong bg-bg/60 px-3 py-1 text-accent backdrop-blur">{entry.tag}</span>
       </div>
       <p className="label mt-4 text-muted">
         <time dateTime={entry.date}>{formatDate(entry.date)}</time>

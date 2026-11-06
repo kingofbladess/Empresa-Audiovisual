@@ -50,7 +50,7 @@ export default async function ProjectPage({ params }: Props) {
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-bg via-bg/30 to-bg/40" />
         <div className="container-x pt-40 pb-16">
           <div className="intro mb-6 flex flex-wrap items-center gap-4">
-            <Link href="/trabajo" className="label text-muted hover:text-fg">← Nuestro trabajo</Link>
+            <Link href="/trabajo" className="press label inline-block py-2 text-muted hover:text-fg">← Nuestro trabajo</Link>
             {p.demo && <DemoBadge />}
           </div>
           <h1 className="display intro text-[clamp(3.4rem,13vw,12rem)]" style={d(120)}>{p.title}</h1>

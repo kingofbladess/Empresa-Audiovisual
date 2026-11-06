@@ -55,7 +55,7 @@ export function ContactForm() {
 
   if (sent) {
     return (
-      <div className="border border-line p-8 md:p-12" role="status">
+      <div className="p-2 md:p-4" role="status">
         <p className="label text-accent">Mensaje preparado</p>
         <h3 className="display mt-4 text-4xl">Gracias, {data.name.split(" ")[0]}.</h3>
         <p className="mt-4 max-w-md text-muted">
@@ -65,7 +65,7 @@ export function ContactForm() {
           </a>
           .
         </p>
-        <button type="button" className="label mt-8 text-muted hover:text-fg" onClick={() => { setSent(false); setData(empty); }}>
+        <button type="button" className="glass-control label mt-8 min-h-11 px-5 py-2.5 text-fg" onClick={() => { setSent(false); setData(empty); }}>
           Escribir otro mensaje
         </button>
       </div>
@@ -122,12 +122,14 @@ export function ContactForm() {
         {err("description")}
       </div>
       <div className="flex flex-wrap items-center gap-4 md:col-span-2">
-        <button type="submit" className="inline-flex items-center gap-3 bg-[#25D366] px-6 py-4 text-[0.78rem] font-semibold tracking-[0.16em] text-[#0a0a0a] uppercase transition hover:brightness-110">
+        <button type="submit" className="press inline-flex min-h-12 items-center gap-3 rounded-full bg-[#25D366] px-7 py-3 font-display text-[1.02rem] font-bold uppercase tracking-[0.08em] text-[#0a0a0a] shadow-[inset_0_1px_0_rgba(255,255,255,.4)] hover:bg-[#3be07f]">
           <WhatsAppIcon className="h-4 w-4" /> Enviar por WhatsApp
         </button>
-        <button type="button" onClick={mailto} className="label px-2 py-4 text-muted hover:text-fg">
-          o enviar por correo
-        </button>
+        {site.email && (
+          <button type="button" onClick={mailto} className="glass-control label min-h-12 px-5 py-2.5 text-fg">
+            Enviar por correo
+          </button>
+        )}
       </div>
     </form>
   );

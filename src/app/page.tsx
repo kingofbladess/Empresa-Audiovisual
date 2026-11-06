@@ -33,10 +33,10 @@ export default function Home() {
     description: site.description,
     url: `https://${site.domain}`,
     telephone: `+${site.whatsapp.number}`,
-    email: site.email,
+    email: site.email || undefined,
     areaServed: "Venezuela",
     address: { "@type": "PostalAddress", addressLocality: "Maracay", addressRegion: "Aragua", addressCountry: "VE" },
-    sameAs: site.social.map((s) => s.href),
+    sameAs: site.social.filter((s) => s.href).map((s) => s.href),
   };
 
   return (

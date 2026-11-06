@@ -51,8 +51,8 @@ export function Hero() {
         </h1>
 
         <div className="hero-panel glass glass-blur intro grid gap-6 md:grid-cols-12 md:items-center" style={d(1000)}>
-          <p className="hero-text text-base text-fg/90 md:col-span-6 md:text-lg">{site.intro}</p>
-          <div className="flex flex-wrap gap-3 md:col-span-6 md:justify-end">
+          <p className="hero-text text-base text-fg/90 md:col-span-5 md:text-lg">{site.intro}</p>
+          <div className="flex flex-wrap gap-3 md:col-span-7 md:justify-end">
             <Button href="/contacto">Reunión sin costo</Button>
             <Button href="/servicios" variant="outline">
               Servicios

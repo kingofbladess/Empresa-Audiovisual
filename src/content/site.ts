@@ -19,8 +19,8 @@ export const site = {
   location: "Maracay, estado Aragua · Online a nivel nacional",
   /** Formulario para conocer mejor a cada cliente. */
   typeform: "https://form.typeform.com/to/vlF2ikCt",
-  /** Provisional: confirmar el correo real. */
-  email: "hola@xploremet.com",
+  /** Correo de contacto. Vacío = no se muestra ni se ofrece enviar por correo. */
+  email: "",
   whatsapp: {
     /** Número en formato internacional, sin "+" ni espacios. */
     number: "584122927546",
@@ -28,11 +28,12 @@ export const site = {
     display: "0412 292 7546",
     defaultMessage: "Hola, quiero conversar sobre un proyecto con el estudio.",
   },
+  /** Enlace completo a cada perfil. Las redes sin enlace no se muestran. */
   social: [
-    { label: "Instagram", href: "https://instagram.com/" },
-    { label: "TikTok", href: "https://tiktok.com/" },
-    { label: "YouTube", href: "https://youtube.com/" },
-    { label: "Behance", href: "https://behance.net/" },
+    { label: "Instagram", href: "" },
+    { label: "TikTok", href: "" },
+    { label: "YouTube", href: "" },
+    { label: "Behance", href: "" },
   ],
   /** Fondo de la portada: el último fotograma de la intro. */
   heroImage: {

@@ -7,7 +7,7 @@ export function TeamCard({ member }: { member: TeamMember }) {
       <div className="relative overflow-hidden rounded-[1.25rem]">
         <Frame media={member.photo} className="aspect-[3/4] w-full grayscale transition-[filter] duration-700 group-hover:grayscale-0" sizes="(min-width:1024px) 25vw, 50vw" />
         {member.placeholder && (
-          <span className="label absolute top-3 left-3 bg-bg/70 px-2 py-1 text-muted backdrop-blur">Perfil por completar</span>
+          <span className="label absolute top-3 left-3 rounded-full border border-line-strong bg-bg/60 px-3 py-1 text-fg/85 backdrop-blur">Perfil por completar</span>
         )}
       </div>
       <p className="label mt-5 text-accent">{member.role}</p>

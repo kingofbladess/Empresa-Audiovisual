@@ -317,7 +317,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
           <span className="mt-2 block h-6 w-px animate-pulse bg-fg/60" />
         </div>
 
-        <button ref={skipBtn} type="button" onClick={skipIntro} className="label absolute top-[5.25rem] right-4 z-20 min-h-10 rounded-full border border-line-strong bg-bg/50 px-4 py-2 text-fg/85 hover:text-fg md:right-8">
+        <button ref={skipBtn} type="button" onClick={skipIntro} className="glass-control label absolute top-[5.25rem] right-4 z-20 min-h-11 px-4 py-2 text-fg md:right-8">
           Saltar intro
         </button>
       </div>

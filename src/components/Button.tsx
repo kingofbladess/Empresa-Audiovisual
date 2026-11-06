@@ -6,13 +6,13 @@ import { waLink } from "@/lib/whatsapp";
 type Variant = "solid" | "outline" | "ghost";
 
 const styles: Record<Variant, string> = {
-  solid: "bg-rec text-white shadow-[0_10px_30px_-10px_rgba(220,47,61,.7)] hover:bg-accent hover:text-[#17110c]",
-  outline: "border border-line-strong bg-white/5 text-fg hover:border-accent hover:text-accent",
-  ghost: "text-fg hover:text-accent px-0!",
+  solid: "press bg-rec text-white shadow-[inset_0_1px_0_rgba(255,255,255,.3),0_10px_30px_-10px_rgba(220,47,61,.7)] hover:bg-accent hover:text-[#17110c]",
+  outline: "glass-control text-fg",
+  ghost: "press text-fg hover:text-accent px-0!",
 };
 
 const base =
-  "group inline-flex min-h-12 items-center gap-3 rounded-full px-7 py-3 font-display text-[1.02rem] font-bold uppercase tracking-[0.08em] transition-colors duration-300";
+  "group inline-flex min-h-12 items-center gap-3 rounded-full px-7 py-3 font-display text-[1.02rem] font-bold uppercase tracking-[0.08em]";
 
 export function Button({ href, children, variant = "solid", className = "" }: { href: string; children: ReactNode; variant?: Variant; className?: string }) {
   return (

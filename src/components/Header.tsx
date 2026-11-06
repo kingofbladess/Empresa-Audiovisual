@@ -52,10 +52,10 @@ export function Header() {
               <li key={item.href}>
                 <Link
                   href={item.href}
-                  className={`label relative py-2 transition-colors hover:text-fg ${isActive(item.href) ? "text-fg" : "text-muted"}`}
+                  className={`press label relative inline-block py-3 hover:text-fg ${isActive(item.href) ? "text-fg" : "text-muted"}`}
                 >
                   {item.label}
-                  {isActive(item.href) && <span className="absolute -bottom-0.5 left-0 h-px w-full bg-accent" />}
+                  {isActive(item.href) && <span className="absolute bottom-1 left-0 h-px w-full bg-accent" />}
                 </Link>
               </li>
             ))}
@@ -66,13 +66,13 @@ export function Header() {
             href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="label hidden rounded-full border border-line-strong bg-white/5 px-5 py-2.5 text-fg transition-colors hover:border-accent hover:text-accent sm:block"
+            className="glass-control label hidden px-5 py-2.5 text-fg sm:block"
           >
             Hablemos
           </a>
           <button
             type="button"
-            className="relative h-10 w-10 lg:hidden"
+            className="press relative h-11 w-11 lg:hidden"
             aria-label={open ? "Cerrar menú" : "Abrir menú"}
             aria-expanded={open}
             onClick={() => setOpen((v) => !v)}
@@ -85,7 +85,7 @@ export function Header() {
 
       {/* Menú móvil */}
       <div
-        className={`fixed inset-x-0 top-18 bottom-0 bg-bg transition-[opacity,visibility] duration-500 lg:hidden ${
+        className={`fixed inset-x-0 top-18 bottom-0 bg-[#140f0b] transition-[opacity,visibility] duration-500 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
         }`}
         style={{ height: "calc(100dvh - 4.5rem)" }}
@@ -94,7 +94,7 @@ export function Header() {
           <ul className="space-y-2">
             {nav.map((item, i) => (
               <li key={item.href} className={open ? "intro" : ""} style={{ "--delay": `${i * 60}ms` } as React.CSSProperties}>
-                <Link href={item.href} className={`display block py-2 text-5xl ${isActive(item.href) ? "text-accent" : ""}`}>
+                <Link href={item.href} className={`press display block py-2 text-5xl ${isActive(item.href) ? "text-accent" : ""}`}>
                   {item.label}
                 </Link>
               </li>

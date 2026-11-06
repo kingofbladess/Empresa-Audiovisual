@@ -71,9 +71,9 @@ body::before {
   pointer-events: none;
   transform: translateZ(0);
   background:
-    radial-gradient(52vmax 42vmax at 88% 6%, rgba(254, 211, 64, 0.17), transparent 70%),
-    radial-gradient(48vmax 42vmax at 4% 48%, rgba(220, 47, 61, 0.15), transparent 70%),
-    radial-gradient(60vmax 46vmax at 78% 100%, rgba(181, 131, 90, 0.26), transparent 72%);
+    radial-gradient(52vmax 42vmax at 88% 6%, rgba(254, 211, 64, 0.22), transparent 70%),
+    radial-gradient(48vmax 42vmax at 4% 48%, rgba(220, 47, 61, 0.2), transparent 70%),
+    radial-gradient(60vmax 46vmax at 78% 100%, rgba(181, 131, 90, 0.3), transparent 72%);
 }
 
 /* Grano de película fijo: animado obligaba a repintar toda la pantalla. */
@@ -88,6 +88,9 @@ body::after {
 }
 
 /* Utilidades tipográficas */
+p {
+  text-wrap: pretty;
+}
 .display {
   font-family: var(--font-display), sans-serif;
   font-weight: 800;
@@ -128,6 +131,9 @@ body::after {
 @media (orientation: portrait) {
   .hero-title { font-size: min(25vw, 15svh); }
 }
+@media (max-height: 820px) {
+  .hero-meta { display: none; }
+}
 @media (max-height: 720px) {
   .hero-text { display: none; }
   .hero-panel { display: block; }
@@ -160,12 +166,44 @@ body::after {
 
 /* Vidrio. Las tarjetas van sobre la luz ambiental, un degradado suave: difuminarlo no
    cambiaría casi nada y costaría fluidez, así que el blur real queda solo donde hay
-   imagen detrás (.glass-blur y el menú). */
+   imagen detrás (.glass-blur y el menú). El brillo del borde y el reflejo dan el material. */
+.glass,
+.glass-control {
+  background:
+    linear-gradient(115deg, rgba(255, 255, 255, 0.09), transparent 34%),
+    linear-gradient(140deg, rgba(255, 244, 230, 0.1), rgba(255, 244, 230, 0.03));
+  border: 1px solid rgba(255, 244, 230, 0.17);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 24px 48px -28px rgba(0, 0, 0, 0.85);
+}
 .glass {
-  background: linear-gradient(140deg, rgba(255, 244, 230, 0.11), rgba(255, 244, 230, 0.035));
-  border: 1px solid rgba(255, 244, 230, 0.15);
   border-radius: 1.25rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 24px 48px -28px rgba(0, 0, 0, 0.8);
+}
+.glass-control {
+  border-radius: 999px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 20px -12px rgba(0, 0, 0, 0.8);
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
+}
+.glass-control:hover {
+  border-color: rgba(254, 211, 64, 0.65);
+  color: var(--accent);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 10px 24px -10px rgba(254, 211, 64, 0.28);
+}
+.glass-control[aria-pressed="true"] {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #17110c;
+}
+/* Todo lo que se pulsa responde al dedo, también en móvil. */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+.press {
+  transition: transform 0.15s, background-color 0.2s, border-color 0.2s, color 0.2s, opacity 0.2s;
+}
+.press:active,
+.glass-control:active {
+  transform: scale(0.97);
 }
 .glass-blur,
 .glass-bar {
@@ -182,9 +220,16 @@ body::after {
   backdrop-filter: none;
   background: rgba(20, 15, 11, 0.78);
 }
+.glass-hover {
+  transition: translate 0.25s, background 0.25s, border-color 0.25s;
+}
 .glass-hover:hover {
-  background: linear-gradient(140deg, rgba(254, 211, 64, 0.14), rgba(255, 244, 230, 0.04));
+  translate: 0 -2px;
+  background: linear-gradient(140deg, rgba(254, 211, 64, 0.15), rgba(255, 244, 230, 0.04));
   border-color: rgba(254, 211, 64, 0.5);
+}
+.glass-hover:active {
+  translate: 0 0;
 }
 @media (max-width: 767px) {
   :root { --glass-blur: 10px; --bar: 0px; }
@@ -195,7 +240,7 @@ body::after {
   .glass-bar { background: var(--bg); }
 }
 @media (prefers-reduced-transparency: reduce) {
-  .glass { background: var(--panel); }
+  .glass, .glass-control { background: var(--panel); }
   .glass-blur { background: var(--panel); backdrop-filter: none; -webkit-backdrop-filter: none; }
   .glass-bar { background: var(--bg); backdrop-filter: none; -webkit-backdrop-filter: none; }
 }
@@ -288,26 +333,36 @@ body::after {
 /* Campos del formulario */
 .field {
   width: 100%;
-  background: transparent;
-  border: 0;
-  border-bottom: 1px solid var(--line-strong);
-  padding: 0.85rem 0;
+  margin-top: 0.5rem;
+  min-height: 3rem;
+  background: rgba(255, 244, 230, 0.06);
+  border: 1px solid rgba(255, 244, 230, 0.2);
+  border-radius: 0.875rem;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 0.75rem 1rem;
   color: var(--fg);
   font-size: 1.05rem;
   outline: none;
-  border-radius: 0;
-  transition: border-color 0.3s;
+  transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
+}
+.field:hover {
+  border-color: rgba(255, 244, 230, 0.4);
 }
 .field:focus {
+  background: rgba(255, 244, 230, 0.09);
   border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(254, 211, 64, 0.2);
+}
+.field[aria-invalid="true"] {
+  border-color: #ff7b85;
 }
 .field::placeholder {
-  color: #8f877d;
+  color: #bdb4aa;
 }
 select.field {
   appearance: none;
   background-image: linear-gradient(45deg, transparent 50%, var(--muted) 50%), linear-gradient(135deg, var(--muted) 50%, transparent 50%);
-  background-position: calc(100% - 14px) 55%, calc(100% - 9px) 55%;
+  background-position: calc(100% - 20px) 55%, calc(100% - 15px) 55%;
   background-size: 5px 5px;
   background-repeat: no-repeat;
 }

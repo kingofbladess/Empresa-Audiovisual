@@ -6,9 +6,9 @@ export function ClientsWall({ clients }: { clients: ClientLogo[] }) {
   const anyDemo = clients.some((c) => c.demo);
   return (
     <div>
-      <ul className="grid grid-cols-2 border-t border-l border-line sm:grid-cols-3 lg:grid-cols-4" role="list">
+      <ul className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4" role="list">
         {clients.map((c, i) => (
-          <li key={c.name} className="group relative flex aspect-[3/2] flex-col items-center justify-center border-r border-b border-line p-4 text-center transition-colors hover:bg-panel">
+          <li key={c.name} className="glass glass-hover group relative flex aspect-[3/2] flex-col items-center justify-center p-4 text-center transition-colors hover:bg-panel">
             {c.logo ? (
               <Image src={c.logo} alt={c.name} width={160} height={60} className="h-10 w-auto opacity-70 grayscale transition group-hover:opacity-100 group-hover:grayscale-0" />
             ) : (

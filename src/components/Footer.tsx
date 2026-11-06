@@ -5,8 +5,9 @@ import { Logo } from "./Logo";
 import { waLink } from "@/lib/whatsapp";
 
 export function Footer() {
+  const socials = site.social.filter((s) => s.href);
   return (
-    <footer className="border-t border-line bg-bg-2">
+    <footer className="glass-bar">
       <div className="container-x py-20">
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
@@ -21,18 +22,20 @@ export function Footer() {
             >
               {site.whatsapp.display}
             </a>
-            <p className="mt-2 text-muted">
-              <a href={`mailto:${site.email}`} className="hover:text-fg">
-                {site.email}
-              </a>
-            </p>
+            {site.email && (
+              <p className="mt-2 text-muted">
+                <a href={`mailto:${site.email}`} className="press inline-block py-1.5 hover:text-fg">
+                  {site.email}
+                </a>
+              </p>
+            )}
           </div>
           <div className="md:col-span-2">
             <p className="label mb-5 text-accent">Menú</p>
-            <ul className="space-y-2.5">
+            <ul>
               {nav.map((n) => (
                 <li key={n.href}>
-                  <Link href={n.href} className="text-muted hover:text-fg">
+                  <Link href={n.href} className="press inline-block py-1.5 text-muted hover:text-fg">
                     {n.label}
                   </Link>
                 </li>
@@ -41,28 +44,30 @@ export function Footer() {
           </div>
           <div className="md:col-span-3">
             <p className="label mb-5 text-accent">Servicios</p>
-            <ul className="space-y-2.5">
+            <ul>
               {services.map((s) => (
                 <li key={s.slug}>
-                  <Link href={`/servicios#${s.slug}`} className="text-muted hover:text-fg">
+                  <Link href={`/servicios#${s.slug}`} className="press inline-block py-1.5 text-muted hover:text-fg">
                     {s.name}
                   </Link>
                 </li>
               ))}
             </ul>
           </div>
-          <div className="md:col-span-2">
-            <p className="label mb-5 text-accent">Redes</p>
-            <ul className="space-y-2.5">
-              {site.social.map((s) => (
-                <li key={s.label}>
-                  <a href={s.href} target="_blank" rel="noopener noreferrer" className="text-muted hover:text-fg">
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          {socials.length > 0 && (
+            <div className="md:col-span-2">
+              <p className="label mb-5 text-accent">Redes</p>
+              <ul>
+                {socials.map((s) => (
+                  <li key={s.label}>
+                    <a href={s.href} target="_blank" rel="noopener noreferrer" className="press inline-block py-1.5 text-muted hover:text-fg">
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
         <div className="label mt-20 flex flex-col justify-between gap-3 border-t border-line pt-6 text-muted md:flex-row">
           <p>
