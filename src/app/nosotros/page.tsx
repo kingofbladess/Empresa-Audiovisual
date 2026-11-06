@@ -1,94 +1,97 @@
 import type { Metadata } from "next";
 import { PageHeader, SectionHeading } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
-import { Frame } from "@/components/Frame";
 import { ClientsWall } from "@/components/ClientsWall";
 import { CtaBand } from "@/components/CtaBand";
+import { XMark } from "@/components/Icons";
 import { about } from "@/content/about";
 import { clients } from "@/content/clients";
 import { site } from "@/content/site";
 
 export const metadata: Metadata = {
   title: "Nosotros",
-  description: "Misión, visión, objetivos y valores del estudio creativo y productora audiovisual.",
+  description: "Misión, visión, valores y proceso de XploreMet Prod, productora de estrategia y marca en Maracay, Venezuela.",
   alternates: { canonical: "/nosotros" },
 };
 
 export default function NosotrosPage() {
   return (
     <>
-      <PageHeader scene="Nosotros" title={<>Una forma de <span className="serif text-accent">mirar</span></>} intro={site.manifesto} />
+      <PageHeader scene="Nosotros" title={<>La <span className="text-rec">X</span> marca <span className="serif text-accent">la meta</span></>} intro={about.proposition} />
 
-      <section className="container-x">
-        <Frame media={{ alt: "Plano panorámico del estudio", palette: ["#070605", "#2a2016", "#c9a66b"] }} drift className="aspect-[2.39/1] w-full" />
-      </section>
-
-      <section className="container-x grid gap-px py-24 md:grid-cols-2 md:py-36">
+      <section className="container-x grid gap-4 pb-20 md:grid-cols-2 md:pb-28">
         {[
           { k: "Misión", v: about.mission },
           { k: "Visión", v: about.vision },
         ].map((b, i) => (
-          <Reveal key={b.k} delay={i * 120} className="border-t border-line pt-8 md:pr-12">
-            <p className="label text-accent">{b.k}</p>
-            <p className="mt-6 text-xl leading-relaxed md:text-2xl">{b.v}</p>
+          <Reveal key={b.k} delay={i * 120} className="glass p-8 md:p-12">
+            <h2 className="display text-5xl text-accent">{b.k}</h2>
+            <p className="mt-5 text-lg leading-relaxed text-fg/90 md:text-xl">{b.v}</p>
           </Reveal>
         ))}
       </section>
 
-      <section className="border-t border-line bg-bg-2 py-24 md:py-36">
-        <div className="container-x grid gap-14 md:grid-cols-12">
-          <Reveal className="md:col-span-5">
-            <p className="label text-accent">Objetivo general</p>
-            <p className="display mt-6 text-[clamp(1.7rem,3vw,2.7rem)] leading-[1.02]">{about.goal}</p>
-          </Reveal>
-          <div className="md:col-span-6 md:col-start-7">
-            <p className="label mb-6 text-accent">Objetivos específicos</p>
-            <ol className="border-t border-line">
-              {about.objectives.map((o, i) => (
-                <Reveal as="li" key={i} delay={i * 70} className="grid grid-cols-[3rem_1fr] gap-4 border-b border-line py-5">
-                  <span className="label pt-1 text-muted">0{i + 1}</span>
-                  <span className="text-fg/85 md:text-lg">{o}</span>
-                </Reveal>
-              ))}
-            </ol>
-          </div>
+      <section className="cv border-t border-line bg-bg-2 py-20 md:py-28">
+        <div className="container-x">
+          <SectionHeading scene="Valores" title={<>Lo que <span className="serif text-accent">nos mueve</span></>} />
+          <ul className="mt-12 grid gap-4 sm:grid-cols-2 lg:grid-cols-5" role="list">
+            {about.values.map((v, i) => (
+              <Reveal as="li" key={v.name} delay={i * 80} className="glass overflow-hidden p-7">
+                <span className="block h-1.5 w-12 rounded-full" style={{ background: v.color }} />
+                <h3 className="display mt-6 text-[2.3rem]" style={{ color: v.color }}>{v.name}</h3>
+                <p className="mt-3 text-base text-muted">{v.text}</p>
+              </Reveal>
+            ))}
+          </ul>
         </div>
       </section>
 
-      <section className="container-x py-24 md:py-36">
-        <SectionHeading scene="Valores" title={<>Lo que <span className="serif text-accent">no negociamos</span></>} />
-        <ul className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2 lg:grid-cols-4" role="list">
-          {about.values.map((v, i) => (
-            <Reveal as="li" key={v.name} delay={(i % 4) * 80} className="group bg-bg p-8 transition-colors hover:bg-panel">
-              <span className="label text-muted">0{i + 1}</span>
-              <p className="display mt-8 text-3xl transition-colors group-hover:text-accent">{v.name}</p>
-              <p className="mt-3 text-muted">{v.text}</p>
+      <section className="cv container-x py-20 md:py-28">
+        <SectionHeading scene="Nuestra personalidad" title={<>Dos arquetipos, <span className="serif text-accent">una marca</span></>} />
+        <div className="mt-12 grid gap-4 md:grid-cols-2">
+          {about.archetypes.map((a, i) => (
+            <Reveal key={a.name} delay={i * 100} className="glass p-8 md:p-10">
+              <h3 className={`text-[clamp(2.6rem,11vw,3.75rem)] ${i === 0 ? "display italic" : "serif leading-none text-sand"}`}>{a.name}</h3>
+              <p className="mt-4 text-lg text-fg/85">{a.text}</p>
             </Reveal>
           ))}
-          <li className="hidden items-end bg-bg p-8 lg:flex">
-            <p className="serif text-3xl text-fg/60">Y una obsesión por el detalle.</p>
-          </li>
-        </ul>
+        </div>
       </section>
 
-      <section className="border-t border-line py-24 md:py-36">
+      <section className="cv border-t border-line py-20 md:py-28">
         <div className="container-x">
-          <SectionHeading scene="Método" title={<>Cómo <span className="serif text-fg/60">trabajamos</span></>} />
-          <ol className="mt-16 grid gap-10 md:grid-cols-4">
+          <SectionHeading scene="Proceso" title={<>Cómo <span className="serif text-accent">trabajamos</span></>} />
+          <ol className="mt-12 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {about.method.map((m, i) => (
-              <Reveal as="li" key={m.step} delay={i * 100}>
-                <p className="display text-7xl text-accent/80">{m.step}</p>
-                <p className="display mt-4 text-3xl">{m.name}</p>
-                <p className="mt-3 text-muted">{m.text}</p>
+              <Reveal as="li" key={m.step} delay={i * 100} className="glass p-7">
+                <div className="flex items-center justify-between">
+                  <span className="display text-6xl text-accent">{m.step}</span>
+                  {i === about.method.length - 1 && <XMark className="h-8 w-8 text-rec" />}
+                </div>
+                <h3 className="display mt-5 text-[2rem]">{m.name}</h3>
+                <p className="mt-3 text-base text-muted">{m.text}</p>
               </Reveal>
             ))}
           </ol>
         </div>
       </section>
 
-      <section className="container-x border-t border-line py-24 md:py-36">
-        <SectionHeading scene="Confianza" title={<>Marcas y personas <span className="serif text-fg/60">que confían</span></>} />
-        <div className="mt-16">
+      <section className="cv border-t border-line bg-bg-2 py-20 md:py-28">
+        <div className="container-x grid gap-4 md:grid-cols-2">
+          <Reveal className="glass p-8 md:p-10">
+            <p className="label text-accent">Dónde estamos</p>
+            <p className="mt-4 text-xl text-fg/90">{site.location}</p>
+          </Reveal>
+          <Reveal delay={100} className="glass p-8 md:p-10">
+            <p className="label text-accent">Disponibilidad</p>
+            <p className="mt-4 text-xl text-fg/90">{about.availability}</p>
+          </Reveal>
+        </div>
+      </section>
+
+      <section className="cv container-x py-20 md:py-28">
+        <SectionHeading scene="Confianza" title={<>Marcas y personas <span className="serif text-accent">que confían</span></>} />
+        <div className="mt-12">
           <ClientsWall clients={clients} />
         </div>
       </section>

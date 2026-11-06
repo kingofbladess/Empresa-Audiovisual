@@ -1,21 +1,22 @@
-import Image from "next/image";
 import Link from "next/link";
 import { site } from "@/content/site";
+import { LogoReplay } from "./brand/LogoReplay";
 
-/** Logotipo provisional: usa `site.logo` si existe; si no, compone el nombre. */
-export function Logo({ className = "" }: { className?: string }) {
+/**
+ * Logo del menú y del pie. Son archivos SVG con su propia animación (public/brand):
+ * así el dibujo, muy detallado, no pesa en el HTML ni en el JavaScript de cada página.
+ */
+export function Logo({ className = "", size = "sm" }: { className?: string; size?: "sm" | "lg" }) {
+  const big = size === "lg";
   return (
-    <Link href="/" className={`flex items-center gap-3 ${className}`} aria-label={`${site.name}, ir al inicio`}>
-      {site.logo ? (
-        <Image src={site.logo} alt={site.name} width={140} height={32} className="h-7 w-auto" />
-      ) : (
-        <>
-          <span className="relative grid h-7 w-7 place-items-center border border-fg/80">
-            <span className="h-3 w-3 rounded-full bg-accent" />
-          </span>
-          <span className="display text-xl tracking-[0.02em]">{site.name}</span>
-        </>
-      )}
+    <Link href="/" className={`group flex items-center gap-3 text-fg ${className}`} aria-label={`${site.name}, ir al inicio`}>
+      <LogoReplay>
+        {/* Con next/image el SVG perdería su animación */}
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src={big ? "/brand/isotipo-grande.svg" : "/brand/isotipo.svg"} alt="" width={1000} height={1000} className={`overflow-visible ${big ? "h-16 w-16" : "h-10 w-10"}`} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/brand/logotipo.svg" alt="" width={2000} height={261} className={big ? "h-7 w-auto" : "h-[0.95rem] w-auto"} />
+      </LogoReplay>
     </Link>
   );
 }

@@ -22,12 +22,13 @@ export default function EquipoPage() {
         intro="Un equipo multidisciplinario que combina cine, fotografía, diseño y estrategia en cada proyecto."
       />
       <section className="container-x pb-28">
+        <h2 className="sr-only">Integrantes del equipo</h2>
         {team.some((m) => m.placeholder) && (
-          <p className="mb-12 max-w-3xl border-l-2 border-accent pl-4 text-sm text-muted">
+          <p className="glass mb-10 max-w-3xl px-5 py-4 text-base text-fg/85">
             Estructura del equipo por especialidad. Los perfiles se completarán con las fotografías y nombres de cada integrante.
           </p>
         )}
-        <div className="grid gap-x-6 gap-y-16 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {team.map((m, i) => (
             <Reveal key={m.slug} delay={(i % 4) * 80}>
               <TeamCard member={m} />
@@ -41,16 +42,16 @@ export default function EquipoPage() {
           <SectionHeading scene="Bitácora creativa" title={<>Desde <span className="serif text-accent">el set</span></>}>
             Procesos de producción, detrás de cámaras, proyectos en desarrollo y experiencias del equipo.
           </SectionHeading>
-          <div className="mt-16 grid gap-x-8 gap-y-16 md:mt-24 md:grid-cols-2">
+          <div className="mt-14 grid gap-5 md:mt-20 md:grid-cols-2">
             {journal.map((e, i) => (
-              <Reveal key={e.slug} delay={(i % 2) * 120} className={i % 2 ? "md:mt-24" : ""}>
+              <Reveal key={e.slug} delay={(i % 2) * 120} >
                 <JournalCard entry={e} />
               </Reveal>
             ))}
           </div>
         </div>
       </section>
-      <CtaBand title="¿Quieres sumarte?" subtitle="Siempre buscamos talento." message="Hola, me gustaría formar parte del equipo del estudio." />
+      <CtaBand title="¿Quieres sumarte?" subtitle="Siempre buscamos talento" message="Hola, me gustaría formar parte del equipo del estudio." />
     </>
   );
 }

@@ -6,13 +6,13 @@ import { waLink } from "@/lib/whatsapp";
 type Variant = "solid" | "outline" | "ghost";
 
 const styles: Record<Variant, string> = {
-  solid: "bg-fg text-bg hover:bg-accent",
-  outline: "border border-line-strong text-fg hover:border-accent hover:text-accent",
-  ghost: "text-fg hover:text-accent px-0!",
+  solid: "press bg-rec text-white shadow-[inset_0_1px_0_rgba(255,255,255,.3),0_10px_30px_-10px_rgba(220,47,61,.7)] hover:bg-accent hover:text-on-accent",
+  outline: "glass-control text-fg",
+  ghost: "press text-fg hover:text-accent px-0!",
 };
 
 const base =
-  "group inline-flex items-center gap-3 px-6 py-3.5 text-[0.78rem] font-semibold uppercase tracking-[0.16em] transition-colors duration-300";
+  "group inline-flex min-h-12 items-center gap-3 rounded-full px-7 py-3 font-display text-[1.02rem] font-bold uppercase tracking-[0.08em]";
 
 export function Button({ href, children, variant = "solid", className = "" }: { href: string; children: ReactNode; variant?: Variant; className?: string }) {
   return (
@@ -29,6 +29,16 @@ export function WhatsAppButton({ message, children = "Escríbenos por WhatsApp",
     <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className={`${base} ${styles[variant]} ${className}`}>
       <WhatsAppIcon className="h-4 w-4" />
       {children}
+    </a>
+  );
+}
+
+/** Botón hacia un sitio externo (se abre en otra pestaña). */
+export function ExternalButton({ href, children, variant = "outline", className = "" }: { href: string; children: ReactNode; variant?: Variant; className?: string }) {
+  return (
+    <a href={href} target="_blank" rel="noopener noreferrer" className={`${base} ${styles[variant]} ${className}`}>
+      {children}
+      <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
     </a>
   );
 }

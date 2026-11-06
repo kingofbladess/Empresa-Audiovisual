@@ -2,85 +2,92 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { PageHeader } from "@/components/SectionHeading";
 import { Reveal } from "@/components/Reveal";
-import { Frame } from "@/components/Frame";
 import { WhatsAppButton, Button } from "@/components/Button";
+import { XMark } from "@/components/Icons";
 import { CtaBand } from "@/components/CtaBand";
 import { services } from "@/content/services";
 import { clientTypes } from "@/content/clientTypes";
+import { about } from "@/content/about";
 import { serviceMessage } from "@/lib/whatsapp";
 
 export const metadata: Metadata = {
   title: "Servicios",
-  description: "Dirección creativa, dirección cinematográfica, producción audiovisual y fotográfica, branding y estrategia para redes sociales.",
+  description: "Estrategia, estudio de mercado, branding, manual de marca, contenido, campañas y acompañamiento. Cada servicio tiene una meta concreta y se cotiza por secciones.",
   alternates: { canonical: "/servicios" },
 };
 
 export default function ServiciosPage() {
   return (
     <>
-      <PageHeader scene="Servicios" title={<>Del concepto <span className="serif text-accent">al resultado</span></>} intro="Organizamos nuestro trabajo en seis especialidades que se combinan según lo que necesite cada proyecto." />
+      <PageHeader
+        scene="Servicios"
+        title={<>Cada servicio tiene <span className="serif text-accent">su X</span></>}
+        intro="Trabajamos por secciones: eliges lo que tu marca necesita hoy y sumas lo demás cuando llegue el momento. Los precios son una referencia y se ajustan en la reunión."
+      />
 
-      <nav aria-label="Especialidades" className="container-x mb-10">
-        <ul className="flex flex-wrap gap-2">
-          {services.map((s) => (
-            <li key={s.slug}>
-              <a href={`#${s.slug}`} className="label inline-block border border-line-strong px-4 py-2.5 text-muted transition-colors hover:border-accent hover:text-accent">
-                {s.index} {s.name}
-              </a>
-            </li>
+      <section className="container-x pb-16 md:pb-24">
+        <p className="label mb-5 text-accent">Cómo empezamos</p>
+        <ol className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {about.start.map((s, i) => (
+            <Reveal as="li" key={s.name} delay={i * 80} className="glass p-6">
+              <span className="display text-4xl text-accent">0{i + 1}</span>
+              <h2 className="display mt-3 text-[1.9rem]">{s.name}</h2>
+              <p className="mt-2 text-base text-muted">{s.text}</p>
+            </Reveal>
           ))}
-        </ul>
-      </nav>
+        </ol>
+      </section>
 
-      {services.map((s, i) => {
-        const forTypes = clientTypes.filter((c) => c.services.includes(s.slug));
-        return (
-          <section key={s.slug} id={s.slug} className="scroll-mt-24 border-t border-line">
-            <div className="container-x grid gap-10 py-20 md:grid-cols-12 md:gap-14 md:py-28">
-              <Reveal className={`md:col-span-5 ${i % 2 ? "md:order-2 md:col-start-8" : ""}`}>
-                <Frame media={s.media} className="aspect-[4/5] w-full" drift sizes="(min-width:768px) 40vw, 100vw" />
-              </Reveal>
-              <div className={`md:col-span-6 ${i % 2 ? "md:order-1 md:col-start-1" : "md:col-start-7"}`}>
-                <Reveal>
-                  <p className="label text-accent">{s.index} · Especialidad</p>
-                  <h2 className="display mt-5 text-[clamp(2.4rem,5vw,4.6rem)]">{s.name}</h2>
-                  <p className="serif mt-4 text-3xl text-fg/80">{s.short}</p>
-                  <p className="mt-6 text-lg text-muted">{s.description}</p>
-                </Reveal>
-                <Reveal delay={120}>
-                  <ul className="mt-10 grid gap-x-8 sm:grid-cols-2" role="list">
-                    {s.items.map((item) => (
-                      <li key={item} className="flex gap-3 border-b border-line py-3.5">
-                        <span className="mt-2.5 h-1 w-3 shrink-0 bg-accent" />
-                        <span>{item}</span>
-                      </li>
+      <section className="container-x pb-10">
+        <div className="grid gap-5 lg:grid-cols-2">
+          {services.map((s) => {
+            const forTypes = clientTypes.filter((c) => c.services.includes(s.slug));
+            return (
+              <Reveal as="article" key={s.slug} className="glass flex scroll-mt-28 flex-col p-7 md:p-9">
+                <span id={s.slug} className="block scroll-mt-28" />
+                <div className="flex items-start justify-between gap-4">
+                  <span className="label pt-1 text-accent">{s.index}</span>
+                  {s.price && <span className="label rounded-2xl border border-line-strong bg-white/5 px-4 py-1.5 text-right text-fg">{s.price}</span>}
+                </div>
+                <h2 className="display mt-5 text-[clamp(2.3rem,3.6vw,3.2rem)]">{s.name}</h2>
+                <p className="serif mt-3 text-[1.6rem] leading-snug text-sand">{s.short}</p>
+                <p className="mt-4 text-fg/85">{s.description}</p>
+                <ul className="mt-5 grid gap-x-6 gap-y-2 sm:grid-cols-2" role="list">
+                  {s.items.map((item) => (
+                    <li key={item} className="flex gap-3 text-base text-muted">
+                      <span className="mt-[0.7em] h-0.5 w-3 shrink-0 bg-accent" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+                <div className="mt-6 flex gap-4 rounded-2xl border border-rec/40 bg-rec/10 p-5">
+                  <XMark className="mt-0.5 h-6 w-6 shrink-0 text-rec" />
+                  <p className="font-semibold text-fg">{s.goal}</p>
+                </div>
+                {forTypes.length > 0 && (
+                  <p className="mt-5 text-base text-muted">
+                    Ideal para:{" "}
+                    {forTypes.map((c, j) => (
+                      <span key={c.slug}>
+                        <Link href={`/para/${c.slug}`} className="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-accent">
+                          {c.name.toLowerCase()}
+                        </Link>
+                        {j < forTypes.length - 1 ? ", " : "."}
+                      </span>
                     ))}
-                  </ul>
-                  {forTypes.length > 0 && (
-                    <p className="mt-8 text-sm text-muted">
-                      Ideal para:{" "}
-                      {forTypes.map((c, j) => (
-                        <span key={c.slug}>
-                          <Link href={`/para/${c.slug}`} className="text-fg underline decoration-line-strong underline-offset-4 hover:decoration-accent">
-                            {c.name.toLowerCase()}
-                          </Link>
-                          {j < forTypes.length - 1 ? ", " : "."}
-                        </span>
-                      ))}
-                    </p>
-                  )}
-                  <div className="mt-10 flex flex-wrap gap-3">
-                    <WhatsAppButton message={serviceMessage(s.name)} variant="solid">Consultar este servicio</WhatsAppButton>
-                    <Button href={`/contacto?servicio=${s.slug}`} variant="ghost">Formulario</Button>
-                  </div>
-                </Reveal>
-              </div>
-            </div>
-          </section>
-        );
-      })}
+                  </p>
+                )}
+                <div className="mt-auto flex flex-wrap gap-3 pt-7">
+                  <WhatsAppButton message={serviceMessage(s.name)} variant="solid">Consultar</WhatsAppButton>
+                  <Button href={`/contacto?servicio=${s.slug}`} variant="outline">Formulario</Button>
+                </div>
+              </Reveal>
+            );
+          })}
+        </div>
+      </section>
 
-      <CtaBand title="¿No sabes por dónde empezar?" subtitle="Te ayudamos a definirlo." />
+      <CtaBand title="¿No sabes por dónde empezar?" subtitle="Te ayudamos a encontrar tu X" />
     </>
   );
 }

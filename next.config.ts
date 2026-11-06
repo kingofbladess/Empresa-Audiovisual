@@ -8,8 +8,9 @@ const securityHeaders = [
 ];
 
 const nextConfig: NextConfig = {
-  // Salida autocontenida para Docker (Dokploy). En Vercel se ignora.
-  output: "standalone",
+  // Salida autocontenida para Docker (Dokploy). En Netlify no hace falta:
+  // su adaptador empaqueta la web a su manera (Netlify define NETLIFY=true al compilar).
+  ...(process.env.NETLIFY ? {} : { output: "standalone" as const }),
   poweredByHeader: false,
   images: { formats: ["image/avif", "image/webp"] },
   async headers() {
