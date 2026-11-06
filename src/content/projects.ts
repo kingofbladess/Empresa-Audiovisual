@@ -30,7 +30,7 @@ export const projects: Project[] = [
     demo: true,
     featured: true,
     categories: ["videoclips", "direccion-creativa", "marcas-personales"],
-    services: ["direccion-creativa", "direccion-cinematografica", "produccion-audiovisual"],
+    services: ["direccion-creativa", "identidad-audiovisual", "contenido"],
     clientType: "artistas",
     logline: "Videoclip y universo visual para un lanzamiento de pop alternativo.",
     concept:
@@ -62,7 +62,7 @@ export const projects: Project[] = [
     demo: true,
     featured: true,
     categories: ["identidad-corporativa", "marcas-comerciales", "redes"],
-    services: ["branding", "produccion-fotografica", "estrategia-redes"],
+    services: ["branding", "productos-ventas", "expansion-redes"],
     clientType: "empresas",
     logline: "Marca completa para una cafetería de especialidad, desde el nombre hasta Instagram.",
     concept:
@@ -89,7 +89,7 @@ export const projects: Project[] = [
     demo: true,
     featured: true,
     categories: ["fotografia-productos", "campanas"],
-    services: ["produccion-fotografica", "produccion-audiovisual", "direccion-creativa"],
+    services: ["productos-ventas", "contenido", "direccion-creativa"],
     clientType: "productos",
     logline: "Campaña de lanzamiento para un perfume: fotografía de producto y comercial de 30 segundos.",
     concept:
@@ -116,7 +116,7 @@ export const projects: Project[] = [
     demo: true,
     featured: true,
     categories: ["cortometrajes", "cine"],
-    services: ["direccion-cinematografica", "produccion-audiovisual"],
+    services: ["identidad-audiovisual", "contenido"],
     clientType: "cine",
     logline: "Cortometraje de ficción sobre dos hermanos que vacían la casa de su madre.",
     concept:
@@ -142,7 +142,7 @@ export const projects: Project[] = [
     year: "2025",
     demo: true,
     categories: ["marcas-personales", "redes", "identidad-corporativa"],
-    services: ["branding", "estrategia-redes", "produccion-fotografica"],
+    services: ["branding", "expansion-redes", "productos-ventas"],
     clientType: "emprendedores",
     logline: "Marca personal desde cero para una ceramista que lanza su tienda en línea.",
     concept:
@@ -168,7 +168,7 @@ export const projects: Project[] = [
     year: "2026",
     demo: true,
     categories: ["campanas", "redes", "marcas-comerciales"],
-    services: ["direccion-creativa", "produccion-audiovisual", "estrategia-redes"],
+    services: ["direccion-creativa", "contenido", "expansion-redes"],
     clientType: "productos",
     logline: "Campaña de temporada para ropa deportiva, pensada primero para formato vertical.",
     concept:
@@ -194,7 +194,7 @@ export const projects: Project[] = [
     year: "2025",
     demo: true,
     categories: ["marcas-personales", "direccion-creativa", "videoclips"],
-    services: ["direccion-creativa", "produccion-fotografica", "estrategia-redes"],
+    services: ["direccion-creativa", "productos-ventas", "expansion-redes"],
     clientType: "artistas",
     logline: "Identidad artística y fotografía de álbum para un dúo de música electrónica.",
     concept:
@@ -220,7 +220,7 @@ export const projects: Project[] = [
     year: "2026",
     demo: true,
     categories: ["identidad-corporativa", "cine", "direccion-creativa"],
-    services: ["branding", "direccion-cinematografica", "produccion-audiovisual"],
+    services: ["branding", "identidad-audiovisual", "contenido"],
     clientType: "empresas",
     logline: "Rebranding y documental institucional para una fundación agrícola.",
     concept:

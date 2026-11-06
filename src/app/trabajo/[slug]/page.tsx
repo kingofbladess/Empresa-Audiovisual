@@ -109,9 +109,9 @@ export default async function ProjectPage({ params }: Props) {
       <section className="border-t border-line bg-bg-2 py-24 md:py-32">
         <div className="container-x">
           <p className="label mb-12 text-accent">Proceso creativo</p>
-          <ol className="grid gap-px border border-line bg-line md:grid-cols-2 lg:grid-cols-4">
+          <ol className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
             {p.process.map((s, i) => (
-              <Reveal as="li" key={s.step} delay={i * 90} className="bg-bg-2 p-8">
+              <Reveal as="li" key={s.step} delay={i * 90} className="glass p-8">
                 <span className="label text-muted">Paso 0{i + 1}</span>
                 <h3 className="display mt-6 text-3xl">{s.step}</h3>
                 <p className="mt-3 text-muted">{s.text}</p>

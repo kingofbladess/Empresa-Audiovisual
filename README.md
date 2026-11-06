@@ -1,6 +1,6 @@
-# UMBRAL · Web del estudio creativo y productora audiovisual
+# XploreMet Prod · Web de la productora de estrategia y marca
 
-> "UMBRAL" es un nombre provisional. Se cambia en un solo lugar: `src/content/site.ts`.
+> Nombre, eslogan y datos de contacto se cambian en un solo lugar: `src/content/site.ts`.
 
 **Tecnología:** Next.js 15 (App Router) · React 19 · Tailwind CSS 4 · TypeScript.
 Se puede desplegar en Vercel o con Docker/Dokploy.
@@ -21,12 +21,12 @@ src/
 ├─ content/          ← TODO el contenido editable (sin tocar componentes)
 │  ├─ site.ts        nombre, logo, frase, WhatsApp, correo, redes, video de portada, menú
 │  ├─ clientTypes.ts los 5 tipos de cliente (cada uno genera /para/<slug>)
-│  ├─ services.ts    las 6 especialidades y sus servicios
+│  ├─ services.ts    los 12 servicios, su meta (la X) y su precio
 │  ├─ projects.ts    portafolio + categorías de filtro (cada uno genera /trabajo/<slug>)
 │  ├─ team.ts        integrantes
 │  ├─ journal.ts     bitácora creativa
 │  ├─ clients.ts     marcas y personas que confían
-│  ├─ about.ts       misión, visión, objetivos, valores y método
+│  ├─ about.ts       misión, visión, valores, proceso y situaciones del cliente
 │  └─ types.ts       tipos de todo lo anterior
 ├─ components/       piezas reutilizables (Hero, Frame, ClientTypeSelector, PortfolioGrid,
 │                    ProjectCard, TeamCard, ClientsWall, ContactForm, WhatsAppFloat…)

@@ -54,9 +54,9 @@ export default async function ClientTypePage({ params }: Props) {
 
       <section className="container-x py-24 md:py-36">
         <SectionHeading scene="Cómo te ayudamos" title={<>Lo que hacemos <span className="serif text-accent">por ti</span></>} />
-        <div className="mt-16 grid gap-px border border-line bg-line sm:grid-cols-2">
+        <div className="mt-16 grid gap-4 sm:grid-cols-2">
           {t.offer.map((o, i) => (
-            <Reveal key={o.title} delay={i * 90} className="bg-bg p-8 md:p-12">
+            <Reveal key={o.title} delay={i * 90} className="glass p-8 md:p-12">
               <p className="label text-accent">0{i + 1}</p>
               <h3 className="display mt-6 text-3xl md:text-4xl">{o.title}</h3>
               <p className="mt-4 text-muted md:text-lg">{o.text}</p>
@@ -71,7 +71,7 @@ export default async function ClientTypePage({ params }: Props) {
           <ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4" role="list">
             {related.map((s) => (
               <li key={s.slug}>
-                <Link href={`/servicios#${s.slug}`} className="group flex h-full flex-col justify-between border border-line p-6 transition-colors hover:border-accent">
+                <Link href={`/servicios#${s.slug}`} className="group glass glass-hover flex h-full flex-col justify-between p-6">
                   <span className="label text-muted">{s.index}</span>
                   <span className="display mt-10 text-2xl">{s.name}</span>
                   <span className="mt-3 text-sm text-muted">{s.short}</span>

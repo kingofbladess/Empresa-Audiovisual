@@ -29,7 +29,7 @@ export function Header() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-all duration-500 ${
-        scrolled || open ? "border-b border-line bg-bg/85 backdrop-blur-md" : "border-b border-transparent"
+        scrolled || open ? "glass-bar" : "border-b border-transparent"
       }`}
     >
       <div className="container-x flex h-18 items-center justify-between gap-6 py-4">
@@ -54,7 +54,7 @@ export function Header() {
             href={waLink()}
             target="_blank"
             rel="noopener noreferrer"
-            className="label hidden border border-line-strong px-4 py-2.5 text-fg transition-colors hover:border-accent hover:text-accent sm:block"
+            className="label hidden rounded-full border border-line-strong bg-white/5 px-5 py-2.5 text-fg transition-colors hover:border-accent hover:text-accent sm:block"
           >
             Hablemos
           </a>

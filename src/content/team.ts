@@ -12,7 +12,7 @@ export const team: TeamMember[] = [
     role: "Director creativo",
     bio: "Define el concepto y el lenguaje visual de cada proyecto, y cuida que la idea llegue intacta a la pieza final.",
     inProjects: "Lidera el concepto, aprueba la dirección de arte y acompaña al cliente en cada etapa.",
-    photo: { alt: "Retrato del director creativo", palette: ["#0b0a09", "#3a3027", "#d8c3a5"] },
+    photo: { src: "/media/equipo/integrante-01.jpg", alt: "Retrato de un integrante del equipo de XploreMet Prod al atardecer" },
     placeholder: true,
   },
   {

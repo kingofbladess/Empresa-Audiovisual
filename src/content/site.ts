@@ -4,21 +4,23 @@
  */
 export const site = {
   /** Nombre de la marca. */
-  name: "XploreMet",
+  name: "XploreMet Prod",
   /** Descriptor que acompaña al nombre. */
-  descriptor: "Estudio creativo · Productora audiovisual",
+  descriptor: "Productora de estrategia y marca",
   /** Logotipo opcional en /public (SVG recomendado). Si está vacío se usa el nombre como logotipo. */
   logo: "",
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || "xploremet.com" /* provisional: confirmar dominio */,
   /** Frase principal (filosofía). */
-  tagline: "No producimos imágenes. Construimos identidades.",
+  tagline: "La X marca la meta.",
   manifesto:
-    "No vendemos simplemente fotografías o videos. Desarrollamos conceptos, construimos identidades y transformamos ideas en marcas y experiencias audiovisuales.",
+    "Construimos tu identidad desde cero, con una ruta hecha para ti y una X que marca la meta de cada etapa.",
   intro:
-    "Dirección cinematográfica, dirección creativa, fotografía y branding bajo un mismo techo. Acompañamos cada proyecto desde la primera idea hasta la pieza final.",
+    "Estrategia, marca y producción audiovisual para artistas, emprendedores y empresas en crecimiento. Trazamos contigo el camino a corto, medio y largo plazo.",
   description:
-    "Estudio creativo y productora audiovisual. Desarrollamos marcas desde cero y producimos fotografía, video y contenido con dirección cinematográfica para artistas, empresas, productos y producciones.",
-  location: "Venezuela",
+    "Productora de estrategia y marca en Maracay, Venezuela. Ayudamos a artistas, emprendedores y empresas a construir su identidad desde cero, con branding, contenido audiovisual y campañas.",
+  location: "Maracay, estado Aragua · Online a nivel nacional",
+  /** Formulario para conocer mejor a cada cliente. */
+  typeform: "https://form.typeform.com/to/vlF2ikCt",
   /** Provisional: confirmar el correo real. */
   email: "hola@xploremet.com",
   whatsapp: {

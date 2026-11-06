@@ -20,12 +20,12 @@ export function ClientsWall({ clients }: { clients: ClientLogo[] }) {
                 {c.name}
               </span>
             )}
-            <span className="label mt-3 text-[0.58rem] text-muted opacity-0 transition-opacity group-hover:opacity-100">{c.sector}</span>
+            <span className="label mt-3 text-muted opacity-0 transition-opacity group-hover:opacity-100">{c.sector}</span>
           </li>
         ))}
       </ul>
       {anyDemo && (
-        <p className="label mt-5 text-[0.62rem] text-muted">
+        <p className="label mt-5 text-muted">
           * Marcas ficticias de ejemplo (proyectos conceptuales). Este espacio mostrará a nuestros clientes reales.
         </p>
       )}

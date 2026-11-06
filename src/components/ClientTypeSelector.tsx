@@ -32,7 +32,7 @@ export function ClientTypeSelector({ types }: { types: ClientType[] }) {
                 <span className={`label transition-colors ${i === active ? "text-accent" : "text-muted"}`}>0{i + 1}</span>
                 <span
                   className={`display text-[clamp(1.8rem,3vw,3rem)] transition-all duration-500 ${
-                    i === active ? "translate-x-2 text-fg" : "text-fg/30"
+                    i === active ? "translate-x-2 text-fg" : "text-fg/60"
                   }`}
                 >
                   {t.name}
@@ -46,14 +46,14 @@ export function ClientTypeSelector({ types }: { types: ClientType[] }) {
         </ul>
         <div className="lg:col-span-6">
           <div className="sticky top-28">
-            <div className="relative aspect-[4/3] overflow-hidden">
+            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.25rem]">
               {types.map((t, i) => (
                 <div
                   key={t.slug}
                   className={`absolute inset-0 transition-opacity duration-700 ${i === active ? "opacity-100" : "opacity-0"}`}
                   aria-hidden={i !== active}
                 >
-                  <Frame media={t.media} drift className="h-full w-full" sizes="50vw" />
+                  <Frame media={t.media} className="h-full w-full" sizes="50vw" />
                 </div>
               ))}
               <span className="label absolute top-4 left-4 bg-bg/70 px-2 py-1 text-accent backdrop-blur">{current.kicker}</span>
@@ -72,7 +72,7 @@ export function ClientTypeSelector({ types }: { types: ClientType[] }) {
       <ul className="grid gap-4 sm:grid-cols-2 lg:hidden" role="list">
         {types.map((t, i) => (
           <li key={t.slug}>
-            <Link href={`/para/${t.slug}`} className="group relative block overflow-hidden border border-line">
+            <Link href={`/para/${t.slug}`} className="group relative block overflow-hidden rounded-[1.25rem] border border-line">
               <Frame media={t.media} className="aspect-[4/3] w-full" sizes="(min-width:640px) 50vw, 100vw" />
               <div className="absolute inset-0 bg-gradient-to-t from-bg via-bg/40 to-transparent" />
               <div className="absolute inset-x-0 bottom-0 p-5">

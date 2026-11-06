@@ -13,3 +13,12 @@ export function ArrowIcon({ className = "h-4 w-4" }: { className?: string }) {
     </svg>
   );
 }
+
+/** La X de la marca: señala la meta. */
+export function XMark({ className = "h-5 w-5" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 24 24" className={className} aria-hidden>
+      <path d="M4 4l16 16M20 4L4 20" fill="none" stroke="currentColor" strokeWidth="5" strokeLinecap="square" />
+    </svg>
+  );
+}

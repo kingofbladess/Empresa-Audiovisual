@@ -11,7 +11,8 @@ export function Footer() {
         <div className="grid gap-14 md:grid-cols-12">
           <div className="md:col-span-5">
             <Logo size="lg" />
-            <p className="mt-6 max-w-sm text-muted">{site.description}</p>
+            <p className="serif mt-6 text-3xl text-accent">{site.tagline}</p>
+            <p className="mt-4 max-w-sm text-muted">{site.description}</p>
             <a
               href={waLink()}
               target="_blank"

@@ -111,7 +111,7 @@ export function ContactForm() {
           ))}
         </select>
         {data.service && (
-          <a href={waLink(serviceMessage(data.service))} target="_blank" rel="noopener noreferrer" className="label mt-3 inline-flex items-center gap-2 text-[0.62rem] text-accent hover:text-fg">
+          <a href={waLink(serviceMessage(data.service))} target="_blank" rel="noopener noreferrer" className="label mt-3 inline-flex items-center gap-2 text-accent hover:text-fg">
             <WhatsAppIcon className="h-3.5 w-3.5" /> Preguntar ya por {data.service}
           </a>
         )}

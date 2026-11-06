@@ -22,7 +22,7 @@ export function ProjectCard({ project, priority, aspect = "aspect-[4/5]" }: { pr
         </div>
         <span className="label shrink-0 pt-1 text-muted">{project.year}</span>
       </div>
-      <p className="label mt-3 text-[0.62rem] text-muted/80">
+      <p className="label mt-3 text-muted/80">
         {project.categories.slice(0, 2).map((c) => workCategories[c]).join(" · ")}
       </p>
     </Link>
