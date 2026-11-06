@@ -42,7 +42,7 @@ export default function Home() {
   return (
     <>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
-      <h1 className="sr-only">{site.name}: {site.tagline} {site.descriptor}.</h1>
+      <h1 className="sr-only">{site.name}: {site.tagline}. {site.descriptor}</h1>
       <CameraIntro>
         <Hero />
       </CameraIntro>
@@ -54,7 +54,7 @@ export default function Home() {
         </Reveal>
         <Reveal delay={100}>
           <h2 className="max-w-5xl font-sans text-[clamp(1.6rem,3.4vw,3rem)] leading-[1.2] font-semibold tracking-tight">
-            Construimos tu identidad <span className="text-accent">desde cero</span>, con una ruta hecha para ti y metas a corto, medio y largo plazo. <span className="serif text-sand">Cada etapa tiene su X.</span>
+            Construimos tu identidad <span className="text-accent">desde cero</span>, con una ruta hecha para ti y metas a corto, medio y largo plazo <span className="serif mt-2 block text-sand">Cada etapa tiene su X</span>
           </h2>
         </Reveal>
         <div className="mt-16">

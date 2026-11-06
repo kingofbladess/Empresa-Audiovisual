@@ -87,7 +87,7 @@ export default function ServiciosPage() {
         </div>
       </section>
 
-      <CtaBand title="¿No sabes por dónde empezar?" subtitle="Te ayudamos a encontrar tu X." />
+      <CtaBand title="¿No sabes por dónde empezar?" subtitle="Te ayudamos a encontrar tu X" />
     </>
   );
 }

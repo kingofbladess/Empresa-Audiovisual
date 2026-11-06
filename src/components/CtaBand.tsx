@@ -3,7 +3,7 @@ import { Reveal } from "./Reveal";
 import { site } from "@/content/site";
 
 /** Bloque final de llamada a la acción. */
-export function CtaBand({ title = "¿Cuál es tu X?", subtitle = "La primera reunión es sin costo.", message }: { title?: string; subtitle?: string; message?: string }) {
+export function CtaBand({ title = "¿Cuál es tu X?", subtitle = "La primera reunión es sin costo", message }: { title?: string; subtitle?: string; message?: string }) {
   return (
     <section className="container-x cv py-20 md:py-32">
       <Reveal className="glass relative overflow-hidden p-8 md:p-16">

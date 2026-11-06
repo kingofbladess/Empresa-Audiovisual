@@ -15,6 +15,9 @@
   --accent: #fed340;
   --rec: #dc2f3d;
   --gris: #a8a5a1;
+  --start-ink: #fff6e5;
+  --start-soft: #ffd98a;
+  --start-accent: #ffb627;
   --sand: #e3b98f;
   --on-accent: #17110c;
   --danger: #ff9aa2;
@@ -112,10 +115,32 @@ p {
   line-height: 0.95;
   text-wrap: balance;
 }
+/* Textos del inicio: recta y extra negrita para leerse sobre cualquier escena del video. */
+.hero-title,
+.start-title {
+  font-family: var(--font-body), sans-serif;
+  font-weight: 800;
+  text-transform: none;
+  letter-spacing: -0.03em;
+  color: var(--start-ink);
+  text-shadow: 0 2px 22px rgba(0, 0, 0, 0.6);
+}
 .hero-title {
-  font-style: italic;
-  font-size: clamp(3rem, min(15.5vw, 25svh), 15rem);
-  line-height: 0.86;
+  font-size: clamp(2.75rem, min(11vw, 22svh), 11rem);
+  line-height: 1.02;
+}
+.start-title {
+  line-height: 1.08;
+  text-wrap: balance;
+}
+.start-sub {
+  font-family: var(--font-body), sans-serif;
+  font-weight: 600;
+  color: var(--start-soft);
+  text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
+}
+.start-accent {
+  color: var(--start-accent);
 }
 .serif {
   font-family: var(--font-serif), serif;
@@ -142,7 +167,7 @@ p {
 /* En móvil el título manda, sin pasarse de la altura disponible. La intro no tiene
    scroll propio, así que la portada debe caber entera: en pantallas bajas se oculta el párrafo. */
 @media (orientation: portrait) {
-  .hero-title { font-size: min(25vw, 15svh); }
+  .hero-title { font-size: min(14.5vw, 12svh); }
 }
 @media (max-height: 820px) {
   .hero-meta { display: none; }
@@ -172,7 +197,7 @@ p {
 @media (max-height: 560px) {
   :root { --bar: 0px; }
   .hero-meta { display: none; }
-  .hero-title { font-size: min(11vw, 25svh); }
+  .hero-title { font-size: min(8.5vw, 22svh); }
   .hero-content { padding-top: 4.75rem; padding-bottom: 0.75rem; }
   .hero-panel { margin-top: 0.5rem; padding: 0.625rem 1rem; }
 }

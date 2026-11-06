@@ -298,9 +298,8 @@ export function CameraIntro({ children }: { children: ReactNode }) {
         <div ref={copyBox} className="pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-[max(1.25rem,4svh)] opacity-0">
           <div className="container-x flex items-end justify-between gap-6">
             <div key={phase} className="intro max-w-xl pr-14 md:pr-0">
-              <p className="label text-accent">{copy.label}</p>
-              <p className="display mt-2 text-[clamp(1.7rem,min(5vw,9svh),4.2rem)]">{copy.title}</p>
-              <p className="serif mt-1 text-[clamp(1.05rem,min(2.2vw,4.5svh),1.8rem)] text-fg/80">{copy.text}</p>
+              <p className="start-title text-[clamp(1.75rem,min(4.6vw,9svh),3.8rem)]">{copy.title}</p>
+              <p className="start-sub mt-2 text-[clamp(1.05rem,min(1.9vw,4.5svh),1.6rem)]">{copy.text}</p>
             </div>
             {/* Progreso */}
             <div className="hidden h-32 w-px bg-line-strong md:block">

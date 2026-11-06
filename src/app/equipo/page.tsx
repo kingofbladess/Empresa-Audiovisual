@@ -51,7 +51,7 @@ export default function EquipoPage() {
           </div>
         </div>
       </section>
-      <CtaBand title="¿Quieres sumarte?" subtitle="Siempre buscamos talento." message="Hola, me gustaría formar parte del equipo del estudio." />
+      <CtaBand title="¿Quieres sumarte?" subtitle="Siempre buscamos talento" message="Hola, me gustaría formar parte del equipo del estudio." />
     </>
   );
 }

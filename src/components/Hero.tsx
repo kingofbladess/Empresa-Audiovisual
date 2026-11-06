@@ -43,10 +43,10 @@ export function Hero() {
         </p>
         <p className="display hero-title">
           <span className="intro block" style={d(650)}>
-            La <span className="text-rec">X</span> marca
+            La <span className="start-accent">X</span> marca
           </span>
           <span className="intro block" style={d(800)}>
-            la meta<span className="text-accent">.</span>
+            la meta
           </span>
         </p>
 

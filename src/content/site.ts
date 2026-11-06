@@ -9,7 +9,7 @@ export const site = {
   descriptor: "Productora de estrategia y marca",
   domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || "xploremet.com" /* provisional: confirmar dominio */,
   /** Frase principal (filosofía). */
-  tagline: "La X marca la meta.",
+  tagline: "La X marca la meta",
   manifesto:
     "Construimos tu identidad desde cero, con una ruta hecha para ti y una X que marca la meta de cada etapa.",
   intro:
@@ -57,10 +57,10 @@ export const site = {
     /** Largo del recorrido de scroll, en pantallas. */
     length: 8,
     phases: [
-      { label: "Fase 01 · El montaje", title: "Todo empieza con una idea.", text: "Cada pieza encuentra su lugar." },
-      { label: "Fase 02 · El diafragma", title: "El concepto toma forma.", text: "Cada capa suma enfoque." },
-      { label: "Fase 03 · Dentro del lente", title: "Y la marca se ve con claridad.", text: "Del concepto a la imagen final." },
-      { label: "Fase 04 · En el set", title: "Todo listo para salir a escena.", text: "Tu marca, frente a cámara." },
+      { title: "Todo empieza con una idea", text: "Cada pieza encuentra su lugar" },
+      { title: "El concepto toma forma", text: "Cada capa suma enfoque" },
+      { title: "Y la marca se ve con claridad", text: "Del concepto a la imagen final" },
+      { title: "Todo listo para salir a escena", text: "Tu marca, frente a cámara" },
     ],
   },
 };

@@ -11,7 +11,7 @@ export const clientTypes: ClientType[] = [
     kicker: "Identidad artística",
     summary:
       "Marca personal, identidad artística, videoclips, fotografía promocional, dirección creativa y estrategia para redes.",
-    headline: "Tu obra merece una imagen a su altura.",
+    headline: "Tu obra merece una imagen a su altura",
     intro:
       "Trabajamos con músicos, actores, creadores de contenido y artistas visuales para construir un universo propio: cómo te ves, cómo suenas en imagen y cómo te recuerda tu público.",
     offer: [
@@ -30,7 +30,7 @@ export const clientTypes: ClientType[] = [
     kicker: "Identidad corporativa",
     summary:
       "Identidad corporativa, branding, fotografía comercial, videos publicitarios, redes sociales y posicionamiento visual.",
-    headline: "Empresas que se ven como lo que son.",
+    headline: "Empresas que se ven como lo que son",
     intro:
       "Ayudamos a empresas y negocios a ordenar su imagen y a comunicar con claridad: una identidad coherente, contenido profesional y una presencia que inspira confianza.",
     offer: [
@@ -49,7 +49,7 @@ export const clientTypes: ClientType[] = [
     kicker: "Producto y campaña",
     summary:
       "Fotografía de productos, videos comerciales, campañas, identidad visual, presentación de productos y contenido para redes.",
-    headline: "Productos que se desean antes de tocarse.",
+    headline: "Productos que se desean antes de tocarse",
     intro:
       "Diseñamos cómo se presenta tu producto: la luz, el gesto, el entorno y la campaña que lo lleva al público correcto.",
     offer: [
@@ -68,7 +68,7 @@ export const clientTypes: ClientType[] = [
     kicker: "Cine y ficción",
     summary:
       "Dirección cinematográfica, dirección de fotografía, preproducción, producción, realización, edición y postproducción.",
-    headline: "Del guion a la pantalla.",
+    headline: "Del guion a la pantalla",
     intro:
       "Nos sumamos a cortometrajes, largometrajes, series y piezas de autor en las áreas que el proyecto necesite, o lo llevamos completo.",
     offer: [
@@ -87,7 +87,7 @@ export const clientTypes: ClientType[] = [
     kicker: "Marca desde cero",
     summary:
       "Construcción de marca desde cero, estrategia de comunicación, identidad, concepto visual y presencia digital.",
-    headline: "Empieza con una marca, no con un logo.",
+    headline: "Empieza con una marca, no con un logo",
     intro:
       "Si estás comenzando, te acompañamos a definir qué representas, cómo lo comunicas y cómo se ve, para salir al mercado con una marca sólida.",
     offer: [
