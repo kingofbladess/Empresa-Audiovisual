@@ -38,6 +38,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
   const hint = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLDivElement>(null);
   const skipBtn = useRef<HTMLButtonElement>(null);
+  const loadBar = useRef<HTMLDivElement>(null);
   const [phase, setPhase] = useState(0);
 
   // La intro avanza solo cuando el visitante hace scroll, así que también se muestra
@@ -124,12 +125,47 @@ export function CameraIntro({ children }: { children: ReactNode }) {
     };
     v?.addEventListener("loadedmetadata", prime, { once: true });
     v?.addEventListener("seeked", kickSeek);
-    if (v && v.readyState >= 1) prime();
+
+    // Descarga el video completo antes de usarlo. Si se transmitiera por partes, cada salto
+    // del scroll a una zona sin descargar dejaría la imagen atrás en la primera visita.
+    // Mientras tanto se ve el póster; en las siguientes visitas sale de la caché.
+    const abort = new AbortController();
+    let blobUrl = "";
+    const showProgress = (fraction: number) => {
+      if (loadBar.current) loadBar.current.style.transform = `scaleX(${Math.min(1, fraction)})`;
+    };
+    const loadVideo = async () => {
+      if (!v) return;
+      const url = window.matchMedia("(max-width: 767px)").matches ? cfg.videoMobile : cfg.video;
+      try {
+        const res = await fetch(url, { signal: abort.signal });
+        if (!res.ok || !res.body) throw new Error("sin video");
+        const total = Number(res.headers.get("content-length")) || 0;
+        const reader = res.body.getReader();
+        const chunks: Uint8Array<ArrayBuffer>[] = [];
+        let received = 0;
+        for (;;) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          chunks.push(value as Uint8Array<ArrayBuffer>);
+          received += value.length;
+          if (total) showProgress(received / total);
+        }
+        blobUrl = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
+        v.src = blobUrl;
+      } catch {
+        if (!abort.signal.aborted) v.src = url; // plan B: transmitirlo como siempre
+      }
+      if (loadBar.current?.parentElement) loadBar.current.parentElement.style.opacity = "0";
+    };
+    loadVideo();
 
     render();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
+      abort.abort();
+      if (blobUrl) URL.revokeObjectURL(blobUrl);
       v?.removeEventListener("loadedmetadata", prime);
       v?.removeEventListener("seeked", kickSeek);
       window.removeEventListener("scroll", onScroll);
@@ -158,10 +194,12 @@ export function CameraIntro({ children }: { children: ReactNode }) {
           {children}
         </div>
 
-        <video ref={video} className="pointer-events-none absolute inset-0 h-full w-full object-cover" muted playsInline preload="auto" poster={cfg.poster} aria-hidden>
-          <source src={cfg.videoMobile} media="(max-width: 767px)" type="video/mp4" />
-          <source src={cfg.video} type="video/mp4" />
-        </video>
+        <video ref={video} className="pointer-events-none absolute inset-0 h-full w-full object-cover" muted playsInline preload="auto" poster={cfg.poster} aria-hidden />
+
+        {/* Avance de la descarga del video */}
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-0.5 transition-opacity duration-500" aria-hidden>
+          <div ref={loadBar} className="h-full origin-left bg-accent" style={{ transform: "scaleX(0)" }} />
+        </div>
 
         {/* Oscurece la parte baja para que los textos se lean sobre cualquier escena */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[linear-gradient(0deg,rgba(0,0,0,.8),transparent)]" />
