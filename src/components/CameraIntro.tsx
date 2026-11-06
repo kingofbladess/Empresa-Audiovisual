@@ -6,21 +6,30 @@ import { site } from "@/content/site";
 /*
  * INTRO DE LA CÁMARA (controlada por el scroll)
  *
- * El scroll avanza un video con las 4 escenas unidas, en orden:
+ * El scroll avanza 4 escenas, una tras otra:
  * Fase 1 · El objetivo se acopla a la cámara y gira hacia nosotros.
  * Fase 2 · Otra cámara de frente: entramos por el diafragma.
  * Fase 3 · Viajamos por dentro del lente, entre sus elementos de vidrio.
  * Fase 4 · Salimos del lente y se abre el set de rodaje.
  *
+ * Cada fase es un archivo propio y se descargan en orden, así la primera se puede usar
+ * casi de inmediato. Si el visitante va más rápido que la descarga, la imagen espera al
+ * final de lo disponible.
+ *
  * Al terminar el recorrido, la portada (children) aparece con un fundido sobre
  * ese mismo set: su fondo es el último fotograma del video.
- * Cómo volver a generar el video: ver README.
+ * Cómo volver a generar los videos: ver README.
  */
 
 const cfg = site.cameraIntro;
+const PARTS = cfg.videoParts;
+/** Segundo en que empieza cada parte dentro del recorrido completo. */
+const STARTS = PARTS.map((_, i) => PARTS.slice(0, i).reduce((a, b) => a + b, 0));
+const TOTAL = PARTS.reduce((a, b) => a + b, 0);
 
 const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const seg = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
+const partAt = (t: number) => STARTS.filter((start) => t >= start).length - 1;
 
 /** Tramo del recorrido en que avanza el video; el resto es el fundido a la portada. */
 const VIDEO_END = 0.9;
@@ -28,13 +37,25 @@ const VIDEO_END = 0.9;
 const SMOOTHING = 0.18;
 /** Diferencia mínima (segundos) que justifica pedir otro fotograma: medio cuadro a 24 fps. */
 const FRAME = 1 / 48;
+/** Margen para no pedir el instante exacto en que termina un video. */
+const END_MARGIN = 0.05;
+
+type Connection = { saveData?: boolean; effectiveType?: string; downlink?: number };
+
+/** Elige la versión según orientación, tamaño de pantalla y conexión. */
+function pickVersion() {
+  if (window.innerHeight > window.innerWidth) return "movil";
+  const conn = (navigator as Navigator & { connection?: Connection }).connection;
+  const slow = conn?.saveData || /2g|3g/.test(conn?.effectiveType ?? "") || (conn?.downlink ?? 10) < 3;
+  return slow || window.innerWidth <= 1024 ? "sd" : "hd";
+}
 
 export function CameraIntro({ children }: { children: ReactNode }) {
   const skip = !cfg.enabled;
   const outer = useRef<HTMLDivElement>(null);
   const stage = useRef<HTMLDivElement>(null);
   const image = useRef<HTMLDivElement>(null);
-  const video = useRef<HTMLVideoElement>(null);
+  const videos = useRef<(HTMLVideoElement | null)[]>([]);
   const copyBox = useRef<HTMLDivElement>(null);
   const hint = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLDivElement>(null);
@@ -48,24 +69,36 @@ export function CameraIntro({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     if (skip) return;
-    const v = video.current;
+    const vids = videos.current;
+    const ready = PARTS.map(() => false);
+    let readyUntil = 0; // hasta qué segundo hay video disponible sin saltos
     let scrollRaf = 0;
     let seekRaf = 0;
     let lastPhase = -1;
     let target = 0;
     let current = 0;
 
+    const show = (index: number) => {
+      vids.forEach((v, i) => {
+        if (v) v.style.opacity = i === index ? "1" : "0";
+      });
+    };
+
     // Sigue al scroll con suavidad y no pide un fotograma hasta que llegó el anterior:
     // si se acumulan peticiones, el video se queda congelado mientras se desliza.
     const seek = () => {
       seekRaf = 0;
-      if (!v) return;
-      current += (target - current) * SMOOTHING;
-      if (Math.abs(target - current) < FRAME) current = target;
-      if (v.readyState < 1) return;
-      if (v.seeking) return; // `seeked` la vuelve a lanzar
-      if (Math.abs(v.currentTime - current) > FRAME) v.currentTime = current;
-      if (current !== target) seekRaf = requestAnimationFrame(seek);
+      if (!readyUntil) return;
+      const goal = Math.min(target, readyUntil - END_MARGIN);
+      current += (goal - current) * SMOOTHING;
+      if (Math.abs(goal - current) < FRAME) current = goal;
+      const index = partAt(current);
+      const v = vids[index];
+      if (!v || !ready[index] || v.seeking) return; // `seeked` la vuelve a lanzar
+      const local = Math.min(current - STARTS[index], PARTS[index] - END_MARGIN);
+      if (Math.abs(v.currentTime - local) > FRAME) v.currentTime = local;
+      else show(index);
+      if (current !== goal) seekRaf = requestAnimationFrame(seek);
     };
     const kickSeek = () => {
       if (!seekRaf) seekRaf = requestAnimationFrame(seek);
@@ -78,12 +111,11 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       const rect = el.getBoundingClientRect();
       const p = clamp(-rect.top / (rect.height - (stage.current?.offsetHeight ?? window.innerHeight)));
 
-      const duration = v && Number.isFinite(v.duration) && v.duration ? v.duration : cfg.videoDuration;
-      const time = seg(p, 0, VIDEO_END) * (duration - 0.05);
-      target = time;
+      target = seg(p, 0, VIDEO_END) * (TOTAL - END_MARGIN);
       kickSeek();
 
-      const ph = cfg.videoPhases.filter((start) => time >= start).length;
+      // El texto acompaña a la imagen: no se adelanta a lo que ya se puede mostrar.
+      const ph = Math.max(0, partAt(Math.min(target, Math.max(0, readyUntil - END_MARGIN))));
       if (ph !== lastPhase) {
         lastPhase = ph;
         setPhase(ph);
@@ -91,12 +123,12 @@ export function CameraIntro({ children }: { children: ReactNode }) {
 
       if (bar.current) bar.current.style.transform = `scaleY(${p})`;
       if (hint.current) {
-        const h = seg(p, 0, 0.05);
+        const h = seg(p, 0, 0.04);
         hint.current.style.opacity = String(1 - h);
         hint.current.style.transform = `scale(${1 + h * 0.25})`;
       }
       const copyOpacity = 1 - seg(p, 0.84, 0.9);
-      if (copyBox.current) copyBox.current.style.opacity = String(copyOpacity * seg(p, 0.03, 0.07));
+      if (copyBox.current) copyBox.current.style.opacity = String(copyOpacity * seg(p, 0.02, 0.05));
       if (skipBtn.current) {
         skipBtn.current.style.opacity = String(copyOpacity);
         skipBtn.current.style.visibility = copyOpacity < 0.05 ? "hidden" : "visible";
@@ -116,59 +148,89 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       if (!scrollRaf) scrollRaf = requestAnimationFrame(render);
     };
 
-    // Safari en iPhone no muestra fotogramas al buscar hasta que el video se reprodujo una vez.
-    const prime = () => {
+    const markReady = (index: number) => {
+      ready[index] = true;
+      // Solo cuenta lo que está disponible de corrido desde el principio.
+      const firstMissing = ready.indexOf(false);
+      readyUntil = firstMissing === -1 ? TOTAL : STARTS[firstMissing];
+      onScroll();
+    };
+
+    // Un fotograma visible al cambiar de parte evita parpadeos. Además, Safari en iPhone
+    // no muestra fotogramas al buscar hasta que el video se reprodujo una vez.
+    const prime = (index: number) => {
+      const v = vids[index];
       if (!v) return;
       v.play()
         .then(() => v.pause())
         .catch(() => {})
-        .finally(onScroll);
+        .finally(() => markReady(index));
     };
-    v?.addEventListener("loadedmetadata", prime, { once: true });
-    v?.addEventListener("seeked", kickSeek);
 
-    // Descarga el video completo antes de usarlo. Si se transmitiera por partes, cada salto
-    // del scroll a una zona sin descargar dejaría la imagen atrás en la primera visita.
-    // Mientras tanto se ve el póster; en las siguientes visitas sale de la caché.
+    const cleanups: (() => void)[] = [];
+    vids.forEach((v, i) => {
+      if (!v) return;
+      const onLoaded = () => prime(i);
+      const onSeeked = () => {
+        if (partAt(current) === i) show(i);
+        kickSeek();
+      };
+      v.addEventListener("loadeddata", onLoaded, { once: true });
+      v.addEventListener("seeked", onSeeked);
+      cleanups.push(() => {
+        v.removeEventListener("loadeddata", onLoaded);
+        v.removeEventListener("seeked", onSeeked);
+      });
+    });
+
+    // Cada parte se descarga completa: así los saltos del scroll dentro de ella son inmediatos.
     const abort = new AbortController();
-    let blobUrl = "";
+    const blobUrls: string[] = [];
     const showProgress = (fraction: number) => {
       if (loadBar.current) loadBar.current.style.transform = `scaleX(${Math.min(1, fraction)})`;
     };
-    const loadVideo = async () => {
-      if (!v) return;
-      const url = window.matchMedia("(max-width: 767px)").matches ? cfg.videoMobile : cfg.video;
-      try {
-        const res = await fetch(url, { signal: abort.signal });
-        if (!res.ok || !res.body) throw new Error("sin video");
-        const total = Number(res.headers.get("content-length")) || 0;
-        const reader = res.body.getReader();
-        const chunks: Uint8Array<ArrayBuffer>[] = [];
-        let received = 0;
-        for (;;) {
-          const { done, value } = await reader.read();
-          if (done) break;
-          chunks.push(value as Uint8Array<ArrayBuffer>);
-          received += value.length;
-          if (total) showProgress(received / total);
+    const loadPart = async (index: number, url: string) => {
+      const res = await fetch(url, { signal: abort.signal });
+      if (!res.ok || !res.body) throw new Error("sin video");
+      const total = Number(res.headers.get("content-length")) || 0;
+      const reader = res.body.getReader();
+      const chunks: Uint8Array<ArrayBuffer>[] = [];
+      let received = 0;
+      for (;;) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        chunks.push(value as Uint8Array<ArrayBuffer>);
+        received += value.length;
+        if (total) showProgress((index + received / total) / PARTS.length);
+      }
+      return URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
+    };
+    const loadAll = async () => {
+      const version = pickVersion();
+      for (let i = 0; i < PARTS.length; i++) {
+        const url = `${cfg.videoBase}/${version}-${i + 1}.mp4`;
+        const v = vids[i];
+        if (!v || abort.signal.aborted) return;
+        try {
+          const blobUrl = await loadPart(i, url);
+          blobUrls.push(blobUrl);
+          v.src = blobUrl;
+        } catch {
+          if (abort.signal.aborted) return;
+          v.src = url; // plan B: transmitirlo directamente
         }
-        blobUrl = URL.createObjectURL(new Blob(chunks, { type: "video/mp4" }));
-        v.src = blobUrl;
-      } catch {
-        if (!abort.signal.aborted) v.src = url; // plan B: transmitirlo como siempre
       }
       if (loadBar.current?.parentElement) loadBar.current.parentElement.style.opacity = "0";
     };
-    loadVideo();
+    loadAll();
 
     render();
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("resize", onScroll);
     return () => {
       abort.abort();
-      if (blobUrl) URL.revokeObjectURL(blobUrl);
-      v?.removeEventListener("loadedmetadata", prime);
-      v?.removeEventListener("seeked", kickSeek);
+      blobUrls.forEach((url) => URL.revokeObjectURL(url));
+      cleanups.forEach((fn) => fn());
       window.removeEventListener("scroll", onScroll);
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(scrollRaf);
@@ -195,9 +257,23 @@ export function CameraIntro({ children }: { children: ReactNode }) {
           {children}
         </div>
 
-        <video ref={video} className="pointer-events-none absolute inset-0 h-full w-full object-cover" muted playsInline preload="auto" poster={cfg.poster} aria-hidden />
+        {PARTS.map((_, i) => (
+          <video
+            key={i}
+            ref={(node) => {
+              videos.current[i] = node;
+            }}
+            className="pointer-events-none absolute inset-0 h-full w-full object-cover"
+            style={{ opacity: i === 0 ? 1 : 0 }}
+            muted
+            playsInline
+            preload="auto"
+            poster={i === 0 ? cfg.poster : undefined}
+            aria-hidden
+          />
+        ))}
 
-        {/* Avance de la descarga del video */}
+        {/* Avance de la descarga */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-0.5 transition-opacity duration-500" aria-hidden>
           <div ref={loadBar} className="h-full origin-left bg-accent" style={{ transform: "scaleX(0)" }} />
         </div>
@@ -206,12 +282,12 @@ export function CameraIntro({ children }: { children: ReactNode }) {
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[linear-gradient(0deg,rgba(0,0,0,.8),transparent)]" />
 
         {/* Textos de cada fase */}
-        <div ref={copyBox} className="pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-10 opacity-0 md:pb-14">
+        <div ref={copyBox} className="pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-[max(1.25rem,4svh)] opacity-0">
           <div className="container-x flex items-end justify-between gap-6">
-            <div key={phase} className="intro max-w-xl">
+            <div key={phase} className="intro max-w-xl pr-14 md:pr-0">
               <p className="label text-accent">{copy.label}</p>
-              <p className="display mt-3 text-[clamp(2rem,5vw,4.2rem)]">{copy.title}</p>
-              <p className="serif mt-2 text-[clamp(1.2rem,2.2vw,1.8rem)] text-fg/70">{copy.text}</p>
+              <p className="display mt-2 text-[clamp(1.7rem,min(5vw,9svh),4.2rem)]">{copy.title}</p>
+              <p className="serif mt-1 text-[clamp(1.05rem,min(2.2vw,4.5svh),1.8rem)] text-fg/80">{copy.text}</p>
             </div>
             {/* Progreso */}
             <div className="hidden h-32 w-px bg-line-strong md:block">
@@ -221,14 +297,14 @@ export function CameraIntro({ children }: { children: ReactNode }) {
         </div>
 
         {/* Indicación para empezar: se desvanece con el scroll */}
-        <div ref={hint} className="pointer-events-none absolute inset-x-0 bottom-10 z-10 flex flex-col items-center text-fg">
+        <div ref={hint} className="pointer-events-none absolute inset-x-0 bottom-[max(1.5rem,5svh)] z-10 flex flex-col items-center text-fg">
           <span className="label intro block" style={{ "--delay": "800ms" } as React.CSSProperties}>
             Desliza para enfocar
           </span>
-          <span className="mt-3 block h-8 w-px animate-pulse bg-fg/60" />
+          <span className="mt-2 block h-6 w-px animate-pulse bg-fg/60" />
         </div>
 
-        <button ref={skipBtn} type="button" onClick={skipIntro} className="label absolute top-22 right-4 z-20 border border-line-strong bg-bg/50 px-3 py-2 text-muted backdrop-blur hover:text-fg md:top-24 md:right-8">
+        <button ref={skipBtn} type="button" onClick={skipIntro} className="label absolute top-[5.25rem] right-4 z-20 min-h-10 rounded-full border border-line-strong bg-bg/50 px-4 py-2 text-fg/85 hover:text-fg md:right-8">
           Saltar intro
         </button>
       </div>

@@ -17,7 +17,7 @@ export function Hero() {
           <HeroVideo src={src} srcMobile={srcMobile || undefined} introSrc={introSrc || undefined} poster={poster || undefined} />
         ) : (
           <picture>
-            {imageMobile && <source srcSet={imageMobile} media="(max-width: 767px)" />}
+            {imageMobile && <source srcSet={imageMobile} media="(orientation: portrait)" />}
             {/* La portada empieza oculta detrás de la intro: su imagen no debe competir con ella. */}
             <img src={image} alt="" className="h-full w-full object-cover" fetchPriority="low" decoding="async" />
           </picture>
@@ -30,7 +30,7 @@ export function Hero() {
       <div className="letterbox pointer-events-none absolute inset-x-0 bottom-0 z-10 bg-black" />
 
       {/* Datos de cámara */}
-      <div className="label intro pointer-events-none absolute inset-x-0 top-28 z-20 hidden text-white/70 md:block" style={d(1250)}>
+      <div className="hero-meta label intro pointer-events-none absolute inset-x-0 top-28 z-20 hidden text-white/70 md:block" style={d(1250)}>
         <div className="container-x flex justify-between">
           <span className="flex items-center gap-2">
             <span className="rec-dot h-2 w-2 rounded-full bg-rec" /> REC
@@ -42,7 +42,7 @@ export function Hero() {
         </div>
       </div>
 
-      <div className="container-x relative z-20 mt-auto pt-24 pb-8 md:pt-36 md:pb-[calc(7vh+1.25rem)]">
+      <div className="hero-content container-x relative z-20 mt-auto">
         <p className="hero-text label intro mb-4 text-accent" style={d(500)}>
           {site.descriptor}
         </p>
@@ -55,7 +55,7 @@ export function Hero() {
           </span>
         </h1>
 
-        <div className="glass intro mt-8 grid gap-6 p-6 md:grid-cols-12 md:items-center md:p-8" style={d(1000)}>
+        <div className="hero-panel glass intro grid gap-6 md:grid-cols-12 md:items-center" style={d(1000)}>
           <p className="hero-text text-base text-fg/90 md:col-span-6 md:text-lg">{site.intro}</p>
           <div className="flex flex-wrap gap-3 md:col-span-6 md:justify-end">
             <Button href="/contacto">Reunión sin costo</Button>

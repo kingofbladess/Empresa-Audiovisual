@@ -51,7 +51,7 @@ export default function NosotrosPage() {
         <div className="mt-12 grid gap-4 md:grid-cols-2">
           {about.archetypes.map((a, i) => (
             <Reveal key={a.name} delay={i * 100} className="glass p-8 md:p-10">
-              <h3 className={i === 0 ? "display text-6xl italic" : "serif text-6xl text-[#e3b98f]"}>{a.name}</h3>
+              <h3 className={`text-[clamp(2.6rem,11vw,3.75rem)] ${i === 0 ? "display italic" : "serif leading-none text-[#e3b98f]"}`}>{a.name}</h3>
               <p className="mt-4 text-lg text-fg/85">{a.text}</p>
             </Reveal>
           ))}

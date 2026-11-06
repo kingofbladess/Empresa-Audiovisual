@@ -57,13 +57,14 @@ export const site = {
    */
   cameraIntro: {
     enabled: true,
-    video: "/media/intro/escenas-v3.mp4",
-    videoMobile: "/media/intro/escenas-movil-v3.mp4",
+    /**
+     * Carpeta con una parte por fase, en 3 versiones: hd, sd y movil (hd-1.mp4 … movil-4.mp4).
+     * Usa siempre una carpeta nueva al cambiar los videos (ver README).
+     */
+    videoBase: "/media/intro/v4",
+    /** Duración de cada parte, en segundos (cuadros / 24). */
+    videoParts: [184 / 24, 178 / 24, 178 / 24, 184 / 24],
     poster: "/media/intro/escenas-poster.jpg",
-    /** Duración del video en segundos. */
-    videoDuration: 30.17,
-    /** Segundo del video en que empieza cada fase a partir de la 2 (para cambiar los textos). */
-    videoPhases: [7.67, 15.09, 22.51],
     /** Largo del recorrido de scroll, en pantallas. */
     length: 8,
     phases: [

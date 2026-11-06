@@ -70,25 +70,32 @@ El último fotograma de la fase 4 es también el fondo de la portada (`heroVideo
 
 Se configura en `site.cameraIntro` (textos de cada fase, largo del recorrido, `enabled: false` para quitarla).
 
+**Cómo se entrega el video:** cada fase es un archivo propio y se descargan en orden, así la primera escena está
+disponible casi de inmediato. Hay 3 versiones y se elige una según orientación, tamaño y conexión:
+
+| Versión | Tamaño | Peso total | Para quién |
+|---|---|---|---|
+| `hd` | 1600×900 | 5,5 MB | Pantallas horizontales de más de 1024 px |
+| `sd` | 960×540 | 2,6 MB | Horizontales pequeñas o conexión lenta |
+| `movil` | 720×1280 | 3,6 MB | Cualquier pantalla vertical |
+
 **Para cambiar las escenas:** las originales están en `media-fuentes/intro/`, fuera de `public/` para que no se
-publiquen. Se unen con un fundido de 0,5 s y un fotograma clave en cada cuadro (`-g 1`), necesario para que el
-scroll avance fluido. En móvil la fase 4 se recorta más a la derecha, donde queda la cámara:
+publiquen. El orden de unión es `Fase 1`, `fase 3`, `fase 2`, `fase 4`, con un fundido de 0,5 s en cada unión
+(`xfade`, con `offset` 7.42, 14.84 y 22.26). De ahí salen dos másteres: uno horizontal y otro recortado a 9:16,
+con la fase 4 recortada en `iw*0.6`, donde queda la cámara.
+
+Cada máster se corta por cuadros (0–184, 184–362, 362–540, 540–724) y se exporta con un fotograma clave cada
+12 cuadros, necesario para que el scroll avance fluido:
 
 ```bash
-cd media-fuentes/intro
-J="[a][b]xfade=transition=fade:duration=0.5:offset=7.42[ab];[ab][c]xfade=transition=fade:duration=0.5:offset=14.84[abc];[abc][d]xfade=transition=fade:duration=0.5:offset=22.26"
-IN='-i "Fase 1.mp4" -i "fase 3.mp4" -i "fase 2.mp4" -i "fase 4.mp4"'
-P="settb=1/24,fps=24"
-eval ffmpeg $IN -filter_complex "\"[0:v]$P[a];[1:v]$P[b];[2:v]$P[c];[3:v]$P[d];$J,scale=1600:-2,format=yuv420p[v]\"" -map "[v]" -an -c:v libx264 -g 1 -crf 27 -preset medium -movflags +faststart ../../public/media/intro/escenas-v4.mp4
-C="crop=ih*9/16:ih"
-eval ffmpeg $IN -filter_complex "\"[0:v]$P,$C[a];[1:v]$P,$C[b];[2:v]$P,$C[c];[3:v]$P,$C:iw*0.6:0[d];$J,scale=540:-2,format=yuv420p[v]\"" -map "[v]" -an -c:v libx264 -g 1 -crf 28 -preset medium -movflags +faststart ../../public/media/intro/escenas-movil-v4.mp4
+ffmpeg -i master.mp4 -vf "trim=start_frame=0:end_frame=184,setpts=PTS-STARTPTS,scale=1600:-2" -an -c:v libx264 -g 12 -keyint_min 12 -sc_threshold 0 -bf 0 -crf 30 -preset medium -pix_fmt yuv420p -movflags +faststart hd-1.mp4
 ```
 
-`offset` es el segundo en que empieza cada fundido. Si cambia la duración, actualízalo junto con
-`videoDuration` y `videoPhases` en `site.ts`, y vuelve a extraer el último fotograma para `heroVideo.image`.
+Si cambian las duraciones, actualiza `videoParts` en `site.ts` y vuelve a extraer el último fotograma para
+`heroVideo.image`.
 
-**Usa siempre un nombre de archivo nuevo** y actualiza la ruta en `site.ts`: `/media` se guarda un año en la
-caché del navegador, así que con el mismo nombre los visitantes seguirían viendo el video anterior.
+**Usa siempre una carpeta nueva** (`v5`, `v6`…) y actualiza `videoBase`: `/media` se guarda un año en la caché
+del navegador, así que con el mismo nombre los visitantes seguirían viendo el video anterior.
 
 ## WhatsApp
 

@@ -98,7 +98,7 @@ body::after {
 }
 .hero-title {
   font-style: italic;
-  font-size: clamp(4.4rem, 15.5vw, 15rem);
+  font-size: clamp(3rem, min(15.5vw, 25svh), 15rem);
   line-height: 0.86;
 }
 .serif {
@@ -125,11 +125,37 @@ body::after {
 
 /* En móvil el título manda, sin pasarse de la altura disponible. La intro no tiene
    scroll propio, así que la portada debe caber entera: en pantallas bajas se oculta el párrafo. */
-@media (max-width: 767px) {
+@media (orientation: portrait) {
   .hero-title { font-size: min(25vw, 15svh); }
 }
 @media (max-height: 720px) {
   .hero-text { display: none; }
+  .hero-panel { display: block; }
+  .hero-panel > div { justify-content: flex-start; }
+}
+
+.hero-content {
+  padding-top: 6rem;
+  padding-bottom: 2rem;
+}
+.hero-panel {
+  margin-top: 2rem;
+  padding: 1.5rem;
+}
+@media (min-width: 768px) {
+  .hero-content {
+    padding-top: clamp(5.5rem, 14svh, 9rem);
+    padding-bottom: calc(var(--bar, 7vh) + 1.25rem);
+  }
+  .hero-panel { padding: 2rem; }
+}
+/* Pantallas muy bajas (móviles en horizontal): todo se compacta para que los botones sigan a la vista. */
+@media (max-height: 560px) {
+  :root { --bar: 0px; }
+  .hero-meta { display: none; }
+  .hero-title { font-size: min(11vw, 25svh); }
+  .hero-content { padding-top: 4.75rem; padding-bottom: 0.75rem; }
+  .hero-panel { margin-top: 0.5rem; padding: 0.625rem 1rem; }
 }
 
 /* Vidrio */
