@@ -5,9 +5,9 @@ export function TeamCard({ member }: { member: TeamMember }) {
   return (
     <article className="glass group h-full p-3">
       <div className="relative overflow-hidden rounded-[0.9rem]">
-        <Frame media={member.photo} className="aspect-[3/4] w-full transition-[filter] duration-700 [@media(hover:hover)]:grayscale [@media(hover:hover)]:group-hover:grayscale-0" sizes="(min-width:1024px) 25vw, 50vw" />
+        <Frame media={member.photo} className="aspect-[3/4] w-full" sizes="(min-width:1024px) 25vw, 50vw" />
         {member.placeholder && (
-          <span className="label absolute top-3 left-3 rounded-full border border-line-strong bg-bg/60 px-3 py-1 text-fg/85 backdrop-blur">Perfil por completar</span>
+          <span className="on-dark label absolute top-3 left-3 rounded-full border border-line-strong bg-bg/60 px-3 py-1 text-fg/85 backdrop-blur">Perfil por completar</span>
         )}
       </div>
       <div className="px-2 pb-2">

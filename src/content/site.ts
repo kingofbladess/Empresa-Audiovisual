@@ -57,10 +57,10 @@ export const site = {
     /** Largo del recorrido de scroll, en pantallas. */
     length: 8,
     phases: [
-      { title: "Todo empieza con una idea", text: "Cada pieza encuentra su lugar" },
-      { title: "El concepto toma forma", text: "Cada capa suma enfoque" },
-      { title: "Y la marca se ve con claridad", text: "Del concepto a la imagen final" },
-      { title: "Todo listo para salir a escena", text: "Tu marca, frente a cámara" },
+      { title: "Todo empieza con una idea", text: "Cada pieza encuentra su lugar", tags: ["Idea", "Público", "Objetivo"] },
+      { title: "El concepto toma forma", text: "Cada capa suma enfoque", tags: ["Guion", "Moodboard", "Storyboard"] },
+      { title: "Y la marca se ve con claridad", text: "Del concepto a la imagen final", tags: ["Identidad", "Color", "Estética"] },
+      { title: "Todo listo para salir a escena", text: "Tu marca, frente a cámara", tags: ["Rodaje", "Edición", "Lanzamiento"] },
     ],
   },
 };

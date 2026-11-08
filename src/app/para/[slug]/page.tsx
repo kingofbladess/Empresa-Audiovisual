@@ -36,7 +36,7 @@ export default async function ClientTypePage({ params }: Props) {
 
   return (
     <>
-      <section className="relative isolate flex min-h-[88svh] items-end overflow-hidden">
+      <section className="on-dark relative isolate flex min-h-[88svh] items-end overflow-hidden">
         <Frame media={t.media} drift priority className="absolute inset-0 -z-10" />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-bg via-bg/50 to-bg/30" />
         <div className="container-x pt-40 pb-20">

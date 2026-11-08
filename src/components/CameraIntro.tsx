@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import { site } from "@/content/site";
+import { Viewfinder } from "./Viewfinder";
 
 /*
  * INTRO DE LA CÁMARA (controlada por el scroll)
@@ -31,6 +32,18 @@ const clamp = (v: number, a = 0, b = 1) => Math.min(b, Math.max(a, v));
 const seg = (p: number, a: number, b: number) => clamp((p - a) / (b - a));
 const partAt = (t: number) => STARTS.filter((start) => t >= start).length - 1;
 
+/** Dónde aparece cada punto de enfoque (x %, y %) y en qué tramo de su escena. */
+const AF_POS = [
+  [[22, 40], [72, 28], [62, 58]],
+  [[76, 46], [28, 27], [40, 57]],
+  [[25, 52], [66, 25], [80, 52]],
+  [[70, 40], [22, 30], [42, 24]],
+];
+const AF_AT = [0.1, 0.36, 0.62];
+/** Datos de cámara que cambian en cada escena. */
+const APERTURE = ["2.8", "4", "1.8", "5.6"];
+const ISO = ["800", "640", "400", "200"];
+
 /** Tramo del recorrido en que avanza el video; el resto es el fundido a la portada. */
 const VIDEO_END = 0.9;
 /** Suavizado del avance: fracción de la distancia al objetivo que se recorre en cada cuadro. */
@@ -59,8 +72,16 @@ export function CameraIntro({ children }: { children: ReactNode }) {
   const copyBox = useRef<HTMLDivElement>(null);
   const hint = useRef<HTMLDivElement>(null);
   const bar = useRef<HTMLDivElement>(null);
+  const hud = useRef<HTMLDivElement>(null);
+  const timecode = useRef<HTMLSpanElement>(null);
   const skipBtn = useRef<HTMLButtonElement>(null);
   const loadBar = useRef<HTMLDivElement>(null);
+  const afLayer = useRef<HTMLDivElement>(null);
+  const focal = useRef<HTMLSpanElement>(null);
+  const fstop = useRef<HTMLSpanElement>(null);
+  const iso = useRef<HTMLSpanElement>(null);
+  const ruler = useRef<HTMLDivElement>(null);
+  const meters = useRef<(HTMLElement | null)[]>([]);
   const [phase, setPhase] = useState(0);
 
   // La intro avanza solo cuando el visitante hace scroll, así que también se muestra
@@ -79,6 +100,8 @@ export function CameraIntro({ children }: { children: ReactNode }) {
     let wasInteractive = false;
     let target = 0;
     let current = 0;
+    let lastP = 0;
+    let meterTimer = 0;
 
     const show = (index: number) => {
       if (index === shown) return;
@@ -119,13 +142,33 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       kickSeek();
 
       // El texto acompaña a la imagen: no se adelanta a lo que ya se puede mostrar.
-      const ph = Math.max(0, partAt(Math.min(target, Math.max(0, readyUntil - END_MARGIN))));
+      const shownTime = Math.min(target, Math.max(0, readyUntil - END_MARGIN));
+      const ph = Math.max(0, partAt(shownTime));
       if (ph !== lastPhase) {
         lastPhase = ph;
         setPhase(ph);
+        if (fstop.current) fstop.current.textContent = APERTURE[ph];
+        if (iso.current) iso.current.textContent = ISO[ph];
       }
 
-      if (bar.current) bar.current.style.transform = `scaleY(${p})`;
+      // Dentro de cada escena van apareciendo sus puntos de enfoque, uno tras otro.
+      const local = clamp((shownTime - STARTS[ph]) / PARTS[ph]);
+      afLayer.current?.querySelectorAll<HTMLElement>("[data-af]").forEach((el) => {
+        el.toggleAttribute("data-on", Number(el.dataset.phase) === ph && local >= Number(el.dataset.at));
+      });
+      // El foco recorre la regla en cada escena y la focal abre de 24 a 85 mm en todo el viaje.
+      if (ruler.current) ruler.current.style.transform = `translateY(${(1 - local) * 100}%)`;
+      if (focal.current) focal.current.textContent = String(Math.round(24 + 61 * seg(p, 0, VIDEO_END)));
+      // Los vúmetros suben con la velocidad del scroll y caen al detenerse.
+      const level = Math.min(1, 0.12 + Math.abs(p - lastP) * 90);
+      lastP = p;
+      meters.current.forEach((m, i) => {
+        if (m) m.style.transform = `scaleY(${Math.min(1, level * (i ? 0.86 : 1))})`;
+      });
+      clearTimeout(meterTimer);
+      meterTimer = window.setTimeout(() => meters.current.forEach((m) => m && (m.style.transform = "scaleY(0.06)")), 160);
+
+      if (bar.current) bar.current.style.transform = `scaleX(${p})`;
       if (hint.current) {
         const h = seg(p, 0, 0.04);
         hint.current.style.opacity = String(1 - h);
@@ -134,6 +177,13 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       }
       const copyOpacity = 1 - seg(p, 0.84, 0.9);
       if (copyBox.current) copyBox.current.style.opacity = String(copyOpacity * seg(p, 0.02, 0.05));
+      if (hud.current) hud.current.style.opacity = String(copyOpacity);
+      if (timecode.current) {
+        // El contador sigue al video: avanza y retrocede con el scroll.
+        const pad = (n: number) => String(n).padStart(2, "0");
+        const frames = Math.floor(target * 24);
+        timecode.current.textContent = `00:${pad(Math.floor(frames / 1440))}:${pad(Math.floor(frames / 24) % 60)}:${pad(frames % 24)}`;
+      }
       if (skipBtn.current) {
         skipBtn.current.style.opacity = String(copyOpacity);
         skipBtn.current.style.visibility = copyOpacity < 0.05 ? "hidden" : "visible";
@@ -248,6 +298,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
       window.removeEventListener("resize", onScroll);
       cancelAnimationFrame(scrollRaf);
       cancelAnimationFrame(seekRaf);
+      clearTimeout(meterTimer);
     };
   }, [skip]);
 
@@ -264,7 +315,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
 
   return (
     <div ref={outer} data-intro className="relative" style={{ height: `${cfg.length * 100 + 100}svh` }}>
-      <div ref={stage} className="sticky top-0 h-[100svh] overflow-hidden bg-[#030303]">
+      <div ref={stage} className="on-dark sticky top-0 h-[100svh] overflow-hidden bg-[#030303]">
         {/* La portada real: aparece con un fundido al final */}
         <div ref={image} className="hero-stage absolute inset-0" style={{ opacity: 0, visibility: "hidden", zIndex: 1, pointerEvents: "none" }} inert>
           {children}
@@ -294,6 +345,70 @@ export function CameraIntro({ children }: { children: ReactNode }) {
         {/* Oscurece la parte baja para que los textos se lean sobre cualquier escena */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 h-2/3 bg-[linear-gradient(0deg,rgba(0,0,0,.8),transparent)]" />
 
+        {/* Visor de cámara sobre el video */}
+        <div ref={hud} className="pointer-events-none absolute inset-0 z-10">
+          <Viewfinder center className="vf--screen" />
+          <div className="hud absolute top-[6.25rem] left-[clamp(1.75rem,4vw,3.5rem)] text-white" aria-hidden>
+            <p className="flex items-center gap-3">
+              <span className="rec-dot h-2.5 w-2.5 rounded-full" /> REC
+              <span ref={timecode}>00:00:00:00</span>
+            </p>
+            <p className="mt-1.5 flex gap-4 text-[0.78rem] text-white/75">
+              <span>4K</span>
+              <span>24 FPS</span>
+              <span>
+                ƒ/<span ref={fstop}>{APERTURE[0]}</span>
+              </span>
+              <span className="hidden sm:inline">
+                ISO <span ref={iso}>{ISO[0]}</span>
+              </span>
+              <span>
+                <span ref={focal}>24</span> mm
+              </span>
+              <span className="hidden sm:inline">5600K</span>
+            </p>
+          </div>
+
+          {/* Puntos de enfoque con las ideas de cada escena */}
+          <div ref={afLayer} className="absolute inset-0" aria-hidden>
+            {cfg.phases.map((ph, i) =>
+              ph.tags.map((tag, j) => (
+                <span key={tag} data-af data-phase={i} data-at={AF_AT[j]} className="af" style={{ left: `${AF_POS[i][j][0]}%`, top: `${AF_POS[i][j][1]}%` }}>
+                  <i className="af__box" />
+                  <span className="af__label hud">
+                    <span className="flag-point w-3!" /> {tag}
+                  </span>
+                </span>
+              )),
+            )}
+          </div>
+
+          {/* Vúmetros (izquierda) y regla de foco (derecha) */}
+          <div className="absolute top-1/2 left-[clamp(1.75rem,4vw,3.5rem)] hidden -translate-y-1/2 items-end gap-1.5 md:flex" aria-hidden>
+            {[0, 1].map((i) => (
+              <span key={i} className="meter">
+                <i
+                  ref={(node) => {
+                    meters.current[i] = node;
+                  }}
+                />
+              </span>
+            ))}
+            <span className="hud ml-1 text-[0.7rem] text-white/70">L R</span>
+          </div>
+          <div className="focus-ruler absolute top-1/2 right-[clamp(1.75rem,4vw,3.5rem)] hidden -translate-y-1/2 md:block" aria-hidden>
+            <span className="focus-ruler__ticks" />
+            <div className="hud absolute inset-y-0 left-4 flex flex-col justify-between whitespace-nowrap text-[0.7rem] text-white/70">
+              <span className="font-sans text-[0.95rem] leading-none">∞</span>
+              <span>10</span>
+              <span>5</span>
+              <span>3</span>
+              <span>1.5 m</span>
+            </div>
+            <div ref={ruler} className="focus-ruler__marker" style={{ transform: "translateY(100%)" }} />
+          </div>
+        </div>
+
         {/* Textos de cada fase */}
         <div ref={copyBox} className="pointer-events-none absolute inset-x-0 bottom-0 z-10 pb-[max(1.25rem,4svh)] opacity-0">
           <div className="container-x flex items-end justify-between gap-6">
@@ -301,9 +416,18 @@ export function CameraIntro({ children }: { children: ReactNode }) {
               <p className="start-title text-[clamp(1.75rem,min(4.6vw,9svh),3.8rem)]">{copy.title}</p>
               <p className="start-sub mt-2 text-[clamp(1.05rem,min(1.9vw,4.5svh),1.6rem)]">{copy.text}</p>
             </div>
-            {/* Progreso */}
-            <div className="hidden h-32 w-px bg-line-strong md:block">
-              <div ref={bar} className="h-full w-px origin-top bg-accent" style={{ transform: "scaleY(0)" }} />
+            {/* Avance: una ruta con una bandera por escena */}
+            <div className="relative mr-20 mb-2 hidden h-8 w-44 shrink-0 md:block" aria-hidden>
+              <div className="absolute inset-x-[3px] bottom-[3px] h-px bg-line-strong">
+                <div ref={bar} className="h-full origin-left bg-accent" style={{ transform: "scaleX(0)" }} />
+              </div>
+              {cfg.phases.map((p, i) => (
+                <span
+                  key={p.title}
+                  className={`flag-point absolute bottom-0 w-4! transition-opacity duration-500 ${i <= phase ? "opacity-100" : "opacity-40"}`}
+                  style={{ left: `calc(${(i / (cfg.phases.length - 1)) * 100}% - ${(i / (cfg.phases.length - 1)) * 1}rem)` }}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -316,7 +440,7 @@ export function CameraIntro({ children }: { children: ReactNode }) {
           <span className="mt-2 block h-6 w-px animate-pulse bg-fg/60" />
         </div>
 
-        <button ref={skipBtn} type="button" onClick={skipIntro} className="glass-control label absolute top-[5.25rem] right-4 z-20 min-h-11 px-4 py-2 text-fg md:right-8">
+        <button ref={skipBtn} type="button" onClick={skipIntro} className="glass-control label absolute top-[6rem] right-7 z-20 min-h-11 px-4 py-2 text-fg md:right-10">
           Saltar intro
         </button>
       </div>

@@ -13,9 +13,13 @@ export function Logo({ className = "", size = "sm" }: { className?: string; size
       <LogoReplay>
         {/* Con next/image el SVG perdería su animación */}
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src={big ? "/brand/isotipo-grande.svg" : "/brand/isotipo.svg"} alt="" width={1000} height={1000} className={`overflow-visible ${big ? "h-16 w-16" : "h-10 w-10"}`} />
+        <img src={big ? "/brand/isotipo-grande.svg" : "/brand/isotipo.svg"} alt="" width={1000} height={1000} className={`logo-oscuro overflow-visible ${big ? "h-16 w-16" : "h-10 w-10"}`} />
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/brand/logotipo.svg" alt="" width={2000} height={261} className={big ? "h-7 w-auto" : "h-[0.95rem] w-auto"} />
+        <img src={big ? "/brand/isotipo-grande-claro.svg" : "/brand/isotipo-claro.svg"} alt="" width={1000} height={1000} loading="lazy" className={`logo-claro overflow-visible ${big ? "h-16 w-16" : "h-10 w-10"}`} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/brand/logotipo.svg" alt="" width={2000} height={261} className={`logo-oscuro ${big ? "h-7 w-auto" : "h-[0.95rem] w-auto"}`} />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/brand/logotipo-claro.svg" alt="" width={2000} height={261} loading="lazy" className={`logo-claro ${big ? "h-7 w-auto" : "h-[0.95rem] w-auto"}`} />
       </LogoReplay>
     </Link>
   );

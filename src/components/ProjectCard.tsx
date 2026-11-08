@@ -11,7 +11,7 @@ export function ProjectCard({ project, priority, aspect = "aspect-[4/5]" }: { pr
         <Frame media={project.cover} className={`${aspect} w-full`} priority={priority} sizes="(min-width:1024px) 33vw, (min-width:640px) 50vw, 100vw" />
         <div className="absolute inset-0 bg-bg/0 transition-colors duration-500 group-hover:bg-bg/30" />
         {project.demo && <DemoBadge className="absolute top-3 left-3" />}
-        <span className="label absolute right-3 bottom-3 translate-y-3 rounded-full border border-line-strong bg-bg/60 px-4 py-2 text-fg opacity-0 backdrop-blur transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
+        <span className="on-dark label absolute right-3 bottom-3 translate-y-3 rounded-full border border-line-strong bg-bg/60 px-4 py-2 text-fg opacity-0 backdrop-blur transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
           Ver proyecto
         </span>
       </div>

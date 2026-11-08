@@ -6,9 +6,9 @@ import { waLink } from "@/lib/whatsapp";
 type Variant = "solid" | "outline" | "ghost";
 
 const styles: Record<Variant, string> = {
-  solid: "press bg-rec text-white shadow-[inset_0_1px_0_rgba(255,255,255,.3),0_10px_30px_-10px_rgba(220,47,61,.7)] hover:bg-accent hover:text-on-accent",
-  outline: "glass-control text-fg",
-  ghost: "press text-fg hover:text-accent px-0!",
+  solid: "btn btn--solid press",
+  outline: "btn glass-control text-fg",
+  ghost: "btn btn--ghost press text-fg hover:text-accent px-0!",
 };
 
 const base =
@@ -18,7 +18,10 @@ export function Button({ href, children, variant = "solid", className = "" }: { 
   return (
     <Link href={href} className={`${base} ${styles[variant]} ${className}`}>
       {children}
-      <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+      <span className="btn__arrow" aria-hidden>
+        <ArrowIcon className="h-4 w-4" />
+        <ArrowIcon className="h-4 w-4" />
+      </span>
     </Link>
   );
 }
@@ -27,7 +30,7 @@ export function Button({ href, children, variant = "solid", className = "" }: { 
 export function WhatsAppButton({ message, children = "Escríbenos por WhatsApp", variant = "outline", className = "" }: { message?: string; children?: ReactNode; variant?: Variant; className?: string }) {
   return (
     <a href={waLink(message)} target="_blank" rel="noopener noreferrer" className={`${base} ${styles[variant]} ${className}`}>
-      <WhatsAppIcon className="h-4 w-4" />
+      <WhatsAppIcon className="btn__icon h-4 w-4" />
       {children}
     </a>
   );
@@ -38,7 +41,10 @@ export function ExternalButton({ href, children, variant = "outline", className 
   return (
     <a href={href} target="_blank" rel="noopener noreferrer" className={`${base} ${styles[variant]} ${className}`}>
       {children}
-      <ArrowIcon className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1" />
+      <span className="btn__arrow" aria-hidden>
+        <ArrowIcon className="h-4 w-4" />
+        <ArrowIcon className="h-4 w-4" />
+      </span>
     </a>
   );
 }

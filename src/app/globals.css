@@ -1,31 +1,83 @@
 @import "tailwindcss";
 
 /* ───────────── Identidad visual · XploreMet Prod ─────────────
-   Cada color es un valor de la marca: gris (respeto), amarillo (optimismo),
-   café (la base cálida del sitio), blanco (unión) y rojo (valentía). */
-:root {
+   Dos fondos, negro o blanco (data-theme="light" en <html>), con los colores de la marca:
+   amarillo (optimismo), rojo (valentía), café (la base cálida) y gris (respeto).
+   Lo que va sobre video o foto lleva .on-dark, que fija el tema negro en ese bloque. */
+:root,
+.on-dark {
   --bg: #0d0a08;
-  /* Translúcido a propósito: deja ver la luz ambiental detrás de las secciones. */
   --bg-2: rgba(38, 27, 19, 0.42);
   --panel: #1f1712;
-  --line: rgba(255, 244, 230, 0.12);
-  --line-strong: rgba(255, 244, 230, 0.28);
+  --line: rgba(255, 244, 230, 0.14);
+  --line-strong: rgba(255, 244, 230, 0.3);
   --fg: #f7f3ec;
   --muted: #b9b1a7;
   --accent: #fed340;
-  --rec: #dc2f3d;
+  --rec: #ff5a66;
   --gris: #a8a5a1;
-  --start-ink: #fff6e5;
-  --start-soft: #ffd98a;
-  --start-accent: #ffb627;
   --sand: #e3b98f;
+  --cafe: #b5835a;
   --on-accent: #17110c;
   --danger: #ff9aa2;
+  --route: #a8a5a1;
+  --glass-bg: rgba(31, 23, 18, 0.74);
+  --glass-hover: rgba(52, 38, 28, 0.82);
+  --glass-edge: rgba(255, 255, 255, 0.14);
+  --glass-shadow: rgba(0, 0, 0, 0.8);
+  --bar-bg: rgba(20, 15, 11, 0.7);
+  --field-bg: rgba(255, 244, 230, 0.06);
+  --placeholder: #b9b1a7;
+  --topo: url("/map/topo-negro.svg");
+  --punto: url("/brand/punto-negro.svg");
+  --glow-1: rgba(254, 211, 64, 0.16);
+  --glow-2: rgba(220, 47, 61, 0.16);
+  --glow-3: rgba(181, 131, 90, 0.22);
+  --btn-fill: #fed340;
+  --btn-fill-fg: #17110c;
+  color-scheme: dark;
+}
+:root[data-theme="light"] {
+  --bg: #ffffff;
+  --bg-2: rgba(181, 131, 90, 0.08);
+  --panel: #f6f1ea;
+  --line: rgba(23, 17, 12, 0.14);
+  --line-strong: rgba(23, 17, 12, 0.32);
+  --fg: #15100c;
+  --muted: #5c544c;
+  --accent: #c41e2e;
+  --rec: #c41e2e;
+  --gris: #5c544c;
+  --sand: #7d5230;
+  --cafe: #7d5230;
+  --on-accent: #ffffff;
+  --danger: #b3001b;
+  --route: #7a7168;
+  --glass-bg: rgba(255, 255, 255, 0.84);
+  --glass-hover: rgba(254, 243, 205, 0.92);
+  --glass-edge: rgba(255, 255, 255, 0.9);
+  --glass-shadow: rgba(40, 25, 10, 0.3);
+  --bar-bg: rgba(255, 255, 255, 0.94);
+  --field-bg: rgba(181, 131, 90, 0.06);
+  --placeholder: #6b625a;
+  --topo: url("/map/topo-blanco.svg");
+  --punto: url("/brand/punto-blanco.svg");
+  --glow-1: rgba(254, 211, 64, 0.24);
+  --glow-2: rgba(220, 47, 61, 0.09);
+  --glow-3: rgba(181, 131, 90, 0.16);
+  --btn-fill: #15100c;
+  --btn-fill-fg: #ffffff;
+  color-scheme: light;
+}
+:root {
+  --cta: #c9232f;
   --whatsapp: #25d366;
   --whatsapp-hover: #3be07f;
   --on-whatsapp: #0a0a0a;
-  --cafe: #b5835a;
   --glass-blur: 16px;
+}
+.on-dark {
+  color: var(--fg);
 }
 
 @theme inline {
@@ -38,6 +90,7 @@
   --color-muted: var(--muted);
   --color-accent: var(--accent);
   --color-rec: var(--rec);
+  --color-cta: var(--cta);
   --color-cafe: var(--cafe);
   --color-sand: var(--sand);
   --color-on-accent: var(--on-accent);
@@ -66,7 +119,7 @@ body {
 }
 ::selection {
   background: var(--accent);
-  color: #0a0a0a;
+  color: var(--on-accent);
 }
 :focus-visible {
   outline: 2px solid var(--accent);
@@ -78,7 +131,12 @@ summary {
   cursor: pointer;
 }
 
-/* Luz ambiental fija: es lo que el vidrio difumina. Solo gradientes, en su propia capa. */
+/* El sitio es un mapa: curvas de nivel en mosaico que se mueven con la página. */
+body {
+  background-image: var(--topo);
+  background-size: 1400px 1400px;
+}
+/* Luz ambiental con los colores de la marca, fija y en su propia capa. */
 body::before {
   content: "";
   position: fixed;
@@ -87,9 +145,9 @@ body::before {
   pointer-events: none;
   transform: translateZ(0);
   background:
-    radial-gradient(52vmax 42vmax at 88% 6%, rgba(254, 211, 64, 0.22), transparent 70%),
-    radial-gradient(48vmax 42vmax at 4% 48%, rgba(220, 47, 61, 0.2), transparent 70%),
-    radial-gradient(60vmax 46vmax at 78% 100%, rgba(181, 131, 90, 0.3), transparent 72%);
+    radial-gradient(52vmax 42vmax at 88% 6%, var(--glow-1), transparent 70%),
+    radial-gradient(48vmax 42vmax at 4% 48%, var(--glow-2), transparent 70%),
+    radial-gradient(60vmax 46vmax at 78% 100%, var(--glow-3), transparent 72%);
 }
 
 /* Grano de película fijo: animado obligaba a repintar toda la pantalla. */
@@ -101,6 +159,10 @@ body::after {
   pointer-events: none;
   opacity: 0.05;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+:root[data-theme="light"] body::after {
+  opacity: 0.025;
 }
 
 /* Utilidades tipográficas */
@@ -122,7 +184,7 @@ p {
   font-weight: 800;
   text-transform: none;
   letter-spacing: -0.03em;
-  color: var(--start-ink);
+  color: #fff;
   text-shadow: 0 2px 22px rgba(0, 0, 0, 0.6);
 }
 .hero-title {
@@ -136,11 +198,8 @@ p {
 .start-sub {
   font-family: var(--font-body), sans-serif;
   font-weight: 600;
-  color: var(--start-soft);
+  color: var(--accent);
   text-shadow: 0 1px 14px rgba(0, 0, 0, 0.7);
-}
-.start-accent {
-  color: var(--start-accent);
 }
 .serif {
   font-family: var(--font-serif), serif;
@@ -169,7 +228,7 @@ p {
 @media (orientation: portrait) {
   .hero-title { font-size: min(14.5vw, 12svh); }
 }
-@media (max-height: 820px) {
+@media (max-height: 640px) {
   .hero-meta { display: none; }
 }
 @media (max-height: 720px) {
@@ -184,14 +243,12 @@ p {
 }
 .hero-panel {
   margin-top: 2rem;
-  padding: 1.5rem;
 }
 @media (min-width: 768px) {
   .hero-content {
     padding-top: clamp(5.5rem, 14svh, 9rem);
     padding-bottom: calc(var(--bar, 7vh) + 1.25rem);
   }
-  .hero-panel { padding: 2rem; }
 }
 /* Pantallas muy bajas (móviles en horizontal): todo se compacta para que los botones sigan a la vista. */
 @media (max-height: 560px) {
@@ -199,7 +256,7 @@ p {
   .hero-meta { display: none; }
   .hero-title { font-size: min(8.5vw, 22svh); }
   .hero-content { padding-top: 4.75rem; padding-bottom: 0.75rem; }
-  .hero-panel { margin-top: 0.5rem; padding: 0.625rem 1rem; }
+  .hero-panel { margin-top: 0.5rem; }
 }
 
 /* Vidrio. Las tarjetas van sobre la luz ambiental, un degradado suave: difuminarlo no
@@ -207,24 +264,22 @@ p {
    imagen detrás (.glass-blur y el menú). El brillo del borde y el reflejo dan el material. */
 .glass,
 .glass-control {
-  background:
-    linear-gradient(115deg, rgba(255, 255, 255, 0.09), transparent 34%),
-    linear-gradient(140deg, rgba(255, 244, 230, 0.1), rgba(255, 244, 230, 0.03));
-  border: 1px solid rgba(255, 244, 230, 0.17);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 24px 48px -28px rgba(0, 0, 0, 0.85);
+  background: var(--glass-bg);
+  border: 1px solid var(--line-strong);
+  box-shadow: inset 0 1px 0 var(--glass-edge), 0 24px 48px -28px var(--glass-shadow);
 }
 .glass {
   border-radius: 1.25rem;
 }
 .glass-control {
   border-radius: 999px;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.22), 0 8px 20px -12px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 1px 0 var(--glass-edge), 0 8px 20px -12px var(--glass-shadow);
   transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s;
 }
 .glass-control:hover {
-  border-color: rgba(254, 211, 64, 0.65);
+  border-color: var(--accent);
+  background: var(--glass-hover);
   color: var(--accent);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.3), 0 10px 24px -10px rgba(254, 211, 64, 0.28);
 }
 .glass-control[aria-pressed="true"] {
   background: var(--accent);
@@ -242,7 +297,136 @@ button {
 }
 .press:active,
 .glass-control:active {
-  transform: scale(0.97);
+  transform: scale(0.96);
+}
+
+/* ── Botones ──
+   Al entrar el puntero, el color barre el botón de izquierda a derecha (y sale por la derecha),
+   un brillo sigue al puntero (--mx/--my, ver ButtonFx) y la flecha sale y vuelve a entrar. */
+.btn,
+.glass-control {
+  isolation: isolate;
+  overflow: hidden;
+  --btn-wipe: color-mix(in srgb, var(--accent) 18%, transparent);
+  --btn-glow: color-mix(in srgb, var(--accent) 34%, transparent);
+}
+.btn:not(.absolute, .fixed),
+.glass-control:not(.absolute, .fixed) {
+  position: relative;
+}
+.btn::before,
+.glass-control::before,
+.btn::after,
+.glass-control::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  pointer-events: none;
+}
+.btn::before,
+.glass-control::before {
+  background: var(--btn-wipe);
+  transform: scaleX(0);
+  transform-origin: right center;
+  transition: transform 0.45s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.btn::after,
+.glass-control::after {
+  background: radial-gradient(6.5rem circle at var(--mx, 50%) var(--my, 50%), var(--btn-glow), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+.btn:hover::before,
+.glass-control:hover::before,
+.btn:focus-visible::before,
+.glass-control:focus-visible::before {
+  transform: scaleX(1);
+  transform-origin: left center;
+}
+@media (hover: hover) {
+  .btn:hover::after,
+  .glass-control:hover::after {
+    opacity: 1;
+  }
+}
+.btn:active::after,
+.glass-control:active::after {
+  opacity: 1;
+  --btn-glow: rgba(255, 255, 255, 0.45);
+}
+.glass-control[aria-pressed="true"]::before {
+  display: none;
+}
+.btn--solid {
+  background: var(--cta);
+  color: #fff;
+  --btn-wipe: var(--btn-fill);
+  --btn-glow: rgba(255, 255, 255, 0.3);
+  transition: color 0.3s 0.08s, transform 0.15s, translate 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.btn--solid:hover,
+.btn--solid:focus-visible {
+  color: var(--btn-fill-fg);
+}
+.btn.glass-control {
+  transition: background-color 0.2s, border-color 0.2s, color 0.2s, transform 0.15s, box-shadow 0.2s, translate 0.35s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+/* Enlace sin fondo: una línea que se dibuja debajo. */
+.btn--ghost::before {
+  inset: auto 0 0.45rem;
+  height: 2px;
+  background: currentColor;
+  border-radius: 0;
+}
+.btn--ghost::after {
+  display: none;
+}
+/* Atracción leve hacia el puntero en los botones principales. */
+.btn {
+  translate: var(--tx, 0) var(--ty, 0);
+}
+.btn__arrow {
+  position: relative;
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+.btn__arrow svg {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.4s cubic-bezier(0.7, 0, 0.2, 1);
+}
+.btn__arrow svg + svg {
+  transform: translateX(-140%);
+}
+.btn:hover .btn__arrow svg:first-child,
+.btn:focus-visible .btn__arrow svg:first-child {
+  transform: translateX(140%);
+}
+.btn:hover .btn__arrow svg + svg,
+.btn:focus-visible .btn__arrow svg + svg {
+  transform: none;
+  transition-delay: 0.08s;
+}
+@keyframes ring {
+  20% { rotate: -14deg; }
+  40% { rotate: 12deg; }
+  60% { rotate: -8deg; }
+  80% { rotate: 4deg; }
+}
+.btn:hover .btn__icon {
+  animation: ring 0.6s ease-in-out;
+}
+/* Cambio de tema: medio giro del icono. */
+.theme-icon {
+  transition: rotate 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+:root[data-theme="light"] .theme-icon {
+  rotate: 180deg;
 }
 .glass-blur,
 .glass-bar {
@@ -250,22 +434,98 @@ button {
   backdrop-filter: blur(var(--glass-blur)) saturate(150%);
 }
 .glass-bar {
-  background: rgba(20, 15, 11, 0.62);
-  border-bottom: 1px solid rgba(255, 244, 230, 0.15);
+  background: var(--bar-bg);
+  border-bottom: 1px solid var(--line);
+}
+/* En blanco el menú siempre lleva fondo: las portadas con foto siguen siendo oscuras. */
+:root[data-theme="light"] .site-header:not([data-over-video]) {
+  background: var(--bar-bg);
+  border-bottom-color: var(--line);
+  -webkit-backdrop-filter: blur(var(--glass-blur));
+  backdrop-filter: blur(var(--glass-blur));
+}
+/* Menú tipo cámara: borde inferior con perforaciones de película. */
+.site-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 4px;
+  pointer-events: none;
+  background: repeating-linear-gradient(90deg, var(--line-strong) 0 10px, transparent 10px 20px);
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+.site-header.glass-bar::after,
+:root[data-theme="light"] .site-header:not([data-over-video])::after {
+  opacity: 1;
+}
+/* Enlaces del menú: el visor encuadra la página actual y aparece al pasar el cursor. */
+.nav-frame {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  min-height: 2.75rem;
+  padding: 0.5rem 0.875rem;
+  white-space: nowrap;
+  transition: color 0.2s, transform 0.15s;
+}
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .site-header .nav-frame {
+    padding-inline: 0.5rem;
+    letter-spacing: 0.08em;
+  }
+}
+.nav-frame:active {
+  transform: scale(0.97);
+}
+.nav-frame::before {
+  content: "";
+  position: absolute;
+  inset: 0.2rem 0;
+  pointer-events: none;
+  --c: var(--accent);
+  --l: 0.5rem;
+  background:
+    linear-gradient(var(--c), var(--c)) top left / var(--l) 2px,
+    linear-gradient(var(--c), var(--c)) top left / 2px var(--l),
+    linear-gradient(var(--c), var(--c)) top right / var(--l) 2px,
+    linear-gradient(var(--c), var(--c)) top right / 2px var(--l),
+    linear-gradient(var(--c), var(--c)) bottom left / var(--l) 2px,
+    linear-gradient(var(--c), var(--c)) bottom left / 2px var(--l),
+    linear-gradient(var(--c), var(--c)) bottom right / var(--l) 2px,
+    linear-gradient(var(--c), var(--c)) bottom right / 2px var(--l);
+  background-repeat: no-repeat;
+  opacity: 0;
+  scale: 1.18;
+  transition: opacity 0.2s, scale 0.25s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.nav-frame:hover::before,
+.nav-frame:focus-visible::before {
+  opacity: 0.7;
+  scale: 1;
+}
+.nav-frame[aria-current="page"]::before {
+  opacity: 1;
+  scale: 1;
+}
+/* Franja de claqueta del menú móvil: blanco y negro, como la de un set. */
+.slate-stripes {
+  background: repeating-linear-gradient(120deg, #f7f3ec 0 18px, #17110c 18px 36px);
+  border-block: 2px solid #17110c;
 }
 /* Sobre el video el blur se recalcula en cada fotograma: ahí el menú usa un tono sólido. */
 .glass-bar[data-over-video] {
   -webkit-backdrop-filter: none;
   backdrop-filter: none;
-  background: rgba(20, 15, 11, 0.78);
+  background: rgba(13, 10, 8, 0.78);
 }
 .glass-hover {
   transition: translate 0.25s, background 0.25s, border-color 0.25s;
 }
 .glass-hover:hover {
   translate: 0 -2px;
-  background: linear-gradient(140deg, rgba(254, 211, 64, 0.15), rgba(255, 244, 230, 0.04));
-  border-color: rgba(254, 211, 64, 0.5);
+  background: var(--glass-hover);
+  border-color: var(--accent);
 }
 .glass-hover:active {
   translate: 0 0;
@@ -295,6 +555,290 @@ button {
     width: 1rem;
     border-top: 2px dashed var(--line-strong);
   }
+}
+
+/* ── Mapa ── */
+/* Bandera del logo sobre la X de la marca. */
+.flag-point {
+  display: inline-block;
+  flex: none;
+  width: 1.25rem;
+  aspect-ratio: 300 / 370;
+  background: var(--punto) center / contain no-repeat;
+}
+.route-line {
+  fill: none;
+  stroke: var(--route);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-dasharray: 1 8;
+  vector-effect: non-scaling-stroke;
+}
+.route-line--done {
+  stroke: var(--accent);
+  stroke-dasharray: none;
+}
+/* El tramo se dibuja de arriba abajo al llegar a él. */
+.route-leg svg {
+  clip-path: inset(-2px -2px 100% -2px);
+  transition: clip-path 1.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.route-leg[data-visible="true"] svg {
+  clip-path: inset(-2px);
+}
+.map-board {
+  background: var(--bg-2) var(--topo) center / 700px 700px;
+  border: 1px solid var(--line-strong);
+}
+.map-area {
+  aspect-ratio: 1 / 1.1;
+  margin: 1.25rem 1rem;
+}
+.map-pin {
+  position: absolute;
+  left: var(--mx);
+  top: var(--my);
+  /* La X de la bandera queda justo sobre la coordenada. */
+  translate: -0.8rem -2.05rem;
+}
+.map-pin .flag-point {
+  width: 1.5rem;
+}
+.map-pin__button {
+  display: flex;
+  align-items: flex-end;
+  gap: 0.25rem;
+  min-height: 2.75rem;
+  padding: 0.5rem;
+  border-radius: 0.75rem;
+  color: var(--fg);
+  transition: transform 0.15s;
+}
+.map-pin__button:active {
+  transform: scale(0.96);
+}
+.map-pin__name {
+  padding: 0.125rem 0.5rem;
+  border-radius: 999px;
+  background: var(--bg);
+  border: 1px solid var(--line-strong);
+  white-space: nowrap;
+  transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+}
+.map-pin__button:hover .map-pin__name {
+  border-color: var(--accent);
+}
+.map-pin__button[aria-pressed="true"] .map-pin__name {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+}
+@media (min-width: 1024px) {
+  .map-area {
+    aspect-ratio: 16 / 9;
+    margin: 2.5rem 2.5rem 1.5rem 1.5rem;
+  }
+  .map-pin {
+    left: var(--x);
+    top: var(--y);
+  }
+}
+
+/* ── Visor de cámara ── */
+.vf {
+  position: absolute;
+  inset: var(--vf-top, 0.75rem) var(--vf-x, 0.75rem) var(--vf-bottom, 0.75rem);
+  pointer-events: none;
+}
+.vf i {
+  position: absolute;
+  width: clamp(1.25rem, 3vw, 2.5rem);
+  aspect-ratio: 1;
+  border: 0 solid var(--fg);
+  opacity: 0.8;
+}
+.vf i:nth-child(1) { top: 0; left: 0; border-width: 2px 0 0 2px; }
+.vf i:nth-child(2) { top: 0; right: 0; border-width: 2px 2px 0 0; }
+.vf i:nth-child(3) { bottom: 0; left: 0; border-width: 0 0 2px 2px; }
+.vf i:nth-child(4) { bottom: 0; right: 0; border-width: 0 2px 2px 0; }
+/* Cruz de centro */
+.vf b {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 1.75rem;
+  aspect-ratio: 1;
+  translate: -50% -50%;
+  opacity: 0.55;
+  background:
+    linear-gradient(var(--fg), var(--fg)) center / 100% 1px no-repeat,
+    linear-gradient(var(--fg), var(--fg)) center / 1px 100% no-repeat;
+}
+.vf--screen {
+  --vf-top: 5.25rem;
+  --vf-x: clamp(0.75rem, 2vw, 1.5rem);
+  --vf-bottom: 1rem;
+}
+.vf--hero {
+  --vf-bottom: calc(var(--bar, 7vh) + 0.75rem);
+}
+.hud {
+  font-family: var(--font-display), sans-serif;
+  font-weight: 700;
+  font-size: 0.92rem;
+  letter-spacing: 0.12em;
+  font-variant-numeric: tabular-nums;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.6);
+}
+.rec-dot {
+  background: #ff3b47;
+  box-shadow: 0 0 10px #ff3b47;
+}
+
+/* ── Intro: lo que aparece sobre el video con el scroll ── */
+/* Puntos de enfoque: el recuadro llega grande, se ajusta y se fija en amarillo. */
+.af {
+  position: absolute;
+  translate: -50% -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.55rem;
+  color: #fff;
+  opacity: 0;
+  transition: opacity 0.35s;
+}
+.af__box {
+  width: clamp(2.5rem, 5vw, 3.75rem);
+  aspect-ratio: 1;
+  color: #fff;
+  scale: 1.7;
+  background:
+    linear-gradient(currentColor, currentColor) top left / 32% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) top left / 2px 32% no-repeat,
+    linear-gradient(currentColor, currentColor) top right / 32% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) top right / 2px 32% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom left / 32% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) bottom left / 2px 32% no-repeat,
+    linear-gradient(currentColor, currentColor) bottom right / 32% 2px no-repeat,
+    linear-gradient(currentColor, currentColor) bottom right / 2px 32% no-repeat;
+  filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.6));
+  transition: scale 0.5s cubic-bezier(0.2, 0.7, 0.2, 1), color 0.2s 0.45s;
+}
+.af__label {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  font-size: 0.8rem;
+  white-space: nowrap;
+  opacity: 0;
+  translate: 0 0.5rem;
+  transition: opacity 0.3s 0.5s, translate 0.4s 0.5s cubic-bezier(0.2, 0.7, 0.2, 1);
+}
+.af[data-on] {
+  opacity: 1;
+}
+.af[data-on] .af__box {
+  scale: 1;
+  color: #fed340;
+  animation: af-lock 0.36s steps(1) 0.5s 2;
+}
+.af[data-on] .af__label {
+  opacity: 1;
+  translate: none;
+}
+@keyframes af-lock {
+  50% { opacity: 0.25; }
+}
+/* Regla de foco (derecha) y vúmetros (izquierda) */
+.focus-ruler {
+  height: clamp(8rem, 26svh, 13rem);
+  width: 3rem;
+}
+.focus-ruler__ticks {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0.6rem;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.65) 0 1px, transparent 1px 10%);
+  border-left: 1px solid rgba(255, 255, 255, 0.5);
+}
+.focus-ruler__marker {
+  position: absolute;
+  inset: 0;
+  transition: transform 0.25s ease-out;
+}
+.focus-ruler__marker::before {
+  content: "";
+  position: absolute;
+  top: -1px;
+  left: -0.4rem;
+  width: 1.6rem;
+  height: 2px;
+  background: #fed340;
+  box-shadow: 0 0 8px #fed340;
+}
+.meter {
+  width: 0.35rem;
+  height: clamp(8rem, 26svh, 13rem);
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.meter > i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(to top, #3ddc84 0 62%, #fed340 62% 84%, #ff3b47 84%);
+  transform: scaleY(0.06);
+  transform-origin: bottom;
+  transition: transform 0.22s ease-out;
+}
+/* Bloque final en el amarillo de la marca, igual en los dos temas. */
+.cta-band {
+  background: #fed340;
+  color: #17110c;
+  border-radius: 1.25rem;
+}
+.cta-band .glass-control {
+  background: #17110c;
+  border-color: #17110c;
+  color: #fff;
+}
+/* Sobre el amarillo, el botón principal se llena de negro. */
+.cta-band .btn--solid {
+  --btn-wipe: #17110c;
+}
+.cta-band .btn--solid:hover,
+.cta-band .btn--solid:focus-visible {
+  color: #fff;
+}
+/* Cerrado se ve un +; abierto, la X de cerrar. */
+.service__mark {
+  display: block;
+  rotate: 45deg;
+  transition: rotate 0.2s;
+}
+.service[open] .service__mark {
+  rotate: 0deg;
+}
+
+/* Logo: dos juegos de archivos con la misma animación; se ve el que contrasta. */
+.logo-claro {
+  display: none;
+}
+:root[data-theme="light"] .logo-oscuro {
+  display: none;
+}
+:root[data-theme="light"] .logo-claro {
+  display: block;
+}
+:root[data-theme="light"] .on-dark .logo-oscuro {
+  display: block;
+}
+:root[data-theme="light"] .on-dark .logo-claro {
+  display: none;
 }
 
 /* Lo que está fuera de pantalla no se pinta hasta que hace falta. */
@@ -366,6 +910,7 @@ button {
     scroll-behavior: auto !important;
   }
   .reveal { opacity: 1; transform: none; }
+  .route-leg svg { clip-path: none; }
   .frame-drift { animation: none; }
 }
 
@@ -374,10 +919,9 @@ button {
   width: 100%;
   margin-top: 0.5rem;
   min-height: 3rem;
-  background: rgba(255, 244, 230, 0.06);
-  border: 1px solid rgba(255, 244, 230, 0.2);
+  background: var(--field-bg);
+  border: 1px solid var(--line-strong);
   border-radius: 0.875rem;
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
   padding: 0.75rem 1rem;
   color: var(--fg);
   font-size: 1.05rem;
@@ -385,18 +929,18 @@ button {
   transition: border-color 0.2s, background-color 0.2s, box-shadow 0.2s;
 }
 .field:hover {
-  border-color: rgba(255, 244, 230, 0.4);
+  border-color: var(--fg);
 }
 .field:focus {
-  background: rgba(255, 244, 230, 0.09);
+  background: var(--field-bg);
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px rgba(254, 211, 64, 0.2);
+  box-shadow: 0 0 0 1px var(--accent);
 }
 .field[aria-invalid="true"] {
   border-color: var(--danger);
 }
 .field::placeholder {
-  color: #bdb4aa;
+  color: var(--placeholder);
 }
 select.field {
   appearance: none;

@@ -45,7 +45,7 @@ export default async function ProjectPage({ params }: Props) {
 
   return (
     <article>
-      <header className="relative isolate flex min-h-[92svh] items-end overflow-hidden">
+      <header className="on-dark relative isolate flex min-h-[92svh] items-end overflow-hidden">
         <Frame media={p.cover} drift priority className="absolute inset-0 -z-10" showCaption />
         <div className="absolute inset-0 -z-10 bg-gradient-to-t from-bg via-bg/30 to-bg/40" />
         <div className="container-x pt-40 pb-16">
@@ -145,7 +145,7 @@ export default async function ProjectPage({ params }: Props) {
       </section>
 
       {/* Siguiente */}
-      <Link href={`/trabajo/${next.slug}`} className="group relative block overflow-hidden border-t border-line">
+      <Link href={`/trabajo/${next.slug}`} className="on-dark group relative block overflow-hidden border-t border-line bg-bg">
         <Frame media={next.cover} className="absolute inset-0 opacity-40 transition-opacity duration-700 group-hover:opacity-70" />
         <div className="absolute inset-0 bg-bg/50" />
         <div className="container-x relative flex items-end justify-between gap-6 py-24 md:py-36">
