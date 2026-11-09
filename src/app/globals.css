@@ -30,6 +30,7 @@
   --placeholder: #b9b1a7;
   --topo: url("/map/topo-negro.svg");
   --punto: url("/brand/punto-negro.svg");
+  --bandera: url("/brand/bandera-negro.svg");
   --glow-1: rgba(254, 211, 64, 0.16);
   --glow-2: rgba(220, 47, 61, 0.16);
   --glow-3: rgba(181, 131, 90, 0.22);
@@ -62,6 +63,7 @@
   --placeholder: #6b625a;
   --topo: url("/map/topo-blanco.svg");
   --punto: url("/brand/punto-blanco.svg");
+  --bandera: url("/brand/bandera-blanco.svg");
   --glow-1: rgba(254, 211, 64, 0.24);
   --glow-2: rgba(220, 47, 61, 0.09);
   --glow-3: rgba(181, 131, 90, 0.16);
@@ -601,8 +603,106 @@ button {
   /* La X de la bandera queda justo sobre la coordenada. */
   translate: -0.8rem -2.05rem;
 }
-.map-pin .flag-point {
+/* Punto del mapa en capas: la X en el suelo, el pulso de radar y la bandera encima.
+   Por recorrer: bandera a media altura. Activo: izada, ondeando, con la X marcando el lugar.
+   Recorrido: bandera izada y quieta. El pie del mástil está en el 20 % / 84 % de la caja. */
+.pin {
+  position: relative;
+  display: inline-block;
+  flex: none;
   width: 1.5rem;
+  aspect-ratio: 300 / 370;
+}
+.pin__x,
+.pin__flag {
+  position: absolute;
+  inset: 0;
+  transform-origin: 20% 84%;
+}
+.pin__x {
+  background: url("/brand/punto-x.svg") center / contain no-repeat;
+  transition: scale 0.35s cubic-bezier(0.34, 1.56, 0.64, 1), filter 0.3s;
+}
+.pin__flag {
+  background: var(--bandera) center / contain no-repeat;
+  scale: 0.62;
+  opacity: 0.75;
+  transition: scale 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s, rotate 0.3s;
+}
+.map-pin[data-state="done"] .pin__flag {
+  scale: 1;
+  opacity: 1;
+}
+.map-pin[data-state="active"] .pin__flag {
+  scale: 1.18;
+  opacity: 1;
+}
+.map-pin[data-state="active"] .pin__x {
+  scale: 1.25;
+  filter: drop-shadow(0 0 5px #e53946);
+}
+.map-pin[data-state="next"] .map-pin__button:hover .pin__flag {
+  scale: 0.85;
+  rotate: -8deg;
+  opacity: 1;
+}
+/* Pulso de radar: una elipse en el suelo alrededor de la X. */
+.pin__ring,
+.pin__ring::after {
+  position: absolute;
+  left: 20%;
+  top: 84%;
+  width: 2.6rem;
+  height: 1rem;
+  margin: -0.5rem 0 0 -1.3rem;
+  border: 2px solid #e53946;
+  border-radius: 50%;
+  opacity: 0;
+  pointer-events: none;
+}
+.pin__ring::after {
+  content: "";
+  left: 50%;
+  top: 50%;
+  margin: calc(-0.5rem - 2px) 0 0 calc(-1.3rem - 2px);
+}
+.map-pin[data-state="active"] .pin__ring,
+.map-pin[data-state="active"] .pin__ring::after {
+  animation: radar 1.8s ease-out infinite;
+}
+.map-pin[data-state="active"] .pin__ring::after {
+  animation-delay: 0.9s;
+}
+@keyframes radar {
+  0% { scale: 0.2; opacity: 0.9; }
+  100% { scale: 1.6; opacity: 0; }
+}
+/* Entrada: primero aparece la X y luego la bandera cae y se clava. */
+.map-board:not([data-seen]) .pin__x,
+.map-board:not([data-seen]) .pin__flag {
+  opacity: 0;
+}
+.map-board[data-seen] .pin__x {
+  animation: x-pop 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i) * 140ms) both;
+}
+.map-board[data-seen] .pin__flag {
+  animation: plant 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i) * 140ms + 0.15s) both;
+}
+.map-board[data-seen] .map-pin[data-state="active"] .pin__flag {
+  animation:
+    plant 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--i) * 140ms + 0.15s) both,
+    wave 1.4s ease-in-out calc(var(--i) * 140ms + 0.9s) infinite alternate;
+}
+@keyframes x-pop {
+  from { transform: scale(0); }
+}
+@keyframes plant {
+  from { translate: 0 -1.4rem; opacity: 0; }
+  60% { opacity: 1; }
+}
+@keyframes wave {
+  from { rotate: -5deg; }
+  to { rotate: 4deg; }
 }
 .map-pin__button {
   display: flex;

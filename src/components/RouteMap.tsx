@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { mapPoints } from "@/content/mapPoints";
 import { ArrowIcon } from "./Icons";
 import { Viewfinder } from "./Viewfinder";
@@ -31,6 +31,21 @@ function Route({ wide, active, className }: { wide: boolean; active: number; cla
 export function RouteMap() {
   const [active, setActive] = useState(0);
   const panel = useRef<HTMLDivElement>(null);
+  const board = useRef<HTMLDivElement>(null);
+  const [seen, setSeen] = useState(false);
+
+  // Las banderas se clavan una por una cuando el mapa entra en pantalla.
+  useEffect(() => {
+    const el = board.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting) return;
+      setSeen(true);
+      io.disconnect();
+    }, { threshold: 0.3 });
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
   const point = mapPoints[active];
   const last = active === mapPoints.length - 1;
 
@@ -42,7 +57,7 @@ export function RouteMap() {
 
   return (
     <div className="grid gap-4 lg:grid-cols-12">
-      <div className="map-board relative overflow-hidden rounded-[1.25rem] lg:col-span-8">
+      <div ref={board} data-seen={seen || undefined} className="map-board relative overflow-hidden rounded-[1.25rem] lg:col-span-8">
         <Viewfinder />
         <p aria-hidden className="hud absolute top-5 left-6 flex items-center gap-2 text-fg">
           <span className="rec-dot h-2 w-2 rounded-full" /> {String(active + 1).padStart(2, "0")} / {String(mapPoints.length).padStart(2, "0")}
@@ -52,9 +67,13 @@ export function RouteMap() {
           <Route wide={false} active={active} className="lg:hidden" />
           <ol>
             {mapPoints.map((p, i) => (
-              <li key={p.name} className="map-pin" style={{ "--x": `${p.x}%`, "--y": `${p.y}%`, "--mx": `${p.mx}%`, "--my": `${p.my}%` } as React.CSSProperties}>
+              <li key={p.name} className="map-pin" data-state={i < active ? "done" : i === active ? "active" : "next"} style={{ "--x": `${p.x}%`, "--y": `${p.y}%`, "--mx": `${p.mx}%`, "--my": `${p.my}%`, "--i": i } as React.CSSProperties}>
                 <button type="button" aria-pressed={i === active} onClick={() => choose(i)} className="map-pin__button">
-                  <span className="flag-point" aria-hidden />
+                  <span className="pin" aria-hidden>
+                    <span className="pin__ring" />
+                    <span className="pin__x" />
+                    <span className="pin__flag" />
+                  </span>
                   <span className="sr-only">Punto {i + 1} de {mapPoints.length}: </span>
                   <span className="map-pin__name label">{p.name}</span>
                 </button>
