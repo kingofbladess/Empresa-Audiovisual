@@ -45,7 +45,7 @@ export default async function ClientTypePage({ params }: Props) {
           </p>
           <h1 className="display intro max-w-5xl text-[clamp(2.8rem,8vw,7.5rem)]" style={d(120)}>{t.headline}</h1>
           <p className="intro mt-8 max-w-2xl text-lg text-fg/80 md:text-xl" style={d(240)}>{t.intro}</p>
-          <div className="intro mt-10 flex flex-wrap gap-3" style={d(360)}>
+          <div className="actions intro mt-10 flex flex-wrap gap-3" style={d(360)}>
             <WhatsAppButton message={clientTypeMessage(t.name)} variant="solid">Hablemos de tu proyecto</WhatsAppButton>
             <Button href={`/contacto?tipo=${t.slug}`} variant="outline">Formulario</Button>
           </div>

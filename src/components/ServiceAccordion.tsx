@@ -28,9 +28,10 @@ export function ServiceAccordion() {
       {services.map((s) => (
         <details key={s.slug} id={s.slug} name="servicios" className="service group scroll-mt-24 border-b border-line">
           <summary className="flex min-h-20 cursor-pointer list-none items-center gap-4 py-4 [&::-webkit-details-marker]:hidden">
-            <span className="label w-7 shrink-0 text-accent">{s.index}</span>
+            <span className="label hidden w-7 shrink-0 text-accent sm:block">{s.index}</span>
             <span className="min-w-0 flex-1">
-              <span className="display block text-[clamp(1.6rem,2.6vw,2.25rem)] transition-colors group-hover:text-accent">{s.name}</span>
+              <span className="label block text-accent sm:hidden">{s.index}</span>
+              <span className="display block text-[clamp(1.45rem,2.6vw,2.25rem)] transition-colors group-hover:text-accent">{s.name}</span>
               <span className="mt-1 block text-base text-muted">{s.short}</span>
             </span>
             {s.price && <span className="label hidden shrink-0 text-sand sm:block">{s.price}</span>}
@@ -50,7 +51,7 @@ export function ServiceAccordion() {
             <div>
               <p className="font-semibold text-fg">{s.goal}</p>
               {s.price && <p className="label mt-3 text-sand sm:hidden">{s.price}</p>}
-              <div className="mt-5 flex flex-wrap gap-3">
+              <div className="actions mt-5 flex flex-wrap gap-3">
                 <WhatsAppButton message={serviceMessage(s.name)} variant="solid">Consultar</WhatsAppButton>
                 <Button href={`/contacto?servicio=${s.slug}`} variant="outline">Formulario</Button>
               </div>

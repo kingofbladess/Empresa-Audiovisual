@@ -52,7 +52,7 @@ export function Hero() {
           </span>
         </p>
 
-        <div className="hero-panel intro flex flex-wrap gap-3" style={d(1000)}>
+        <div className="hero-panel actions intro flex flex-wrap gap-3" style={d(1000)}>
           <Button href="/contacto">Reunión sin costo</Button>
           <Button href="/servicios" variant="outline">
             Servicios

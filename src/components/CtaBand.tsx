@@ -10,7 +10,7 @@ export function CtaBand({ title = "¿Cuál es tu X?", subtitle = "La primera reu
           {title}
           <span className="serif mt-3 block text-[clamp(1.5rem,3vw,2.6rem)] leading-tight">{subtitle}</span>
         </h2>
-        <div className="on-dark mt-8 flex flex-wrap gap-3 bg-transparent">
+        <div className="on-dark actions mt-8 flex flex-wrap gap-3 bg-transparent">
           <Button href="/contacto">Cuéntanos tu proyecto</Button>
           <WhatsAppButton message={message} />
         </div>

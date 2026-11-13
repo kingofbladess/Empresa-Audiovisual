@@ -63,8 +63,8 @@ export function RouteMap() {
           <span className="rec-dot h-2 w-2 rounded-full" /> {String(active + 1).padStart(2, "0")} / {String(mapPoints.length).padStart(2, "0")}
         </p>
         <div className="map-area relative">
-          <Route wide active={active} className="hidden lg:block" />
-          <Route wide={false} active={active} className="lg:hidden" />
+          <Route wide active={active} className="hidden md:block" />
+          <Route wide={false} active={active} className="md:hidden" />
           <ol>
             {mapPoints.map((p, i) => (
               <li key={p.name} className="map-pin" data-state={i < active ? "done" : i === active ? "active" : "next"} style={{ "--x": `${p.x}%`, "--y": `${p.y}%`, "--mx": `${p.mx}%`, "--my": `${p.my}%`, "--i": i } as React.CSSProperties}>
@@ -83,12 +83,12 @@ export function RouteMap() {
         </div>
       </div>
 
-      <div ref={panel} className="glass flex scroll-mb-24 flex-col p-6 md:p-8 lg:col-span-4">
+      <div ref={panel} className="glass flex scroll-mb-24 flex-col p-5 sm:p-6 md:p-8 lg:col-span-4">
         <div aria-live="polite" className="flex-1">
           <h3 className="display text-[clamp(2rem,3.2vw,2.75rem)] text-accent">{point.title}</h3>
           <p className="mt-3 text-lg text-fg">{point.text}</p>
         </div>
-        <div className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2">
+        <div className="mt-6 flex flex-wrap items-center justify-between gap-x-5 gap-y-2 sm:justify-start">
           <Link href={point.href} className="press label inline-flex min-h-11 items-center gap-2 underline decoration-line-strong underline-offset-4 hover:decoration-fg">
             {point.cta} <ArrowIcon />
           </Link>

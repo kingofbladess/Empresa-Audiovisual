@@ -57,14 +57,14 @@ export default function Home() {
       {/* Servicios */}
       <section className="cv container-x">
         <SectionHeading scene="Servicios" title={<>Doce servicios, una sola <span className="text-rec">X</span></>} />
-        <ul className="mt-10 flex flex-wrap gap-3" role="list">
+        <ul className="mt-10 grid gap-2 sm:flex sm:flex-wrap sm:gap-3" role="list">
           {mainServices.map((s) => (
             <li key={s.slug}>
-              <Link href={`/servicios#${s.slug}`} className="glass-control label inline-flex min-h-12 items-center px-5 py-2.5 text-fg">{s.name}</Link>
+              <Link href={`/servicios#${s.slug}`} className="glass-control label flex min-h-12 items-center px-5 py-2.5 text-fg sm:inline-flex">{s.name}</Link>
             </li>
           ))}
         </ul>
-        <div className="mt-8">
+        <div className="actions mt-8 flex">
           <Button href="/servicios">Ver los doce</Button>
         </div>
       </section>
@@ -80,7 +80,7 @@ export default function Home() {
               <Link href={`/para/${t.slug}`} className="on-dark press group relative block overflow-hidden rounded-[1.25rem]">
                 <Frame media={t.media} className="aspect-[4/3] w-full lg:aspect-[4/5]" sizes="(min-width:1024px) 20vw, 50vw" />
                 <span className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent" />
-                <span className="display absolute inset-x-0 bottom-0 p-4 text-[1.6rem] leading-none transition-colors group-hover:text-accent">{t.name}</span>
+                <span className="display absolute inset-x-0 bottom-0 p-4 text-[clamp(1.1rem,4.6vw,1.6rem)] leading-none hyphens-auto transition-colors group-hover:text-accent">{t.name}</span>
               </Link>
             </li>
           ))}
@@ -99,7 +99,7 @@ export default function Home() {
             </Reveal>
           ))}
         </div>
-        <div className="mt-8">
+        <div className="actions mt-8 flex">
           <Button href="/trabajo" variant="outline">Ver todo el trabajo</Button>
         </div>
       </section>
