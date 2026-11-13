@@ -1,26 +1,60 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef } from "react";
 
-/** Contador de tiempo estilo cámara (HH:MM:SS:FF a 24 fps). */
+const FPS = 24;
+const pad = (n: number) => String(n).padStart(2, "0");
+
+/**
+ * Contador de tiempo estilo cámara (HH:MM:SS:FF a 24 fps).
+ * Escribe directamente en el texto y solo corre mientras se ve: si no,
+ * obligaría a repintar la página sin parar.
+ */
 export function Timecode() {
-  const [frames, setFrames] = useState(0);
+  const ref = useRef<HTMLSpanElement>(null);
+
   useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const stage = el.closest(".hero-stage"); // detrás de la intro la portada está oculta
     const start = performance.now();
-    let raf = 0;
-    const tick = (t: number) => {
-      setFrames(Math.floor(((t - start) / 1000) * 24));
-      raf = requestAnimationFrame(tick);
+    let timer = 0;
+    let onScreen = false;
+
+    const tick = () => {
+      const frames = Math.floor(((performance.now() - start) / 1000) * FPS);
+      const s = Math.floor(frames / FPS);
+      el.textContent = `${pad(Math.floor(s / 3600))}:${pad(Math.floor(s / 60) % 60)}:${pad(s % 60)}:${pad(frames % FPS)}`;
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    const sync = () => {
+      const visible = onScreen && (!stage || stage.hasAttribute("data-revealed"));
+      if (visible && !timer) {
+        tick();
+        timer = window.setInterval(tick, 1000 / FPS);
+      } else if (!visible && timer) {
+        clearInterval(timer);
+        timer = 0;
+      }
+    };
+
+    const io = new IntersectionObserver(([entry]) => {
+      onScreen = entry.isIntersecting;
+      sync();
+    });
+    io.observe(el);
+    const mo = new MutationObserver(sync);
+    if (stage) mo.observe(stage, { attributes: true, attributeFilter: ["data-revealed"] });
+
+    return () => {
+      io.disconnect();
+      mo.disconnect();
+      clearInterval(timer);
+    };
   }, []);
-  const ff = frames % 24;
-  const s = Math.floor(frames / 24);
-  const pad = (n: number) => String(n).padStart(2, "0");
+
   return (
-    <span className="tabular-nums">
-      {pad(Math.floor(s / 3600))}:{pad(Math.floor(s / 60) % 60)}:{pad(s % 60)}:{pad(ff)}
+    <span ref={ref} className="inline-block tabular-nums [contain:content]">
+      00:00:00:00
     </span>
   );
 }

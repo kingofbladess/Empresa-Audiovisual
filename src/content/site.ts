@@ -1,25 +1,26 @@
 /**
- * Datos generales del estudio. El nombre y el logotipo son PROVISIONALES:
- * cámbialos aquí y se actualizan en todo el sitio (menú, pie, SEO, WhatsApp).
+ * Datos generales del estudio XploreMet. Cambia aquí y se actualiza en todo el
+ * sitio (menú, pie, SEO, WhatsApp). El logo animable está en src/components/brand.
  */
 export const site = {
-  /** Nombre provisional del estudio. */
-  name: "UMBRAL",
+  /** Nombre de la marca. */
+  name: "XploreMet Prod",
   /** Descriptor que acompaña al nombre. */
-  descriptor: "Estudio creativo · Productora audiovisual",
-  /** Logotipo opcional en /public (SVG recomendado). Si está vacío se usa el nombre como logotipo. */
-  logo: "",
-  domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || "umbral.studio",
+  descriptor: "Productora de estrategia y marca",
+  domain: process.env.NEXT_PUBLIC_SITE_DOMAIN || "xploremet.com" /* provisional: confirmar dominio */,
   /** Frase principal (filosofía). */
-  tagline: "No producimos imágenes. Construimos identidades.",
+  tagline: "La X marca la meta",
   manifesto:
-    "No vendemos simplemente fotografías o videos. Desarrollamos conceptos, construimos identidades y transformamos ideas en marcas y experiencias audiovisuales.",
+    "Construimos tu identidad desde cero, con una ruta hecha para ti y una X que marca la meta de cada etapa.",
   intro:
-    "Dirección cinematográfica, dirección creativa, fotografía y branding bajo un mismo techo. Acompañamos cada proyecto desde la primera idea hasta la pieza final.",
+    "Estrategia, marca y producción audiovisual para artistas, emprendedores y empresas en crecimiento. Trazamos contigo el camino a corto, medio y largo plazo.",
   description:
-    "Estudio creativo y productora audiovisual. Desarrollamos marcas desde cero y producimos fotografía, video y contenido con dirección cinematográfica para artistas, empresas, productos y producciones.",
-  location: "Venezuela",
-  email: "hola@umbral.studio",
+    "Productora de estrategia y marca en Maracay, Venezuela. Ayudamos a artistas, emprendedores y empresas a construir su identidad desde cero, con branding, contenido audiovisual y campañas.",
+  location: "Maracay, estado Aragua · Online a nivel nacional",
+  /** Formulario para conocer mejor a cada cliente. */
+  typeform: "https://form.typeform.com/to/vlF2ikCt",
+  /** Correo de contacto. Vacío = no se muestra ni se ofrece enviar por correo. */
+  email: "",
   whatsapp: {
     /** Número en formato internacional, sin "+" ni espacios. */
     number: "584122927546",
@@ -27,47 +28,39 @@ export const site = {
     display: "0412 292 7546",
     defaultMessage: "Hola, quiero conversar sobre un proyecto con el estudio.",
   },
+  /** Enlace completo a cada perfil. Las redes sin enlace no se muestran. */
   social: [
-    { label: "Instagram", href: "https://instagram.com/" },
-    { label: "TikTok", href: "https://tiktok.com/" },
-    { label: "YouTube", href: "https://youtube.com/" },
-    { label: "Behance", href: "https://behance.net/" },
+    { label: "Instagram", href: "" },
+    { label: "TikTok", href: "" },
+    { label: "YouTube", href: "" },
+    { label: "Behance", href: "" },
   ],
-  /**
-   * Video de la portada. Deja `src` vacío para usar el fondo animado provisional.
-   * Cuando tengas la animación de Google Flow, ponla en /public/media/ y escribe aquí la ruta.
-   */
-  heroVideo: {
-    /** Loop de fondo, p. ej. "/media/hero/hero.mp4" */
-    src: "",
-    /** Intro que se ve una vez por visita antes del loop, p. ej. "/media/hero/hero-intro.mp4" */
-    introSrc: "",
-    srcMobile: "",
-    poster: "",
-    /** Imagen fija de fondo cuando no hay video (último fotograma de la intro de la cámara). */
-    image: "/media/hero/estudio.jpg",
-    imageMobile: "/media/hero/estudio-movil.jpg",
+  /** Fondo de la portada: el último fotograma de la intro. */
+  heroImage: {
+    image: "/media/hero/set-final.jpg",
+    imageMobile: "/media/hero/set-final-movil.jpg",
   },
   /**
-   * Intro de la cámara controlada por el scroll (3 fases).
-   * - `enabled`: false la desactiva y la portada aparece directamente.
-   * - `video`: cuando tengas la animación de Google Flow, ponla aquí y el scroll
-   *   avanzará el video fotograma a fotograma (expórtala con fotogramas clave en
-   *   cada cuadro, ver README). Vacío = prototipo animado por código.
+   * Intro de la cámara controlada por el scroll: un video con las 4 escenas unidas. `enabled: false` la desactiva y la portada aparece
+   * directamente. Para cambiar las escenas, ver el README.
    */
   cameraIntro: {
     enabled: true,
-    video: "/media/intro/camara.mp4",
-    videoMobile: "/media/intro/camara-movil.mp4",
-    poster: "/media/intro/camara-poster.jpg",
-    /** Segundo del video en que empieza la fase 2 y la fase 3 (para cambiar los textos). */
-    videoPhases: [1.0, 2.5],
+    /**
+     * Carpeta con una parte por fase, en 3 versiones: hd, sd y movil (hd-1.mp4 … movil-4.mp4).
+     * Usa siempre una carpeta nueva al cambiar los videos (ver README).
+     */
+    videoBase: "/media/intro/v4",
+    /** Duración de cada parte, en segundos (cuadros / 24). */
+    videoParts: [184 / 24, 178 / 24, 178 / 24, 184 / 24],
+    poster: "/media/intro/escenas-poster.jpg",
     /** Largo del recorrido de scroll, en pantallas. */
-    length: 3,
+    length: 8,
     phases: [
-      { label: "Fase 01 · Interior", title: "Todo empieza dentro.", text: "Una idea que todavía no se ve." },
-      { label: "Fase 02 · Primer lente", title: "El concepto toma forma.", text: "Cada pieza suma enfoque." },
-      { label: "Fase 03 · Lente final", title: "Y la marca se ve con claridad.", text: "Del concepto a la imagen final." },
+      { title: "Todo empieza con una idea", text: "Cada pieza encuentra su lugar", tags: ["Idea", "Público", "Objetivo"] },
+      { title: "El concepto toma forma", text: "Cada capa suma enfoque", tags: ["Guion", "Moodboard", "Storyboard"] },
+      { title: "Y la marca se ve con claridad", text: "Del concepto a la imagen final", tags: ["Identidad", "Color", "Estética"] },
+      { title: "Todo listo para salir a escena", text: "Tu marca, frente a cámara", tags: ["Rodaje", "Edición", "Lanzamiento"] },
     ],
   },
 };

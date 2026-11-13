@@ -19,12 +19,18 @@ export type Media = {
 };
 
 export type ServiceSlug =
+  | "estrategia-empresarial"
   | "direccion-creativa"
-  | "direccion-cinematografica"
-  | "produccion-audiovisual"
-  | "produccion-fotografica"
+  | "estudio-mercado"
   | "branding"
-  | "estrategia-redes";
+  | "grafica-manual"
+  | "contenido"
+  | "identidad-audiovisual"
+  | "campanas"
+  | "productos-ventas"
+  | "expansion-redes"
+  | "artistas"
+  | "acompanamiento";
 
 export type Service = {
   slug: ServiceSlug;
@@ -34,7 +40,10 @@ export type Service = {
   short: string;
   description: string;
   items: string[];
-  media: Media;
+  /** "La X": la meta concreta del servicio. */
+  goal: string;
+  /** Precio orientativo. Vacío = no se muestra. */
+  price: string;
 };
 
 export type ClientTypeSlug = "artistas" | "empresas" | "productos" | "cine" | "emprendedores";

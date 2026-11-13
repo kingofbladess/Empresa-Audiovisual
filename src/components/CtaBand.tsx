@@ -2,23 +2,19 @@ import { Button, WhatsAppButton } from "./Button";
 import { Reveal } from "./Reveal";
 
 /** Bloque final de llamada a la acción. */
-export function CtaBand({ title = "¿Tienes una idea?", subtitle = "Convirtámosla en una marca.", message }: { title?: string; subtitle?: string; message?: string }) {
+export function CtaBand({ title = "¿Cuál es tu X?", subtitle = "La primera reunión es sin costo", message }: { title?: string; subtitle?: string; message?: string }) {
   return (
-    <section className="relative overflow-hidden border-t border-line">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_50%_80%_at_80%_100%,rgba(201,166,107,.18),transparent_70%)]" />
-      <div className="container-x relative py-28 md:py-40">
-        <Reveal>
-          <p className="label mb-6 text-accent">Fin de escena · Siguiente toma</p>
-          <h2 className="display text-[clamp(3rem,9vw,8.5rem)]">
-            {title}
-            <span className="serif mt-3 block text-[clamp(1.8rem,4.5vw,4.2rem)] text-fg/80">{subtitle}</span>
-          </h2>
-        </Reveal>
-        <Reveal delay={150} className="mt-12 flex flex-wrap gap-3">
+    <section className="container-x cv py-20 md:py-32">
+      <Reveal className="cta-band relative overflow-hidden p-8 md:p-14">
+        <h2 className="display text-[clamp(3rem,8vw,7rem)]">
+          {title}
+          <span className="serif mt-3 block text-[clamp(1.5rem,3vw,2.6rem)] leading-tight">{subtitle}</span>
+        </h2>
+        <div className="on-dark actions mt-8 flex flex-wrap gap-3 bg-transparent">
           <Button href="/contacto">Cuéntanos tu proyecto</Button>
           <WhatsAppButton message={message} />
-        </Reveal>
-      </div>
+        </div>
+      </Reveal>
     </section>
   );
 }
